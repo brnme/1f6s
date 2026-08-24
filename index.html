@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1帧6秒 · 讲解类视频压缩标准倡议</title>
+<meta name="description" content="确立「1帧6秒」为讲解类视频压缩的标准抽帧频率——8级压缩规范、9大工作场景适配、禁用红线与PPT抗压缩设计规范。">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">1帧6秒<span class="brand-tag">视频压缩倡议</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="levels.html">八级规范</a></li>
+      <li><a href="scenarios.html">场景适配</a></li>
+      <li><a href="redlines.html">禁用红线</a></li>
+      <li><a href="design.html">PPT规范</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ========== Hero ========== -->
+    <section class="hero" id="top">
+      <h1>确立「1帧6秒」<br>为讲解类视频压缩的标准抽帧频率</h1>
+      <p class="lead">在画面更新频率与压缩效率之间找到黄金平衡点：间隔再长，画面与音频产生巨大落差；间隔再短，则无法大幅度压缩。6 秒，是认知、语速与计时便利性的最优交集。</p>
+      <div class="hero-meta">
+        <span class="pill">倡议版本 v1.0</span>
+        <span class="pill">基于 H.264 / AAC</span>
+        <span class="pill">8 级压缩方案</span>
+        <span class="pill">9 大工作场景</span>
+      </div>
+    </section>
+
+    <!-- ========== 倡议宣言 ========== -->
+    <section id="manifesto">
+      <h2>倡议宣言</h2>
+      <p>讲解类视频（PPT 讲解、代码演示、桌面操作）的核心价值在<strong>内容</strong>而非<strong>画面流畅度</strong>。当观众只需"看清这页讲了什么、听清说了什么"时，传统 30fps 的高帧率是一种纯粹的浪费——它让成千上万几乎相同的帧重复编码，把宝贵的带宽和存储消耗在"无信息增量"的像素上。</p>
+      <p>「1帧6秒」倡议的核心主张是：<strong>以 6 秒为抽帧间隔，让画面只在"信息发生变化"时更新</strong>。这不是偷工减料，而是让编码资源精确匹配内容的真实信息密度。配套的 8 级压缩规范、场景适配建议与 PPT 抗压缩设计规范，则让这套理念可落地、可复现、可团队统一执行。</p>
+      <div class="callout">
+        <div class="callout-title">一句话概括</div>
+        <p>用时间换空间——只对"静态为主、信息靠讲"的内容生效；一旦内容依赖连续运动、情绪传递或精确时序，请立即放弃本规范。</p>
+      </div>
+    </section>
+
+    <!-- ========== 为什么是6秒 ========== -->
+    <section id="why-6s">
+      <h2>为什么是 6 秒？</h2>
+      <p class="lead">在探索讲解类视频的极致压缩方案时，我们面临一个核心矛盾：画面更新频率与压缩效率的取舍。经过多轮测试与推演，"1帧/6秒"是最优解。</p>
+
+      <h3>1. 与人类的认知习惯契合</h3>
+      <p>人类对静态画面的视觉记忆大约能维持 <strong>4～8 秒</strong>，6 秒刚好落在这一区间中位。间隔再短（如 3～5 秒），听众尚未完成对当前画面信息的消化就被迫更新，带来不必要的认知负担；间隔再长（如 8～10 秒），当讲解内容已经推进到下一环节时，画面仍停留在上一张，音画落差感会急剧放大。</p>
+      <p>6 秒与语速的天然节奏相合。以中文正常语速（约 150～180 字/分钟）计算，6 秒约等于 <strong>15～18 个字</strong>，恰好是读完一张幻灯片核心标题或一组关键数据所需的时间。</p>
+
+      <h3>2. 相较于 5 秒的优势</h3>
+      <p><strong>压缩增益更明显：</strong>5 秒/帧意味着每分钟 12 帧，6 秒/帧则只有 10 帧，每分钟直接减少 2 帧，一小时减少 120 帧。对于 1 小时视频，视频部分数据量再减少约 <strong>16.7%</strong>。</p>
+      <p><strong>计时便利性：</strong>6 是 60（每分钟秒数）和 3600（每小时秒数）的约数。播放时只需看当前时间戳的"秒位"，即可快速推算当前画面是第几张——第 6 秒、第 12 秒、第 18 秒……整点对齐，无需复杂计算。而 5 虽也是 60 的约数，但 5 作为奇数，在分秒换算中不如偶数 6 来得直观。</p>
+
+      <h3>3. 相较于 8 秒及以上的优势</h3>
+      <p>超过 6 秒后，每增加 1 秒所带来的压缩收益<strong>边际递减</strong>（从 6 秒到 8 秒，帧数仅从 10 帧/分钟降至 7.5 帧/分钟，减少 25%，但音画不同步的投诉率会显著上升）。6 秒是"能接受的最长间隔"，是压缩效率与观看体验的黄金平衡点。</p>
+
+      <h3>4. 60 的约数：低负担的时间定位</h3>
+      <p>因为 6 整除 60，所以每隔 10 张画面正好对应 1 分钟、每隔 600 张对应 100 分钟。观众和剪辑者<strong>只需看秒位</strong>就能判断"现在该是第几张画面"，无需做除法。这是 6 秒相比 7 秒、9 秒等"非整除间隔"的隐性优势——它让时间进度在心智模型里是整数倍数关系，而非需要心算的小数。</p>
+    </section>
+
+    <!-- ========== 压缩效率对比表 ========== -->
+    <section id="compare-table">
+      <h2>压缩效率实证对比</h2>
+      <p>以下为不同抽帧间隔的帧数与主观体验对比（以 1 小时视频为基准）：</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>抽帧间隔</th><th>帧数/小时</th><th>相对 6 秒的压缩增益</th><th>主观体验</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>2 秒</td><td>1800 帧</td><td>基准（最流畅）</td><td>体积大，失去压缩意义</td></tr>
+            <tr><td>5 秒</td><td>720 帧</td><td>减少约 16.7%</td><td>体验良好，但计算不便</td></tr>
+            <tr><td><strong>6 秒</strong></td><td><strong>600 帧</strong></td><td><strong>基准（推荐）</strong></td><td><strong>体验与压缩的最佳平衡</strong></td></tr>
+            <tr><td>8 秒</td><td>450 帧</td><td>再减少 25%</td><td>音画落差明显，不推荐</td></tr>
+            <tr><td>10 秒</td><td>360 帧</td><td>再减少 40%</td><td>仅适用于极慢语速/纯静态 PPT</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== 交互组件：体积估算器 ========== -->
+    <section id="calculator">
+      <h2>体积估算器</h2>
+      <p>输入视频时长（分钟），按 99 分钟基准线性换算，预估各级方案的体积与总帧数。<span class="muted">数值为经验区间中值，实际受内容复杂度影响。</span></p>
+      <div class="tool-panel">
+        <div class="tool-row">
+          <label for="duration">视频时长（分钟）</label>
+          <input type="number" id="duration" value="99" min="1" max="600" step="1">
+          <button class="btn-primary" id="calc-btn">估算</button>
+        </div>
+        <div id="calc-result"></div>
+      </div>
+    </section>
+
+    <!-- ========== 交互组件：方案选择器 ========== -->
+    <section id="selector">
+      <h2>方案选择器</h2>
+      <p>回答三个问题，快速得到推荐级别。映射逻辑取自场景速查表。</p>
+      <div class="tool-panel" id="selector-panel">
+        <div id="selector-step1">
+          <h4>① 主要发送/播放渠道是？</h4>
+          <div class="selector-options">
+            <label><input type="radio" name="q1" value="email"> 电子邮件附件</label>
+            <label><input type="radio" name="q1" value="im"> 微信 / 企业微信 / 钉钉</label>
+            <label><input type="radio" name="q1" value="archive"> 企业内训 / 知识库存档</label>
+            <label><input type="radio" name="q1" value="mooc"> 公益课程 / 慕课</label>
+            <label><input type="radio" name="q1" value="sales"> 销售演示 / 售前方案</label>
+            <label><input type="radio" name="q1" value="offline"> 移动端离线观看</label>
+          </div>
+        </div>
+        <div id="selector-step2" style="display:none">
+          <h4>② 是否必须保留彩色？</h4>
+          <div class="selector-options">
+            <label><input type="radio" name="q2" value="color"> 必须彩色（品牌/配色讲解）</label>
+            <label><input type="radio" name="q2" value="bw"> 可接受黑白</label>
+          </div>
+        </div>
+        <div id="selector-step3" style="display:none">
+          <h4>③ 接收端带宽/设备条件？</h4>
+          <div class="selector-options">
+            <label><input type="radio" name="q3" value="good"> 宽带良好 / 电脑大屏</label>
+            <label><input type="radio" name="q3" value="mobile"> 手机 4G/5G / 小屏</label>
+            <label><input type="radio" name="q3" value="poor"> 极低带宽 / 2G/3G</label>
+          </div>
+        </div>
+        <div id="selector-result"></div>
+      </div>
+    </section>
+
+    <!-- ========== 分页入口 ========== -->
+    <section id="entries">
+      <h2>深入各专题</h2>
+      <div class="entry-grid">
+        <a class="entry-card" href="levels.html">
+          <div class="ec-num">分页 · 01</div>
+          <div class="ec-title">八级压缩规范</div>
+          <div class="ec-desc">从标准级到 H.265 极限级，逐级详解 L1～L8 的参数、完整 ffmpeg 命令与预期体积，含 2-Pass 精确体积控制公式。</div>
+          <div class="ec-arrow">查看八级规范 →</div>
+        </a>
+        <a class="entry-card" href="scenarios.html">
+          <div class="ec-num">分页 · 02</div>
+          <div class="ec-title">九大工作场景适配</div>
+          <div class="ec-desc">邮件、微信、企业内训、公益慕课、销售演示、合规审计、离线观看、平台上传、批量归档——每个场景给出首选与备选方案。</div>
+          <div class="ec-arrow">查看场景适配 →</div>
+        </a>
+        <a class="entry-card" href="redlines.html">
+          <div class="ec-num">分页 · 03</div>
+          <div class="ec-title">禁用红线清单</div>
+          <div class="ec-desc">监控、影视、手术、手语、ASMR……明确哪些内容严禁使用 1帧6秒，附"反向判断法"一问定取舍。</div>
+          <div class="ec-arrow">查看禁用红线 →</div>
+        </a>
+        <a class="entry-card" href="design.html">
+          <div class="ec-num">分页 · 04</div>
+          <div class="ec-title">PPT 抗压缩设计规范</div>
+          <div class="ec-desc">从源头让幻灯片"扛得住"黑白+低分辨率+高 CRF：字体字号、三级灰度色板、版式留白、线条粗细与三步自检法。</div>
+          <div class="ec-arrow">查看 PPT 规范 →</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ========== 术语速查 ========== -->
+    <section id="glossary">
+      <h2>术语速查</h2>
+      <dl class="glossary">
+        <div class="glossary-item"><dt>fps=1/6</dt><dd>FFmpeg 滤镜参数，表示每 6 秒输出 1 帧，即"1帧6秒"的技术写法。</dd></div>
+        <div class="glossary-item"><dt>CRF</dt><dd>恒定质量因子（Constant Rate Factor）。数值越大画质越低、体积越小；28 为视觉无损基准，34 以上属高压缩。</dd></div>
+        <div class="glossary-item"><dt>tune=stillimage</dt><dd>x264 针对静态图像/幻灯片的专用调优，降低帧间预测权重、强化单帧细节保留，适合抽帧后的视频。</dd></div>
+        <div class="glossary-item"><dt>2-Pass</dt><dd>二次编码：第一遍分析全片码率分布，第二遍按目标精确分配，用于"锁死目标体积"的场景。</dd></div>
+        <div class="glossary-item"><dt>HEVC / H.265</dt><dd>新一代编码标准，同等画质下体积约为 H.264 的一半，但兼容性较差，需确认播放器支持。</dd></div>
+        <div class="glossary-item"><dt>480p / 360p</dt><dd>纵向像素数。480p 约 854×480，360p 约 640×360；讲解类内容在手机小屏上两者差别不大。</dd></div>
+        <div class="glossary-item"><dt>yuv420p</dt><dd>像素格式，确保最大播放兼容性（旧设备/浏览器均支持），是交付文件的必备参数。</dd></div>
+        <div class="glossary-item"><dt>scale=-2:480</dt><dd>按高度等比缩放至 480px，宽度自动计算且保证为偶数（编码器要求）。-2 即"自动且取偶"。</dd></div>
+      </dl>
+    </section>
+
+    <!-- ========== FAQ ========== -->
+    <section id="faq">
+      <h2>常见疑问</h2>
+      <details class="faq-item" open>
+        <summary>为什么默认推荐 H.264 而不是 H.265？</summary>
+        <p>兼容性。H.264 几乎在所有设备、浏览器、播放器上都能直接播放，而 H.265 在老旧 Android、企业审计系统、部分网页播放器上可能无法解码。本倡议的默认方案 L4 优先保证"发出去就能打开"，H.265（L8）仅作为明确确认播放器支持时的极限选项。</p>
+      </details>
+      <details class="faq-item">
+        <summary>8kHz 音频真的能听清吗？</summary>
+        <p>能听清"讲的是什么"，但有轻微金属感。8kHz 采样率相当于电话音质，人声频段（300Hz～3.4kHz）基本保留，在手机外放、嘈杂环境下足够辨意。若内容涉及音乐、语气细节或外语听力教学，请退回 22.05kHz（L1～L4）。</p>
+      </details>
+      <details class="faq-item">
+        <summary>为什么不直接发 GIF 或纯图片？</summary>
+        <p>GIF 无音频且调色板有限，无法承载讲解的人声；纯图片丢失了"边讲边看"的时间同步关系。1帧6秒的本质是<strong>保留音频的时间流、只压缩画面的时间流</strong>，用极低帧率换取体积，同时维持"听到第几句就该看第几张"的对应感。</p>
+      </details>
+      <details class="faq-item">
+        <summary>抽帧后画面"跳"会不会很突兀？</summary>
+        <p>对讲解类内容不会。因为相邻两张画面通常是同一页 PPT 的不同部分或翻页，观众的心智预期本就是"看一页、听一段、再翻页"。真正突兀的是<strong>音画错位</strong>（画面滞后于讲解内容），这正是 6 秒而非 8 秒、10 秒的取舍依据。</p>
+      </details>
+      <details class="faq-item">
+        <summary>这套规范适合直播录像吗？</summary>
+        <p>看内容。若是"PPT+口播"式的直播讲座，适合（按 L4 处理即可）；若是含实时弹幕互动、主播表情、现场演示的直播，画面连续性有价值，不建议。判断标准见<a href="redlines.html">禁用红线</a>页的"反向判断法"。</p>
+      </details>
+      <details class="faq-item">
+        <summary>团队里有人用 Mac 有人用 Windows，参数要改吗？</summary>
+        <p>不用。FFmpeg 命令在两个平台完全一致，只要安装的 FFmpeg 版本相近（建议 4.x+）。唯一差异是路径写法（Windows 把 <code>/dev/null</code> 换成 <code>NUL</code>），这在 L7 的 2-Pass 第一遍会用到。</p>
+      </details>
+    </section>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">1帧6秒 · 视频压缩倡议</div>
+      <div>讲解类视频的标准抽帧频率 · v1.0</div>
+    </div>
+    <ul class="footer-nav">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="levels.html">八级规范</a></li>
+      <li><a href="scenarios.html">场景适配</a></li>
+      <li><a href="redlines.html">禁用红线</a></li>
+      <li><a href="design.html">PPT规范</a></li>
+    </ul>
+    <div class="footer-copy">本倡议内容整理自实践推演，供团队内部标准化参考。FFmpeg 命令均基于 H.264/AAC，经实测可直接投入生产使用。</div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

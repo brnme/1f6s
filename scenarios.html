@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>九大工作场景适配 · 1帧6秒</title>
+<meta name="description" content="1帧6秒倡议的工作场景适配：邮件、微信、企业内训、公益慕课、销售演示、合规审计、离线观看、平台上传、批量归档的首选与备选方案。">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">1帧6秒<span class="brand-tag">视频压缩倡议</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="levels.html">八级规范</a></li>
+      <li><a href="scenarios.html">场景适配</a></li>
+      <li><a href="redlines.html">禁用红线</a></li>
+      <li><a href="design.html">PPT规范</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <section id="top">
+      <h1>九大工作场景适配</h1>
+      <p class="lead">不同场景下，视频的播放环境、接收设备、网络条件、客户预期截然不同。一份压缩方案不可能适配所有场景——标准化不代表一刀切，而是提供一套清晰的决策路径。</p>
+      <div class="callout">
+        <div class="callout-title">使用方法</div>
+        <p>先定位你的场景，查看"首选/备选"方案号，再到 <a href="levels.html">八级规范页</a> 取对应 ffmpeg 命令。每节末附"操作建议"，涵盖发送话术与注意事项。</p>
+      </div>
+    </section>
+
+    <!-- ========== 场景一 ========== -->
+    <section id="s-email" class="scene">
+      <h3><span class="scene-emoji">📧</span>场景一：电子邮件附件发送</h3>
+      <div class="scene-block"><strong>特征分析：</strong>
+        <ul>
+          <li>多数企业邮箱附件限制为 10～25 MB</li>
+          <li>客户通常在电脑端下载后观看，屏幕分辨率高</li>
+          <li>邮件传输速度直接受附件大小影响</li>
+        </ul>
+      </div>
+      <div class="scene-recommend"><strong>推荐方案：</strong><span class="lvl-badge l4"><span class="dot"></span>L4</span>（1帧/6秒 + 480p 黑白 + CRF 34 + stillimage + 20k 音频）——99 分钟视频 ≈ 16～19 MB，可放入多数邮箱附件限制；黑白画面在电脑屏幕上依然清晰，20k 音频保证人声干净。如需控制在 10 MB 以内，升级至 <span class="lvl-badge l6"><span class="dot"></span>L6</span>（10秒/帧 + 360p + 8k 音频），牺牲部分画质换取通过性。</div>
+      <div class="scene-block"><strong>操作建议：</strong>
+        <ul>
+          <li>发送邮件时，正文中注明"本视频已做高倍压缩，如在小屏上观看建议全屏"</li>
+          <li>若视频超过附件限制，可上传网盘并附链接，但压缩后极少出现此情况</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== 场景二 ========== -->
+    <section id="s-im" class="scene">
+      <h3><span class="scene-emoji">📱</span>场景二：微信 / 企业微信 / 钉钉 即时传输</h3>
+      <div class="scene-block"><strong>特征分析：</strong>
+        <ul>
+          <li>微信单文件限制 1 GB（实际传输稳定建议 &lt;100 MB）</li>
+          <li>但客户通常在手机上观看，屏幕小，对分辨率不敏感</li>
+          <li>微信对 H.265 兼容性差（iPhone 支持，Android 大部分支持，但老旧机型不行）</li>
+          <li>传输时间与文件大小直接相关，越小越快</li>
+        </ul>
+      </div>
+      <div class="scene-recommend"><strong>推荐方案：</strong><span class="lvl-badge l5"><span class="dot"></span>L5</span>（1帧/6秒 + 480p 黑白 + CRF 34 + stillimage + 8k 音频）或 <span class="lvl-badge l6"><span class="dot"></span>L6</span>（10秒/帧 + 360p + 8k 音频）——L5：99 分钟 ≈ 14～17 MB，在手机屏幕上 480p 与 360p 差别不大；8k 音频在手机外放环境下足够清晰；体积小到可以在 4G/5G 网络下快速发送。</div>
+      <div class="scene-block"><strong>操作建议：</strong>
+        <ul>
+          <li>发送时顺带文字提醒："视频已极致压缩，建议横屏全屏观看"</li>
+          <li>如果客户明确表示会投屏到电视/投影观看，则升为 <span class="lvl-badge l4"><span class="dot"></span>L4</span></li>
+          <li>避免使用 H.265（L8），兼容性问题可能导致对方打不开</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== 场景三 ========== -->
+    <section id="s-training" class="scene">
+      <h3><span class="scene-emoji">🏢</span>场景三：企业内部培训 / 知识库录制</h3>
+      <div class="scene-block"><strong>特征分析：</strong>
+        <ul>
+          <li>通常需长期存档，容量成本是企业考虑的因素</li>
+          <li>受众为公司内部员工，对内容要求高，但对画质容忍度较高（关注内容本身）</li>
+          <li>播放环境可能是内网平台或学习管理系统（LMS），支持格式多样</li>
+          <li>可能会被多次下载、转发，体积小有利于分发效率</li>
+        </ul>
+      </div>
+      <div class="scene-recommend"><strong>推荐方案：</strong><span class="lvl-badge l3"><span class="dot"></span>L3</span>（CRF 34 + 黑白）或 <span class="lvl-badge l4"><span class="dot"></span>L4</span>（加 stillimage）作为标准；对已有存档的历史视频批量转码时可用 <span class="lvl-badge l5"><span class="dot"></span>L5</span> 进一步降低成本。</div>
+      <div class="scene-block"><strong>操作建议：</strong>
+        <ul>
+          <li>建立内部规范：所有新录制的培训视频统一采用 L4 标准入库</li>
+          <li>归档时保留一份原始文件（存冷存储），日常分发使用压缩版</li>
+          <li>可搭配批处理脚本，每周自动将新视频压缩并替换旧版本</li>
+          <li>预计存储成本可降低 80%～90%</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== 场景四 ========== -->
+    <section id="s-mooc" class="scene">
+      <h3><span class="scene-emoji">🌐</span>场景四：公益课程 / 公开课 / 慕课（MOOC）录制</h3>
+      <div class="scene-block"><strong>特征分析：</strong>
+        <ul>
+          <li>受众可能来自网络条件较差的地区（如偏远山区、国外低带宽区域）</li>
+          <li>视频需兼容各类设备（老旧手机、平板、公共电脑）</li>
+          <li>通常会上传至视频平台（B站、YouTube、本地慕课平台），平台会再次转码</li>
+          <li>体积小 = 上传快 + 加载快 + 节省平台流量</li>
+        </ul>
+      </div>
+      <div class="scene-recommend"><strong>推荐方案：</strong><span class="lvl-badge l5"><span class="dot"></span>L5</span>（1帧/6秒 + 480p 黑白 + 8k 音频）作为默认；如需照顾色盲/色弱群体，或课程涉及配色讲解，则保留彩色使用 <span class="lvl-badge l1"><span class="dot"></span>L1</span>，但需接受体积增大。</div>
+      <div class="scene-block"><strong>操作建议：</strong>
+        <ul>
+          <li>课程简介中注明："本课程视频为极低带宽优化版，适合低速网络环境播放"</li>
+          <li>如果平台支持多码率自适应（ABR），可将不同级别同时上传，让平台自动适配</li>
+          <li>对于纯音频内容（如语言类课程），甚至可以额外提供纯 MP3 版本（体积再减 80%），作为辅助资源</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== 场景五 ========== -->
+    <section id="s-sales" class="scene">
+      <h3><span class="scene-emoji">💼</span>场景五：销售演示 / 售前方案讲解（发给客户决策层）</h3>
+      <div class="scene-block"><strong>特征分析：</strong>
+        <ul>
+          <li>受众为企业决策者（总监、VP、CEO），对"专业感"有要求</li>
+          <li>画面中的图表、数据、LOGO 需要清晰可见，彩色有时是品牌要求</li>
+          <li>决策者可能用各种设备查看（手机快速预览、电脑仔细研读）</li>
+          <li>体积不能太大（否则客户懒得下载），画质不能太差（否则显得不专业）</li>
+        </ul>
+      </div>
+      <div class="scene-recommend"><strong>推荐方案：</strong><span class="lvl-badge l1"><span class="dot"></span>L1</span>（1帧/6秒 + 480p 彩色 + CRF 32 + 20k 音频）——保留色彩，凸显公司品牌色和图表区分度；480p 在大屏上依然清晰可读；99 分钟 ≈ 30～35 MB，既不丢人也不占地方。</div>
+      <div class="scene-block"><strong>操作建议：</strong>
+        <ul>
+          <li>如果客户明确表示会投影到大屏幕演示，升格为 720p（scale=-2:720）+ CRF 28（体积约 60～80 MB）</li>
+          <li>视频文件命名加上公司缩写和日期，体现专业性</li>
+          <li>发送前先自行快速预览一遍，确保没有压缩导致的明显瑕疵</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== 场景六 ========== -->
+    <section id="s-compliance" class="scene">
+      <h3><span class="scene-emoji">📝</span>场景六：法规 / 合规 / 审计 备案视频</h3>
+      <div class="scene-block"><strong>特征分析：</strong>
+        <ul>
+          <li>核心要求是内容不可篡改、可追溯、长期保存</li>
+          <li>通常需要保留原画质作为证据，但存档成本压力大</li>
+          <li>播放频率极低（可能数年才调阅一次）</li>
+          <li>格式稳定性要求高（H.264 是首选，H.265 可能不被审计系统支持）</li>
+        </ul>
+      </div>
+      <div class="scene-recommend"><strong>推荐方案：</strong>
+        <ul style="padding-left:0;list-style:none">
+          <li>原始版本：完整保留一份原始高码率文件，用于法律效力</li>
+          <li>日常查阅版本：<span class="lvl-badge l2"><span class="dot"></span>L2</span>（黑白标准级）或 <span class="lvl-badge l3"><span class="dot"></span>L3</span>（CRF 34），方便快速检索内容</li>
+        </ul>
+      </div>
+      <div class="scene-block"><strong>操作建议：</strong>
+        <ul>
+          <li>原始文件存于合规存储（如 WORM 存储），压缩版供日常查阅</li>
+          <li>压缩时保留所有元数据（录制时间、录制人、设备信息等）</li>
+          <li>建议在视频开头叠加时间戳水印（drawtext 滤镜），增强法律效力</li>
+          <li>不推荐使用 L6/L8（画面跳跃过强可能被质疑内容连续性）</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== 场景七 ========== -->
+    <section id="s-offline" class="scene">
+      <h3><span class="scene-emoji">📱</span>场景七：移动端 / 离线观看（出差、通勤场景）</h3>
+      <div class="scene-block"><strong>特征分析：</strong>
+        <ul>
+          <li>用户在手机/平板上提前下载到本地，无网络环境观看</li>
+          <li>设备存储空间有限（尤其 64GB/128GB 机型）</li>
+          <li>通常会一次性批量下载多集/多期内容</li>
+        </ul>
+      </div>
+      <div class="scene-recommend"><strong>推荐方案：</strong><span class="lvl-badge l6"><span class="dot"></span>L6</span>（1帧/10秒 + 360p + 8k 音频）或 <span class="lvl-badge l8"><span class="dot"></span>L8</span>（H.265 极限版），前提是确认播放器支持——360p 在手机屏幕上清晰度完全够用；每集压缩到 10 MB 以下，一口气下载 20 集也不到 200 MB。</div>
+      <div class="scene-block"><strong>操作建议：</strong>
+        <ul>
+          <li>在下载页面提供"离线版（低码率）"选项，让用户按需选择</li>
+          <li>如果面向苹果用户（iOS 原生支持 H.265），可优先提供 L8 版本，体积最小</li>
+          <li>配套提供一个简短的"观看指南"，说明长间隔抽帧导致的画面跳跃是正常设计</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== 场景八 ========== -->
+    <section id="s-platform" class="scene">
+      <h3><span class="scene-emoji">🖥️</span>场景八：视频平台上传（B站 / YouTube / 抖音等）</h3>
+      <div class="scene-block"><strong>特征分析：</strong>
+        <ul>
+          <li>平台本身会对上传视频进行二次压缩转码</li>
+          <li>平台对分辨率、码率、编码格式有推荐规范</li>
+          <li>视频清晰度直接影响推荐算法和用户体验</li>
+          <li>上传速度受文件大小影响</li>
+        </ul>
+      </div>
+      <div class="scene-recommend"><strong>推荐方案：</strong>上传时使用 <span class="lvl-badge l1"><span class="dot"></span>L1</span>（彩色 480p），因为平台转码后 480p 会被进一步压缩，如果源头质量太低，最终效果会很差。如果平台支持，可同时上传两个版本：L1 作为主版本，L6 作为低带宽备选。</div>
+      <div class="scene-block"><strong>操作建议：</strong>
+        <ul>
+          <li>查阅平台官方推荐的视频参数，在 L1 基础上做微调</li>
+          <li>例如 B站 推荐 H.264 + 不超过 6000kbps，我们 L1 远低于此上限，无需额外调整</li>
+          <li>抖音/快手等短视频平台推荐竖屏（9:16），需在命令中改为 <code>scale=-2:720,crop=ih*9/16:ih</code> 进行裁剪</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== 场景九 ========== -->
+    <section id="s-archive" class="scene">
+      <h3><span class="scene-emoji">🗂️</span>场景九：历史资料批量归档 / 存储空间清理</h3>
+      <div class="scene-block"><strong>特征分析：</strong>
+        <ul>
+          <li>面向过去的存量视频库，成千上万小时的资料</li>
+          <li>目标是在尽量不丢失核心信息的前提下，释放存储空间</li>
+          <li>可接受较长的批处理时间（后台运行）</li>
+        </ul>
+      </div>
+      <div class="scene-recommend"><strong>推荐方案：</strong><span class="lvl-badge l5"><span class="dot"></span>L5</span>（1帧/6秒 + 480p 黑白 + 8k 音频），在压缩比和内容保留之间取得最优解。</div>
+      <div class="scene-block"><strong>操作建议：</strong>
+        <ul>
+          <li>先对 100 个样本文件进行测试压缩，确认内容可辨识度</li>
+          <li>使用 GNU Parallel 或 xargs 进行并行压缩，充分利用多核 CPU</li>
+          <li>压缩完成后，用 FFmpeg 的 <code>-f null -</code> 验证所有输出文件的完整性</li>
+          <li>原始文件在确认压缩版无误后，先移入冷存储（如磁带或归档云），而非直接删除，以防意外</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== 速查表 ========== -->
+    <section id="quick-table">
+      <h2>方案选择速查表</h2>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>工作场景</th><th>首选方案</th><th>备选方案</th><th>核心考量</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>电子邮件附件</td><td><span class="lvl-badge l4"><span class="dot"></span>L4</span></td><td><span class="lvl-badge l6"><span class="dot"></span>L6</span></td><td>附件大小限制 + 电脑端观看</td></tr>
+            <tr><td>微信/钉钉传输</td><td><span class="lvl-badge l5"><span class="dot"></span>L5</span></td><td><span class="lvl-badge l6"><span class="dot"></span>L6</span></td><td>手机屏幕 + 传输速度</td></tr>
+            <tr><td>企业内训/知识库</td><td><span class="lvl-badge l4"><span class="dot"></span>L4</span></td><td><span class="lvl-badge l3"><span class="dot"></span>L3</span></td><td>长期存档 + 内部流转</td></tr>
+            <tr><td>公益课程/慕课</td><td><span class="lvl-badge l5"><span class="dot"></span>L5</span></td><td><span class="lvl-badge l1"><span class="dot"></span>L1</span>（平台版）</td><td>低带宽受众 + 平台兼容</td></tr>
+            <tr><td>销售演示/售前方案</td><td><span class="lvl-badge l1"><span class="dot"></span>L1</span></td><td>L1-720p</td><td>专业感 + 品牌色彩</td></tr>
+            <tr><td>合规/审计备案</td><td><span class="lvl-badge l2"><span class="dot"></span>L2</span>（查阅版）</td><td>原始文件（存档）</td><td>法律效力 + 存储成本</td></tr>
+            <tr><td>移动端离线观看</td><td><span class="lvl-badge l6"><span class="dot"></span>L6</span></td><td><span class="lvl-badge l8"><span class="dot"></span>L8</span>（苹果用户）</td><td>存储空间 + 批量下载</td></tr>
+            <tr><td>视频平台上传</td><td><span class="lvl-badge l1"><span class="dot"></span>L1</span></td><td>平台原生规格</td><td>平台转码损耗</td></tr>
+            <tr><td>历史资料批量归档</td><td><span class="lvl-badge l5"><span class="dot"></span>L5</span></td><td><span class="lvl-badge l6"><span class="dot"></span>L6</span></td><td>海量文件 + 释放空间</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== 决策流程图 ========== -->
+    <section id="decision-flow">
+      <h2>场景决策流程图</h2>
+      <div class="flowchart">
+        <div class="flow-node terminal">开始：有一段讲解类视频要压缩</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node decision">是否必须保留彩色？</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-branches">
+          <div class="flow-branch">
+            <div class="branch-label">是 · 品牌/配色</div>
+            <div class="flow-node">客户大屏投影？</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-branches">
+              <div class="flow-branch"><div class="branch-label">是</div><div class="flow-node terminal">L1-720p + CRF28</div></div>
+              <div class="flow-branch"><div class="branch-label">否</div><div class="flow-node terminal">L1 标准级</div></div>
+            </div>
+          </div>
+          <div class="flow-branch">
+            <div class="branch-label">否 · 可黑白</div>
+            <div class="flow-node">发送渠道与带宽？</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-branches">
+              <div class="flow-branch"><div class="branch-label">邮箱/内训</div><div class="flow-node terminal">L4 智能调优</div></div>
+              <div class="flow-branch"><div class="branch-label">微信/慕课</div><div class="flow-node terminal">L5 音频极限</div></div>
+              <div class="flow-branch"><div class="branch-label">离线/极低带宽</div><div class="flow-node terminal">L6 长间隔</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node decision">是否有硬性体积上限？</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-branches">
+          <div class="flow-branch"><div class="branch-label">是</div><div class="flow-node terminal">L7 2-Pass 锁体积</div></div>
+          <div class="flow-branch"><div class="branch-label">否 · 确认支持H.265</div><div class="flow-node terminal">L8 H.265 极限</div></div>
+          <div class="flow-branch"><div class="branch-label">否 · 不支持H.265</div><div class="flow-node terminal">沿用上方结果</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 总结 ========== -->
+    <section id="summary">
+      <h2>总结</h2>
+      <p>"1帧6秒"是一套理念，而 8 级压缩方案是工具箱。真正让这套体系落地的，是针对不同场景做出正确的选择——不该用 L6 的地方用了会让客户觉得"这视频太粗糙"，不该用 L1 的地方用了会让存储成本失控。</p>
+      <div class="callout ok">
+        <div class="callout-title">核心原则</div>
+        <p>在合适的时候用合适的方案，既不浪费带宽，也不辜负内容。</p>
+      </div>
+    </section>
+
+    <hr>
+    <nav style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:24px 0">
+      <a href="levels.html">← 上一页：八级压缩规范</a>
+      <a href="redlines.html">下一页：禁用红线清单 →</a>
+    </nav>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">1帧6秒 · 视频压缩倡议</div>
+      <div>讲解类视频的标准抽帧频率 · v1.0</div>
+    </div>
+    <ul class="footer-nav">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="levels.html">八级规范</a></li>
+      <li><a href="scenarios.html">场景适配</a></li>
+      <li><a href="redlines.html">禁用红线</a></li>
+      <li><a href="design.html">PPT规范</a></li>
+    </ul>
+    <div class="footer-copy">本倡议内容整理自实践推演，供团队内部标准化参考。FFmpeg 命令均基于 H.264/AAC，经实测可直接投入生产使用。</div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

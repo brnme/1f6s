@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PPT 抗压缩设计规范 · 1帧6秒</title>
+<meta name="description" content="为配合黑白+低分辨率(480p/360p)+高压缩率(CRF34+)方案的PPT设计规范：字体字号、三级灰度色板、版式留白、线条粗细与三步自检法。">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">1帧6秒<span class="brand-tag">视频压缩倡议</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="levels.html">八级规范</a></li>
+      <li><a href="scenarios.html">场景适配</a></li>
+      <li><a href="redlines.html">禁用红线</a></li>
+      <li><a href="design.html">PPT规范</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <section id="top">
+      <h1>PPT 抗压缩设计规范</h1>
+      <p class="lead">为配合"黑白 + 低分辨率（480p/360p）+ 高压缩率（CRF 34+）"的极限压缩方案，我们需要从源头对演示文稿（PPT/Keynote）进行"抗压缩"设计。</p>
+      <div class="callout">
+        <div class="callout-title">核心原则</div>
+        <p>压缩算法在低码率下会优先保留高对比度边缘和大色块，牺牲渐变、细线和相近色。因此规范的核心原则是：<strong>"黑就是黑，白就是白，杜绝灰度渐变，拒绝细线依赖。"</strong></p>
+      </div>
+    </section>
+
+    <!-- ========== 一、字体与字号 ========== -->
+    <section id="fonts">
+      <h2>一、字体与字号规范 <span class="subtitle">（对抗模糊）</span></h2>
+      <p>低分辨率下，笔画复杂的字体容易糊成一片，小字号则会直接消失。</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>设计要素</th><th>强制规范</th><th>理由与说明</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>字体类型</strong></td>
+              <td>强制使用<strong>无衬线字体</strong>（如：思源黑体、微软雅黑、Arial、Helvetica）。<span class="danger-text">严禁使用</span>宋体、楷体、Times New Roman 等衬线或手写字体。</td>
+              <td>无衬线字体笔画均匀、横竖等宽，在像素化压缩后依然保持清晰轮廓；衬线体的"喇叭口"和"三角衬线"在 360p 下会变成马赛克噪点。</td>
+            </tr>
+            <tr>
+              <td><strong>最小字号（正文）</strong></td>
+              <td>≥ <strong>24pt</strong>（标题建议 ≥ 36pt）。</td>
+              <td>经实测，24pt 在 480p 缩放下（854×480）可保证小屏手机横屏阅读无压力；20pt 以下的文字在 360p 中会彻底丢失笔画。</td>
+            </tr>
+            <tr>
+              <td><strong>字体颜色（黑白）</strong></td>
+              <td>纯黑（<code>#000000</code>）用于正文，纯白（<code>#FFFFFF</code>）用于反白（深色背景）。<span class="danger-text">严禁</span>使用深灰（如 <code>#333333</code>）替代黑色。</td>
+              <td>编码器（x264）对纯黑边缘的检测最敏感，压缩时会优先保留锐利边缘；深灰会被编码器误认为是"噪点"或"阴影"而模糊化，导致文字发虚。</td>
+            </tr>
+            <tr>
+              <td><strong>字重（粗细）</strong></td>
+              <td>使用 <strong>Bold（粗体）或 Heavy（重黑）</strong>作为常规展示。细体（Light/Thin）仅限于超大标题（&gt;48pt）使用。</td>
+              <td>粗体笔画宽度更大，像素覆盖率更高，能有效抵抗 H.264 在 CRF 34 下的细节涂抹。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== 二、色彩与灰度 ========== -->
+    <section id="grayscale">
+      <h2>二、色彩与灰度对比度规范 <span class="subtitle">（黑、白、灰的运用）</span></h2>
+      <p>压缩成黑白后，视觉层次全靠"明度差"体现。我们只使用 <strong>3 个灰度层级</strong>。</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>灰度层级</th><th>色值（HEX）</th><th>RGB 值</th><th>适用场景</th><th>压缩表现</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="gray-swatch" style="background:#000000"></span> <strong>纯黑（前景）</strong></td>
+              <td><code>#000000</code></td>
+              <td>(0,0,0)</td>
+              <td>正文文字、主要线条、图表边框、深色背景上的标题。</td>
+              <td><span class="ok-text">极佳</span>。边缘锐利，最省码率。</td>
+            </tr>
+            <tr>
+              <td><span class="gray-swatch" style="background:#808080"></span> <strong>中度灰（强调）</strong></td>
+              <td><code>#808080</code></td>
+              <td>(128,128,128)</td>
+              <td>补充说明文字、表格次要栏位、辅助箭头、水印。</td>
+              <td><span class="ok-text">可用</span>。需确保字号 ≥ 28pt，否则灰度区域易被压缩成"空白"。</td>
+            </tr>
+            <tr>
+              <td><span class="gray-swatch" style="background:#FFFFFF"></span> <strong>纯白（背景）</strong></td>
+              <td><code>#FFFFFF</code></td>
+              <td>(255,255,255)</td>
+              <td>页面背景、浅色背景上的文字（反白）、高亮强调区域。</td>
+              <td><span class="ok-text">极佳</span>。画面中留白越多，编码器越容易判断为"静止区域"，体积越小。</td>
+            </tr>
+            <tr>
+              <td><span class="gray-swatch" style="background:#CCCCCC"></span> <strong>❌ 禁用浅灰</strong></td>
+              <td><code>#CCCCCC</code> 及更浅</td>
+              <td>(200+)</td>
+              <td><span class="danger-text">严禁用作文字或图表线条。</span></td>
+              <td><span class="danger-text">极差</span>。在压缩后几乎不可见，或呈现为"脏脏的"斑块。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout danger">
+        <div class="callout-title">🔴 红线原则</div>
+        <p><strong>杜绝任何彩色</strong>（红绿蓝黄紫）出现在最终交付版中。如果原稿有彩色，请在导出前统一在 PPT 中按 <span class="kbd">Ctrl+A</span> 全选，将字体颜色强制设为"自动（黑色）"，并将所有形状填充中的彩色替换为上述灰度值。</p>
+        <p>若必须保留灰度层次来表达"区分"，请使用<strong>斜体</strong>或<strong>下划线</strong>等样式，而非依赖灰度深浅。</p>
+      </div>
+    </section>
+
+    <!-- ========== 三、版式与留白 ========== -->
+    <section id="layout">
+      <h2>三、版式与留白规范 <span class="subtitle">（为编码器"减负"）</span></h2>
+      <p>高压缩率下，复杂的纹理（如网格、阴影、渐变）是"体积杀手"，会让文件膨胀且画面变脏。</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>设计要素</th><th>强制规范</th><th>理由</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>背景</strong></td>
+              <td>必须使用纯白（<code>#FFFFFF</code>）或纯黑（<code>#000000</code>）背景。<span class="danger-text">严禁</span>使用 PPT 自带的"渐变背景"、"纹理填充"或"图片水印"。</td>
+              <td>纯色背景的 DCT（离散余弦变换）系数极低，编码器仅用极少的比特数就能还原，把码率让给文字。</td>
+            </tr>
+            <tr>
+              <td><strong>阴影 / 三维效果</strong></td>
+              <td>彻底禁用。包括文字阴影、形状阴影、映像、发光、三维旋转、棱台效果。</td>
+              <td>阴影在低码率下会变成一圈难看的"鬼影"马赛克，严重侵蚀正文边缘的清晰度。</td>
+            </tr>
+            <tr>
+              <td><strong>图表（柱状/饼图）</strong></td>
+              <td>用<strong>纯黑实心填充</strong>与<strong>纯白空心（描边）</strong>交替。用<strong>图案（斜线/点阵）</strong>代替颜色区分图例。</td>
+              <td>饼图相邻色块（灰 vs 黑）对比度要大于 50%（例如黑-白-灰交替），否则压缩后无法区分。</td>
+            </tr>
+            <tr>
+              <td><strong>线条粗细</strong></td>
+              <td>描边/线条粗细 ≥ <strong>2.25pt</strong>（约 3px）。1pt 以下的细线在 360p 下会断裂。</td>
+              <td>确保分割线和表格边框在极限压缩下依然连续。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== 四、特殊元素 ========== -->
+    <section id="special">
+      <h2>四、特殊元素适配指南</h2>
+
+      <h3>截图（代码 / 界面）嵌入</h3>
+      <ul>
+        <li><span class="danger-text">严禁</span>直接粘贴全屏截图（截图包含大量无关像素）。</li>
+        <li>操作：截图后，在 PPT 中裁剪掉多余 UI 边框，仅保留核心代码/操作区。将截图设置为"灰度模式"并适当提高对比度（+30%）。</li>
+        <li>字号：确保截图内的代码字体 ≥ 14pt（物理尺寸），否则建议放大截图区域为整页。</li>
+      </ul>
+
+      <h3>公式 / 数学符号</h3>
+      <ul>
+        <li>使用 PPT 自带的公式编辑器生成<strong>矢量公式</strong>，<span class="danger-text">严禁</span>使用图片格式的公式。</li>
+        <li>公式中的分数线、根号线条要加粗，避免在压缩中断裂。</li>
+      </ul>
+    </section>
+
+    <!-- ========== 五、三步自检 ========== -->
+    <section id="checklist">
+      <h2>五、成品自查清单（三步自检法）</h2>
+      <p>在导出 MP4 前，请对最后一页幻灯片执行以下"三步自检法"（<span class="muted">点击可勾选，状态保存在本地</span>）：</p>
+      <div class="card">
+        <ul class="checklist" id="design-checklist">
+          <li data-key="cl-shrink"><strong>缩小测试：</strong>将 PPT 缩放至 50% 视图，站在 1 米外观看。如果看不清标题，说明字号太小，需加大。</li>
+          <li data-key="cl-decolor"><strong>去色测试：</strong>在 PPT 中将页面颜色模式调为"灰度/黑白"预览。如果两个相邻元素看起来融为一体，说明对比度不足，需改为纯黑/纯白。</li>
+          <li data-key="cl-thinline"><strong>细线扫描：</strong>检查所有表格和图表边框。凡是用鼠标点击后只显示"一个点"而非"一条宽线"的（即细线），全部改为 2.25pt 以上。</li>
+        </ul>
+        <p style="margin-top:14px"><button class="btn-primary" id="reset-checklist">重置勾选</button></p>
+      </div>
+    </section>
+
+    <!-- ========== 附加建议 ========== -->
+    <section id="bonus">
+      <h2>附加建议</h2>
+      <div class="callout ok">
+        <div class="callout-title">源头适配的复利效应</div>
+        <p>如果您的演示文稿遵循了以上规范，您的视频在 <span class="lvl-badge l4"><span class="dot"></span>L4</span>/<span class="lvl-badge l5"><span class="dot"></span>L5</span> 级别（CRF 34 + stillimage）下的清晰度，将等同于普通文稿在 CRF 28 下的效果。这意味着您可以在<strong>不牺牲阅读体验</strong>的前提下，将视频体积再降低 <strong>40%</strong>。</p>
+        <p>这就是"源头适配"带来的复利效应——压缩不是后期的补救，而是从设计阶段就开始的协同。</p>
+      </div>
+    </section>
+
+    <hr>
+    <nav style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:24px 0">
+      <a href="redlines.html">← 上一页：禁用红线</a>
+      <a href="index.html">返回首页 →</a>
+    </nav>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">1帧6秒 · 视频压缩倡议</div>
+      <div>讲解类视频的标准抽帧频率 · v1.0</div>
+    </div>
+    <ul class="footer-nav">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="levels.html">八级规范</a></li>
+      <li><a href="scenarios.html">场景适配</a></li>
+      <li><a href="redlines.html">禁用红线</a></li>
+      <li><a href="design.html">PPT规范</a></li>
+    </ul>
+    <div class="footer-copy">本倡议内容整理自实践推演，供团队内部标准化参考。FFmpeg 命令均基于 H.264/AAC，经实测可直接投入生产使用。</div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
