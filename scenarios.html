@@ -43,10 +43,41 @@
       <h3><span class="scene-emoji">📧</span>场景一：电子邮件附件发送</h3>
       <div class="scene-block"><strong>特征分析：</strong>
         <ul>
-          <li>多数企业邮箱附件限制为 10～25 MB</li>
+          <li>主流邮箱附件限制普遍为 20～25 MB（详见下方对比表），部分国内基础套餐低至 15 MB</li>
           <li>客户通常在电脑端下载后观看，屏幕分辨率高</li>
           <li>邮件传输速度直接受附件大小影响</li>
         </ul>
+      </div>
+      <div class="scene-block"><strong>📊 主流邮箱附件大小限制参考</strong>（取各服务商最小 / 基础限制值，按限制由小到大排序）
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr><th>邮箱服务商</th><th>最小附件限制</th><th>备注</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>沃邮箱（联通）</td><td><strong>15 MB</strong></td><td>基础套餐；高档套餐可达 2 GB</td></tr>
+              <tr><td>网易邮箱（163/126）</td><td><strong>20 MB</strong></td><td>官方帮助中心显示 20 MB，部分版本为 50 MB</td></tr>
+              <tr><td>139邮箱（移动）</td><td><strong>20 MB</strong></td><td>低档套餐 20 MB，高档可达 50 MB</td></tr>
+              <tr><td>Outlook.com / Hotmail</td><td><strong>20 MB</strong></td><td>超大文件提示通过 OneDrive 分享</td></tr>
+              <tr><td>iCloud Mail</td><td><strong>20 MB</strong></td><td>可经 Mail Drop 发送最大 5 GB 临时链接</td></tr>
+              <tr><td>Zoho Mail</td><td><strong>20 MB</strong></td><td>免费版；付费套餐可提升</td></tr>
+              <tr><td>GMX（免费版）</td><td><strong>20 MB</strong></td><td>部分版本为 50 MB</td></tr>
+              <tr><td>Gmail</td><td><strong>25 MB</strong></td><td>超出自动转为 Google Drive 链接</td></tr>
+              <tr><td>Yahoo Mail</td><td><strong>25 MB</strong></td><td>硬性限制，无自动云存储转换</td></tr>
+              <tr><td>Proton Mail</td><td><strong>25 MB</strong></td><td>以加密和安全著称</td></tr>
+              <tr><td>AOL Mail</td><td><strong>25 MB</strong></td><td>—</td></tr>
+              <tr><td>Mail.com</td><td><strong>30 MB</strong></td><td>—</td></tr>
+              <tr><td>QQ邮箱</td><td><strong>50 MB</strong></td><td>普通附件单文件 ≤50 MB，整封邮件 ≤55 MB</td></tr>
+              <tr><td>新浪邮箱</td><td><strong>50 MB</strong></td><td>—</td></tr>
+              <tr><td>搜狐邮箱</td><td><strong>50 MB</strong></td><td>—</td></tr>
+              <tr><td>Fastmail</td><td><strong>50 MB</strong></td><td>标准较高的主流邮箱之一</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout ok">
+          <div class="callout-title">核心结论</div>
+          <p>在 16 家主流邮箱中，<strong>11 家的最小附件限制集中在 15～25 MB</strong>（沃邮箱 15 MB 为最低，Outlook / iCloud / 网易 / Zoho / GMX 等为 20 MB，Gmail / Yahoo / Proton / AOL 为 25 MB），仅有 QQ / 新浪 / 搜狐 / Fastmail 为 50 MB。企业邮箱（Microsoft 365 / Exchange Online）默认值也常见于 25～35 MB。因此，将视频压缩至 <strong>10～19 MB</strong>（对应 L4 的 16～19 MB 或 L6 的 &lt;10 MB）可确保在绝大多数邮箱中顺利发送。</p>
+        </div>
       </div>
       <div class="scene-recommend"><strong>推荐方案：</strong><span class="lvl-badge l4"><span class="dot"></span>L4</span>（1帧/6秒 + 480p 黑白 + CRF 34 + stillimage + 20k 音频）——99 分钟视频 ≈ 16～19 MB，可放入多数邮箱附件限制；黑白画面在电脑屏幕上依然清晰，20k 音频保证人声干净。如需控制在 10 MB 以内，升级至 <span class="lvl-badge l6"><span class="dot"></span>L6</span>（10秒/帧 + 360p + 8k 音频），牺牲部分画质换取通过性。</div>
       <div class="scene-block"><strong>操作建议：</strong>
