@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>视频转 1f6s Skill · 1帧6秒</title>
+<meta name="description" content="1帧6秒倡议的视频压缩 Skill 介绍：用 ffmpeg 把给定视频转成符合八级压缩规范的输出，先探测源、展示命令、确认后执行，产物默认不覆盖原视频。">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">1帧6秒<span class="brand-tag">视频压缩倡议</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="levels.html">八级规范</a></li>
+      <li><a href="scenarios.html">场景适配</a></li>
+      <li><a href="redlines.html">禁用红线</a></li>
+      <li><a href="design.html">PPT规范</a></li>
+      <li><a href="obs.html">OBS配置</a></li>
+      <li><a href="skill-ppt.html">PPT Skill</a></li>
+      <li><a href="skill-compress.html">压缩 Skill</a></li>
+      <li><a href="license.html">版权</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ========== 顶部 ========== -->
+    <section id="top">
+      <h1>视频转 1f6s Skill</h1>
+      <p class="lead">给定一个视频，用 <strong>ffmpeg</strong> 把它转成符合「1帧6秒」八级压缩规范之一的输出。给定视频路径与级别（默认 L4），<strong>先探测源、展示将执行的命令，确认后再执行</strong>，产物默认 <code>&lt;basename&gt;_1f6s.mp4</code>，<strong>不覆盖原视频</strong>。</p>
+      <div class="callout">
+        <div class="callout-title">这是什么</div>
+        <p>一个可分享、供任意 agent 及人类使用的工具包（<code>skill/1f6s-compress/</code>）。既有供 agent 读取的 playbook（<code>SKILL.md</code>），也有供直接执行的 shell 封装（<code>1f6s.sh</code>）。它把倡议的八级参数落成机器可读的 <code>levels.json</code>，脚本与 agent 共用，避免参数漂移。</p>
+      </div>
+    </section>
+
+    <!-- ========== 八级参数速查表 ========== -->
+    <section id="levels">
+      <h2>八级参数速查表</h2>
+      <p class="lead">完整参数与 ffmpeg 命令见 <a href="levels.html">八级规范页</a>。本 skill 以 <code>levels.json</code> 为唯一真相源：</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>级别</th><th>名称</th><th>抽帧</th><th>分辨率</th><th>色彩</th><th>视频</th><th>音频</th><th>调优</th><th>99分钟体积</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>L1</td><td>标准级</td><td>1帧/6秒</td><td>480p</td><td>彩色</td><td>CRF 32</td><td>20k/22050</td><td>—</td><td>≈30~35 MB</td></tr>
+            <tr><td>L2</td><td>黑白级</td><td>1帧/6秒</td><td>480p</td><td>黑白</td><td>CRF 32</td><td>20k/22050</td><td>—</td><td>≈24~28 MB</td></tr>
+            <tr><td>L3</td><td>高压缩级</td><td>1帧/6秒</td><td>480p</td><td>黑白</td><td>CRF 34</td><td>20k/22050</td><td>—</td><td>≈18~22 MB</td></tr>
+            <tr><td><strong>L4</strong></td><td><strong>智能调优级 ★默认</strong></td><td>1帧/6秒</td><td>480p</td><td>黑白</td><td>CRF 34</td><td>20k/22050</td><td>stillimage</td><td>≈16~19 MB</td></tr>
+            <tr><td>L5</td><td>音频极限级</td><td>1帧/6秒</td><td>480p</td><td>黑白</td><td>CRF 34</td><td>8k/8000</td><td>stillimage</td><td>≈14~17 MB</td></tr>
+            <tr><td>L6</td><td>长间隔级</td><td>1帧/10秒</td><td>360p</td><td>黑白</td><td>CRF 36</td><td>8k/8000</td><td>stillimage</td><td>≈10~12 MB</td></tr>
+            <tr><td>L7</td><td>2-Pass 级</td><td>1帧/10秒</td><td>360p</td><td>黑白</td><td>2-Pass</td><td>8k/8000</td><td>stillimage</td><td>按目标锁定</td></tr>
+            <tr><td>L8</td><td>H.265 极限级</td><td>1帧/10秒</td><td>360p</td><td>黑白</td><td>CRF 38</td><td>8k/8000</td><td>keyint=1</td><td>≈6~8 MB</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== 用法 ========== -->
+    <section id="usage">
+      <h2>怎么用</h2>
+
+      <h3>脚本路径（人类或 agent 直接执行）</h3>
+      <div class="code-block">
+        <div class="code-head"><span class="lang">bash · 1f6s.sh</span></div>
+        <pre><code># 默认用 L4 压缩(先展示命令,确认后执行)
+./skill/1f6s-compress/1f6s.sh lecture.mp4
+
+# 指定级别 + 跳过确认
+./skill/1f6s-compress/1f6s.sh lecture.mp4 L4 -y
+
+# L7 锁定目标体积(8MB)
+./skill/1f6s-compress/1f6s.sh lecture.mp4 L7 --target 8 -y
+
+# 只看将执行的命令,不实际压缩
+./skill/1f6s-compress/1f6s.sh lecture.mp4 L6 --dry-run
+
+# 打印八级速查表
+./skill/1f6s-compress/1f6s.sh --list</code></pre>
+      </div>
+
+      <h3>agent 路径（读取 playbook）</h3>
+      <p>agent 读 <code>skill/1f6s-compress/SKILL.md</code> 后，按 <code>arguments</code> 约定执行：</p>
+      <div class="code-block">
+        <div class="code-head"><span class="lang">调用示例</span></div>
+        <pre><code># 默认 L4
+run_skill 1f6s-compress "视频: lecture.mp4"
+
+# 指定 L7 锁定 8MB
+run_skill 1f6s-compress "视频: lecture.mp4; 级别: L7; 目标: 8MB; yes"
+
+# 只生成命令不执行
+run_skill 1f6s-compress "视频: lecture.mp4; 级别: L6; dry-run"</code></pre>
+      </div>
+
+      <h3>命令行选项</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>选项</th><th>说明</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>-o, --output &lt;路径&gt;</code></td><td>自定义输出文件名/路径</td></tr>
+            <tr><td><code>-y, --yes</code></td><td>跳过确认，直接执行</td></tr>
+            <tr><td><code>-n, --dry-run</code></td><td>只打印将执行的命令，不执行</td></tr>
+            <tr><td><code>-l, --list</code></td><td>打印八级参数速查表后退出</td></tr>
+            <tr><td><code>--target &lt;MB&gt;</code></td><td>L7 目标体积（MB），自动算视频码率</td></tr>
+            <tr><td><code>--force</code></td><td>允许覆盖已存在的输出文件</td></tr>
+            <tr><td><code>-h, --help</code></td><td>显示帮助</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== 特性 ========== -->
+    <section id="features">
+      <h2>核心特性</h2>
+      <div class="scene-block"><ul>
+        <li><strong>先展示后执行</strong>：ffprobe 探测源（时长/分辨率/编码/体积）→ 打印选定级别参数 + 完整命令 + 预期输出 → 用户确认 <code>y</code> 后执行（<code>-y</code> 跳过）</li>
+        <li><strong>默认不覆盖原视频</strong>：产物命名 <code>&lt;basename&gt;_1f6s.mp4</code>，与源同目录；输出已存在则拒绝（需 <code>--force</code> 才覆盖）；输出路径等于源视频则一律拒绝</li>
+        <li><strong>八级全覆盖</strong>：L1~L8 参数全部源自 <code>levels.json</code>（与 <a href="levels.html">levels.html</a> 一致），默认推荐 L4</li>
+        <li><strong>L7 两遍 pass</strong>：按公式 <code>目标体积×8192/时长 − 音频码率</code> 自动算视频码率，跑两遍 pass，自动清理 <code>ffmpeg2pass-*.log*</code></li>
+        <li><strong>L8 H.265</strong>：含 <code>keyint=1:min-keyint=1</code>，执行前提示兼容性风险</li>
+        <li><strong>平台适配</strong>：<code>/dev/null</code> → <code>NUL</code> 自动检测（Windows）</li>
+        <li><strong>依赖降级</strong>：无 <code>jq</code> 时用 <code>python3</code> 解析 JSON；两者都没有才报错</li>
+      </ul></div>
+    </section>
+
+    <!-- ========== 执行流程 ========== -->
+    <section id="workflow">
+      <h2>执行流程</h2>
+      <div class="scene-block"><ol>
+        <li><strong>校验输入</strong>：确认视频文件存在、环境有 ffmpeg 与 ffprobe</li>
+        <li><strong>确定级别</strong>：从 arguments 解析级别（默认 L4）、目标体积（仅 L7）、输出路径（可选）</li>
+        <li><strong>探测源视频</strong>：ffprobe 取时长、分辨率、编码、体积</li>
+        <li><strong>取参数</strong>：从 <code>levels.json</code> 读取该级别全部参数</li>
+        <li><strong>构造命令</strong>：拼装 ffmpeg 命令；L7 按公式算视频码率并生成两遍 pass 命令</li>
+        <li><strong>展示</strong>：打印源信息 + 级别参数 + 完整命令 + 预期输出文件名</li>
+        <li><strong>确认后执行</strong>：默认等用户确认；含 <code>yes</code> 时直接执行</li>
+        <li><strong>校验并报告</strong>：ffprobe 校验产物可识别，打印输出体积并与该级预期对比</li>
+      </ol></div>
+    </section>
+
+    <!-- ========== 文件清单 ========== -->
+    <section id="files">
+      <h2>文件清单</h2>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>文件</th><th>作用</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>skill/1f6s-compress/SKILL.md</code></td><td>agent playbook：规范摘要 + 参数表 + 执行流程 + 调用约定 + 强制约束 + 自测样本</td></tr>
+            <tr><td><code>skill/1f6s-compress/1f6s.sh</code></td><td>配套封装脚本：人类与 agent 共用的执行入口（已可执行）</td></tr>
+            <tr><td><code>skill/1f6s-compress/levels.json</code></td><td>机器可读八级参数表（脚本与 agent 的唯一真相源）</td></tr>
+            <tr><td><code>skill/1f6s-compress/README.md</code></td><td>面向人的快速上手：依赖/示例/速查表/FAQ</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== 常见问题 ========== -->
+    <section id="faq">
+      <h2>常见问题</h2>
+      <details class="faq-item" open>
+        <summary>为什么默认 L4？</summary>
+        <p>它在体积（99 分钟约 16~19 MB）和观看体验之间取得最佳平衡：<code>-tune stillimage</code> 让静态幻灯片文字更锐利，20k/22050 音频保证人声干净。除非有特殊需求（需彩色用 L1、需锁体积用 L7、需极限体积用 L8），直接用 L4 即可。</p>
+      </details>
+      <details class="faq-item">
+        <summary>为什么默认转黑白？</summary>
+        <p>讲解类视频的颜色信息对理解内容几乎没有帮助，转黑白（<code>format=gray</code>）可让体积再降约 20%。若必须保留彩色（图表配色、UI 区分），用 L1。</p>
+      </details>
+      <details class="faq-item">
+        <summary>为什么是 6 秒？</summary>
+        <p>这是「1帧6秒」倡议的标准抽帧频率——讲解类画面变化慢，每 6 秒取一帧足够跟上换页节奏，又极大降低码率。语速慢、画面变化更少的场景可用 L6/L7/L8 的 1帧/10秒。详见 <a href="index.html#why-6s">为什么是 6 秒</a>。</p>
+      </details>
+      <details class="faq-item">
+        <summary>L7 怎么锁定体积？</summary>
+        <p>2-Pass 二次编码。公式：<code>总比特率 = 目标体积(MB) × 8192 / 总时长(秒)</code>，<code>视频码率 = 总比特率 − 音频码率(8)</code>。第一遍分析（<code>-pass 1 -an -f mp4 /dev/null</code>，Windows 用 <code>NUL</code>），第二遍输出（<code>-pass 2</code>）。脚本自动算码率、跑两遍、清理日志。</p>
+      </details>
+      <details class="faq-item">
+        <summary>会覆盖我的原视频吗？</summary>
+        <p>不会。默认输出 <code>&lt;原名&gt;_1f6s.mp4</code>，与源同目录。即使同名输出已存在，脚本也会拒绝并提示用 <code>--force</code> 覆盖或 <code>-o</code> 改名。</p>
+      </details>
+    </section>
+
+    <!-- ========== 获取方式 ========== -->
+    <section id="get">
+      <h2>获取方式</h2>
+      <p class="lead">本 Skill 是一个工具包文件夹，含 agent playbook 与可执行 shell 脚本，拿到即可用。</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>方式</th><th>做法</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>克隆仓库</td>
+              <td><code>git clone https://github.com/brnme/1f6s.git</code>，文件位于 <code>skill/1f6s-compress/</code> 目录</td>
+            </tr>
+            <tr>
+              <td>直接使用脚本</td>
+              <td>克隆后 <code>chmod +x skill/1f6s-compress/1f6s.sh</code>，即可 <code>./skill/1f6s-compress/1f6s.sh video.mp4 L4</code> 一行压缩</td>
+            </tr>
+            <tr>
+              <td>喂给 agent</td>
+              <td>把 <code>skill/1f6s-compress/SKILL.md</code> 交给任意 agent，agent 读后按调用约定执行；或让 agent 直接调 <code>1f6s.sh</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout ok">
+        <div class="callout-title">文件清单与依赖</div>
+        <p>仓库 <code>skill/1f6s-compress/</code>（含 <code>SKILL.md</code> / <code>1f6s.sh</code> / <code>levels.json</code> / <code>README.md</code>）。运行脚本需 ffmpeg + ffprobe；解析 <code>levels.json</code> 需 jq 或 python3（二选一即可，缺失时脚本自动降级）。</p>
+      </div>
+    </section>
+
+    <!-- ========== 总结 ========== -->
+    <section id="summary">
+      <h2>总结</h2>
+      <p>视频转 1f6s Skill 是倡议的<strong>可执行落地</strong>：给视频路径与级别，得到符合八级规范的压缩输出。它与 <a href="skill-ppt.html">PPT 生成 Skill</a> 互补——前者让成品视频压到规范体积，后者让源头幻灯片扛得住压缩。两者共同构成从源头到成片的完整闭环。</p>
+      <div class="callout ok">
+        <div class="callout-title">核心原则</div>
+        <p>以 levels.json 为唯一参数源，先展示后执行，默认不覆盖原视频——让倡议的八级规范人人可用、agent 可执行。</p>
+      </div>
+    </section>
+
+    <hr>
+    <nav style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:24px 0">
+      <a href="skill-ppt.html">← 上一页：PPT 生成 Skill</a>
+      <a href="obs.html">下一页：OBS 配置 →</a>
+    </nav>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">1帧6秒 · 视频压缩倡议</div>
+      <div>讲解类视频的标准抽帧频率 · v1.0</div>
+    </div>
+    <ul class="footer-nav">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="levels.html">八级规范</a></li>
+      <li><a href="scenarios.html">场景适配</a></li>
+      <li><a href="redlines.html">禁用红线</a></li>
+      <li><a href="design.html">PPT规范</a></li>
+      <li><a href="obs.html">OBS配置</a></li>
+      <li><a href="skill-ppt.html">PPT Skill</a></li>
+      <li><a href="skill-compress.html">压缩 Skill</a></li>
+      <li><a href="license.html">版权</a></li>
+    </ul>
+    <div class="footer-copy">本倡议内容按 <a href="license.html">CC BY 4.0</a> 授权，作者：韩烈 及 GLM-5.2。FFmpeg 命令均基于 H.264/AAC，经实测可直接投入生产使用。</div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

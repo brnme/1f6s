@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PPT 抗压缩设计规范 · Deck</title>
+<style>
+  /* ===== 抗压缩幻灯片样式（仅三色 / 无衬线 / ≥24pt / ≥3px边框 / 零阴影零渐变）===== */
+  :root{
+    --black:#000000; --gray:#808080; --white:#FFFFFF;
+    --line:3px solid var(--black);          /* ≥2.25pt */
+    --sans:"Source Han Sans SC","Microsoft YaHei","微软雅黑",Arial,Helvetica,sans-serif; /* 无衬线 */
+    --mono:"Cascadia Code","Consolas","Courier New",monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:var(--sans); background:var(--white); color:var(--black);
+    overflow:hidden;
+  }
+
+  /* ===== 幻灯片容器 ===== */
+  .deck{width:100vw; height:100vh; position:relative;}
+  .slide{
+    width:100vw; height:100vh; padding:64px 80px;
+    display:none; flex-direction:column; justify-content:center;
+    background:var(--white); color:var(--black);
+  }
+  .slide.active{display:flex;}
+
+  .slide-dark{background:var(--black); color:var(--white);}
+  .slide-dark .deck-h2, .slide-dark .deck-h3{color:var(--white);}
+  .deck-h2-light{color:var(--white) !important;}
+
+  .slide-cover{align-items:center; text-align:center;}
+
+  /* ===== 字号档位（≥24pt 硬约束）===== */
+  .deck-title{font-size:56px; font-weight:700; line-height:1.2;}
+  .deck-h2{font-size:48px; font-weight:700; line-height:1.25; margin-bottom:32px;}
+  .deck-h3{font-size:40px; font-weight:700; line-height:1.3; margin-bottom:20px;}
+  .deck-body{font-size:32px; font-weight:700; line-height:1.5;}
+  .deck-muted{font-size:37px; color:var(--gray); font-weight:700; line-height:1.4;}
+  .slide-dark .deck-muted{color:var(--gray);}
+
+  /* ===== 列表 ===== */
+  .deck-list{list-style:none; padding:0;}
+  .deck-list li{
+    font-size:32px; font-weight:700; line-height:1.5; padding:10px 0;
+    border-bottom:var(--line);
+  }
+  .deck-list li:last-child{border-bottom:none;}
+  ol.deck-list{counter-reset:deck;}
+  ol.deck-list li{counter-increment:deck; padding-left:56px; position:relative;}
+  ol.deck-list li::before{content:counter(deck)". "; position:absolute; left:0; font-weight:700;}
+
+  /* ===== 表格 ===== */
+  .deck-tbl-wrap{overflow-x:auto;}
+  .deck-tbl{width:100%; border-collapse:collapse; font-size:28px; font-weight:700;}
+  .deck-tbl th,.deck-tbl td{border:var(--line); padding:14px 18px; text-align:left;}
+  .deck-tbl thead th{background:var(--black); color:var(--white);}
+  .deck-tbl tbody tr{background:var(--white);}
+
+  /* ===== 提示框 ===== */
+  .deck-callout{
+    border:var(--line); padding:24px 28px; margin-top:24px; background:var(--white);
+  }
+  .deck-callout-title{font-size:36px; font-weight:700; margin-bottom:12px;}
+  .deck-callout p{font-size:32px; font-weight:700; line-height:1.5;}
+  .deck-callout-warn{border-width:5px;}
+  .deck-callout-warn .deck-callout-title::before{content:"⚠ "; }
+
+  /* ===== 徽章 ===== */
+  .deck-badge{
+    display:inline-block; border:var(--line); padding:4px 14px;
+    font-size:28px; font-weight:700; margin-right:12px; background:var(--white);
+  }
+
+  /* ===== 清单 ===== */
+  .deck-checklist{list-style:none; padding:0;}
+  .deck-checklist li{font-size:32px; font-weight:700; line-height:1.6; padding:8px 0;}
+
+  /* ===== 代码块 ===== */
+  .deck-code{
+    background:var(--black); color:var(--white); font-family:var(--mono);
+    font-size:30px; line-height:1.5; padding:28px 32px; overflow-x:auto;
+    white-space:pre; border:var(--line);
+  }
+
+  /* ===== 图表 ===== */
+  .deck-chart{display:flex; align-items:flex-end; gap:32px; height:300px; border-bottom:var(--line); padding-bottom:0;}
+  .bar{width:96px; background:var(--white); border:var(--line); height:var(--h);}
+  .bar-solid{background:var(--black);}
+  .bar-outline{background:var(--white);}
+  .bar-hatch{
+    background:repeating-linear-gradient(45deg,var(--black) 0 8px,var(--white) 8px 16px);
+  }
+  .deck-legend{list-style:none; display:flex; gap:28px; margin-top:20px; padding:0;}
+  .deck-legend li{font-size:28px; font-weight:700; display:flex; align-items:center; gap:10px;}
+  .sw{display:inline-block; width:24px; height:24px; border:3px solid var(--black);}
+  .sw-solid{background:var(--black);}
+  .sw-outline{background:var(--white);}
+  .sw-hatch{background:repeating-linear-gradient(45deg,var(--black) 0 4px,var(--white) 4px 8px);}
+
+  /* ===== 对比页 ===== */
+  .deck-two{display:flex; gap:0; margin-top:16px;}
+  .deck-two>div{flex:1; padding:0 32px;}
+  .deck-two>div+div{border-left:var(--line);}
+
+  /* ===== 页码 ===== */
+  .pager{
+    position:fixed; right:32px; bottom:24px; font-size:28px; font-weight:700;
+    color:var(--gray); background:var(--white); padding:4px 12px; border:var(--line);
+  }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- 1. 封面 -->
+  <section class="slide slide-cover active">
+    <h1 class="deck-title">PPT 抗压缩设计规范</h1>
+    <p class="deck-muted">1帧6秒 · 视频压缩倡议</p>
+  </section>
+
+  <!-- 2. 目录 -->
+  <section class="slide">
+    <h2 class="deck-h2">目录</h2>
+    <ol class="deck-list">
+      <li>核心原则</li>
+      <li>字体与字号</li>
+      <li>色彩与灰度</li>
+      <li>版式与留白</li>
+      <li>特殊元素</li>
+      <li>三步自检法</li>
+    </ol>
+  </section>
+
+  <!-- 3. 核心原则 -->
+  <section class="slide">
+    <h2 class="deck-h2">核心原则</h2>
+    <p class="deck-body">压缩算法在低码率下会优先保留高对比度边缘和大色块，牺牲渐变、细线和相近色。</p>
+    <div class="deck-callout">
+      <div class="deck-callout-title">一句话原则</div>
+      <p>黑就是黑，白就是白，杜绝灰度渐变，拒绝细线依赖。</p>
+    </div>
+  </section>
+
+  <!-- 4. 字体与字号 -->
+  <section class="slide">
+    <h2 class="deck-h2">一、字体与字号</h2>
+    <div class="deck-tbl-wrap">
+      <table class="deck-tbl">
+        <thead><tr><th>要素</th><th>规范</th></tr></thead>
+        <tbody>
+          <tr><td>字体类型</td><td>无衬线，禁衬线与手写体</td></tr>
+          <tr><td>正文字号</td><td>≥ 24pt，标题 ≥ 36pt</td></tr>
+          <tr><td>字体颜色</td><td>纯黑 #000000 / 纯白 #FFFFFF</td></tr>
+          <tr><td>字重</td><td>Bold 或 Heavy，Light 仅限超大标题</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 5. 色彩与灰度 -->
+  <section class="slide">
+    <h2 class="deck-h2">二、色彩与灰度</h2>
+    <p class="deck-body">仅使用 3 个灰度层级：</p>
+    <ul class="deck-list">
+      <li>纯黑 #000000 —— 正文、线条、边框</li>
+      <li>中度灰 #808080 —— 辅助文字，字号 ≥ 28pt</li>
+      <li>纯白 #FFFFFF —— 背景、反白文字</li>
+    </ul>
+    <div class="deck-callout deck-callout-warn">
+      <div class="deck-callout-title">红线</div>
+      <p>杜绝任何彩色；禁用 #CCCCCC 及更浅作文字或线条。</p>
+    </div>
+  </section>
+
+  <!-- 6. 版式与留白 -->
+  <section class="slide">
+    <h2 class="deck-h2">三、版式与留白</h2>
+    <ul class="deck-list">
+      <li>背景纯白或纯黑，禁渐变、纹理、水印</li>
+      <li>彻底禁用阴影、三维、映像、发光</li>
+      <li>图表用纯黑实心 + 纯白描边交替，图案代替彩色</li>
+      <li>线条粗细 ≥ 2.25pt（约 3px）</li>
+    </ul>
+  </section>
+
+  <!-- 7. 三步自检法 -->
+  <section class="slide">
+    <h2 class="deck-h2">五、三步自检法</h2>
+    <ul class="deck-checklist">
+      <li>□ 缩小测试：缩放至 50%，1 米外看清标题</li>
+      <li>□ 去色测试：灰度预览，相邻元素不融为一体</li>
+      <li>□ 细线扫描：所有边框 ≥ 3px，细线全加粗</li>
+    </ul>
+  </section>
+
+  <!-- 8. 末页 -->
+  <section class="slide slide-cover">
+    <h1 class="deck-title">谢谢</h1>
+    <p class="deck-muted">1帧6秒 · 视频压缩倡议</p>
+  </section>
+
+</div>
+
+<div class="pager"><span id="cur">1</span> / <span id="total">8</span></div>
+
+<script>
+  /* ===== 极简翻页（←/→/Space/Home/End/F全屏），零依赖 ===== */
+  (function(){
+    var slides=document.querySelectorAll('.slide');
+    var total=slides.length;
+    document.getElementById('total').textContent=total;
+    var cur=0;
+    function show(i){
+      cur=(i+total)%total;
+      slides.forEach(function(s,idx){s.classList.toggle('active',idx===cur);});
+      document.getElementById('cur').textContent=cur+1;
+    }
+    document.addEventListener('keydown',function(e){
+      var k=e.key;
+      if(k==='ArrowRight'||k===' '||k==='PageDown'){show(cur+1);e.preventDefault();}
+      else if(k==='ArrowLeft'||k==='PageUp'){show(cur-1);e.preventDefault();}
+      else if(k==='Home'){show(0);e.preventDefault();}
+      else if(k==='End'){show(total-1);e.preventDefault();}
+      else if(k==='f'||k==='F'){
+        if(!document.fullscreenElement){document.documentElement.requestFullscreen();}
+        else{document.exitFullscreen();}
+      }
+    });
+    show(0);
+  })();
+</script>
+</body>
+</html>

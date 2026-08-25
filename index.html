@@ -18,6 +18,10 @@
       <li><a href="scenarios.html">场景适配</a></li>
       <li><a href="redlines.html">禁用红线</a></li>
       <li><a href="design.html">PPT规范</a></li>
+      <li><a href="obs.html">OBS配置</a></li>
+      <li><a href="skill-ppt.html">PPT Skill</a></li>
+      <li><a href="skill-compress.html">压缩 Skill</a></li>
+      <li><a href="license.html">版权</a></li>
     </ul>
   </div>
 </header>
@@ -165,6 +169,38 @@
           <div class="ec-desc">从源头让幻灯片"扛得住"黑白+低分辨率+高 CRF：字体字号、三级灰度色板、版式留白、线条粗细与三步自检法。</div>
           <div class="ec-arrow">查看 PPT 规范 →</div>
         </a>
+        <a class="entry-card" href="obs.html">
+          <div class="ec-num">分页 · 05</div>
+          <div class="ec-title">OBS 直播推流与本地录像配置</div>
+          <div class="ec-desc">讲解类直播（PPT+口播）的 OBS 推流参数、本地录像设置，含 GUI 步骤与高级参数，附录像后 1f6s 转码指引。</div>
+          <div class="ec-arrow">查看 OBS 配置 →</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ========== 工具箱 / Skills ========== -->
+    <section id="toolbox">
+      <h2>工具箱 · Skills</h2>
+      <p>倡议的三个可执行落地工具：从源头幻灯片到成品视频，再到直播推流，全程标准化。</p>
+      <div class="entry-grid">
+        <a class="entry-card" href="skill-ppt.html">
+          <div class="ec-num">Skill · 01</div>
+          <div class="ec-title">🎬 PPT 生成 Skill</div>
+          <div class="ec-desc">把主题/大纲从零生成，或把本站页面转换成符合抗压缩规范的 HTML 幻灯片 deck。自包含单文件，键盘翻页，零外部依赖。</div>
+          <div class="ec-arrow"><code>run_skill ppt "主题: 周报规范"</code> →</div>
+        </a>
+        <a class="entry-card" href="skill-compress.html">
+          <div class="ec-num">Skill · 02</div>
+          <div class="ec-title">🎞️ 视频转 1f6s Skill</div>
+          <div class="ec-desc">用 ffmpeg 把给定视频转成符合八级压缩规范的输出。先探测源、展示命令、确认后执行，默认不覆盖原视频。</div>
+          <div class="ec-arrow"><code>./1f6s.sh lecture.mp4 L4</code> →</div>
+        </a>
+        <a class="entry-card" href="obs.html">
+          <div class="ec-num">Skill · 03</div>
+          <div class="ec-title">📺 OBS 直播推流与录像配置</div>
+          <div class="ec-desc">讲解类直播的 OBS 推流参数、本地录像设置，含 GUI 步骤与高级参数，附录像后 1f6s 转码指引。</div>
+          <div class="ec-arrow">推流 1200kbps + 录像 CRF18 →</div>
+        </a>
       </div>
     </section>
 
@@ -227,8 +263,12 @@
       <li><a href="scenarios.html">场景适配</a></li>
       <li><a href="redlines.html">禁用红线</a></li>
       <li><a href="design.html">PPT规范</a></li>
+      <li><a href="obs.html">OBS配置</a></li>
+      <li><a href="skill-ppt.html">PPT Skill</a></li>
+      <li><a href="skill-compress.html">压缩 Skill</a></li>
+      <li><a href="license.html">版权</a></li>
     </ul>
-    <div class="footer-copy">本倡议内容整理自实践推演，供团队内部标准化参考。FFmpeg 命令均基于 H.264/AAC，经实测可直接投入生产使用。</div>
+    <div class="footer-copy">本倡议内容按 <a href="license.html">CC BY 4.0</a> 授权，作者：韩烈 及 GLM-5.2。FFmpeg 命令均基于 H.264/AAC，经实测可直接投入生产使用。</div>
   </div>
 </footer>
 

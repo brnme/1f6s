@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PPT 生成 Skill · 1帧6秒</title>
+<meta name="description" content="1帧6秒倡议的 PPT 生成 Skill 介绍：把主题/大纲生成或把给定的网页PPT转换成符合抗压缩规范的 HTML 幻灯片 deck，自包含、零依赖、键盘翻页。">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">1帧6秒<span class="brand-tag">视频压缩倡议</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="levels.html">八级规范</a></li>
+      <li><a href="scenarios.html">场景适配</a></li>
+      <li><a href="redlines.html">禁用红线</a></li>
+      <li><a href="design.html">PPT规范</a></li>
+      <li><a href="obs.html">OBS配置</a></li>
+      <li><a href="skill-ppt.html">PPT Skill</a></li>
+      <li><a href="skill-compress.html">压缩 Skill</a></li>
+      <li><a href="license.html">版权</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ========== 顶部 ========== -->
+    <section id="top">
+      <h1>PPT 生成 Skill</h1>
+      <p class="lead">把主题或大纲<strong>从零生成</strong>，或把给定的网页 PPT <strong>转换</strong>成符合「1帧6秒」PPT 抗压缩规范的 HTML 幻灯片 deck。产物是<strong>自包含的单个 .html 文件</strong>——内联 CSS + 极简翻页 JS，零外部依赖，浏览器双击即可键盘翻页 / 全屏演示。</p>
+      <div class="callout">
+        <div class="callout-title">这是什么</div>
+        <p>一个可分享、供任意 agent 读取照做的 playbook（<code>skill/SKILL.md</code>）。agent 读到它后，按给定的主题或页面，直接产出一套逐页落实抗压缩规范的幻灯片。它服务于倡议的核心主张——<strong>演示文稿必须从源头适配极限压缩</strong>。</p>
+      </div>
+    </section>
+
+    <!-- ========== 两种工作模式 ========== -->
+    <section id="modes">
+      <h2>两种工作模式</h2>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>模式</th><th>触发</th><th>输入</th><th>产物</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>生成模式</strong>（重点）</td>
+              <td>用户给主题或大纲</td>
+              <td>主题 / 大纲要点</td>
+              <td>从零生成符合规范的 deck</td>
+            </tr>
+            <tr>
+              <td><strong>转换模式</strong></td>
+              <td>用户给一个网页 PPT 文件路径（HTML）</td>
+              <td>任意 HTML 幻灯片/页面文件路径（如 <code>my-deck.html</code>、<code>slides/intro.html</code>，也可以是本站页面如 <code>levels.html</code>）</td>
+              <td>把该网页 PPT 内容转成符合规范的 deck</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>默认约定</strong>：合并成单文件 deck；输出落盘到仓库 <code>slides/</code> 目录，文件名形如 <code>slides/&lt;主题或页面名&gt;-deck.html</code>。</p>
+    </section>
+
+    <!-- ========== 抗压缩规范摘要 ========== -->
+    <section id="spec">
+      <h2>抗压缩规范摘要</h2>
+      <p class="lead">生成的每一页都必须严格遵循 <a href="design.html">design.html</a> 中的「PPT 抗压缩设计规范」。要点：</p>
+      <div class="scene-block"><ul>
+        <li><strong>仅三色</strong>：纯黑 <code>#000000</code>、中度灰 <code>#808080</code>、纯白 <code>#FFFFFF</code>——杜绝任何彩色</li>
+        <li><strong>无衬线字体</strong>：思源黑体 / 微软雅黑 / Arial；严禁宋体、楷体等衬线字体</li>
+        <li><strong>最小字号</strong>：正文 ≥ 24pt，标题建议 ≥ 36pt，中度灰文字 ≥ 28pt</li>
+        <li><strong>线条 ≥ 3px</strong>：边框、表格线、图表线一律 ≥ 3px，细线在 360p 会断裂</li>
+        <li><strong>纯色背景</strong>：纯白或纯黑；严禁渐变、纹理、图片水印</li>
+        <li><strong>零阴影零渐变</strong>：禁用 box-shadow / text-shadow / gradient / 三维效果</li>
+        <li><strong>图表不靠彩色区分</strong>：纯黑实心 + 纯白描边 + 斜线/点阵图案填充交替</li>
+      </ul></div>
+      <div class="callout ok">
+        <div class="callout-title">铁律</div>
+        <p>结构可借、样式必须新建。可复用源页的 HTML 语义结构，但<strong>严禁直接引用</strong> <code>assets/css/style.css</code> 或 <code>assets/js/main.js</code>——它们含彩色、阴影、渐变、小字、细线，全面违反本规范。幻灯片必须使用 skill 内嵌的独立样式表。</p>
+      </div>
+    </section>
+
+    <!-- ========== 调用约定与示例 ========== -->
+    <section id="usage">
+      <h2>调用约定与示例</h2>
+      <p class="lead">调用本 Skill 时，<code>arguments</code> 按下列格式传：</p>
+
+      <h3>生成模式</h3>
+      <div class="code-block">
+        <div class="code-head"><span class="lang">调用示例</span></div>
+        <pre><code># 只给主题,由 skill 规划大纲
+run_skill ppt "主题: 团队周报规范"
+
+# 给定大纲,按大纲逐页生成
+run_skill ppt "主题: 团队周报规范; 大纲: 本周进展, 风险与阻塞, 下周计划, 数据看板"
+
+# 可选附加约束
+run_skill ppt "主题: 团队周报规范; 受众: 全员; 页数: 约8页"</code></pre>
+      </div>
+      <p>产物：<code>slides/团队周报规范-deck.html</code></p>
+
+      <h3>转换模式</h3>
+      <div class="code-block">
+        <div class="code-head"><span class="lang">调用示例</span></div>
+        <pre><code># 转换一个给定的网页 PPT
+run_skill ppt "转换: my-deck.html"
+# 产物: slides/my-deck-deck.html
+
+# 转换本站页面作为示例(本站页面也是合法的网页 PPT 输入)
+run_skill ppt "转换: levels.html"
+# 产物: slides/levels-deck.html</code></pre>
+      </div>
+    </section>
+
+    <!-- ========== 工作流要点 ========== -->
+    <section id="workflow">
+      <h2>工作流要点</h2>
+
+      <h3>生成模式 5 步</h3>
+      <div class="scene-block"><ol>
+        <li><strong>拆解输入</strong>：提炼主题、受众、要点；只给主题时规划 5~12 个要点（一要点 ≈ 一页）</li>
+        <li><strong>规划页面序列</strong>：封面 → 目录 → 内容页（一页一要点）→ 末页致谢；宁可多拆一页，不要挤一页</li>
+        <li><strong>逐页生成</strong>：每页选页型（封面/目录/要点/表格/图表/对比/代码/清单/致谢），套用最小合规片段，逐条落实强制动作（字号档位/三色化/线条加粗/禁用效果/图表合规/背景纯色/无外部依赖）</li>
+        <li><strong>自检</strong>：对信息最密的一页跑「三步自检法」（缩小测试/去色测试/细线扫描）</li>
+        <li><strong>落盘</strong>：输出到 <code>slides/&lt;主题&gt;-deck.html</code></li>
+      </ol></div>
+
+      <h3>转换模式切片规则</h3>
+      <div class="scene-block"><ul>
+        <li><strong>一级切片</strong>：源网页 PPT 的 <code>&lt;section id="…"&gt;</code> 为单位，一个 section → 一张幻灯片</li>
+        <li><strong>二级切片</strong>（内容过密时下钻）：如某页面含 L1~L8 八级则各一张、含 9 个场景则各一张</li>
+        <li><strong>剥离</strong>：去掉 header 导航、footer、页间 hr/nav（幻灯片用键盘翻页取代）</li>
+        <li><strong>样式重做</strong>：表格去 shadow、表头改黑白、徽章去彩色改文字、callout 去彩色边、代码块改深底白字</li>
+      </ul></div>
+    </section>
+
+    <!-- ========== 自测样本 ========== -->
+    <section id="selftest">
+      <h2>自测样本</h2>
+      <div class="callout">
+        <div class="callout-title">样本 A — 生成模式</div>
+        <p>对 <a href="design.html">design.html</a> 的「PPT 抗压缩设计规范」内容，用生成模式产出 deck。输入理解为：<code>主题: PPT抗压缩设计规范; 大纲: 字体字号, 色彩灰度, 版式留白, 特殊元素, 三步自检</code>。预期产物 <code>slides/design-deck.html</code>，约 7 张。核验：纯黑白灰、无阴影渐变、字号 ≥24pt、线条 ≥3px、键盘可翻页、可全屏。</p>
+      </div>
+      <div class="callout">
+        <div class="callout-title">样本 B — 转换模式</div>
+        <p>以本站 <a href="levels.html">levels.html</a> 作为给定的网页 PPT 示例，用转换模式产出 deck。输入：<code>转换: levels.html</code>。预期产物 <code>slides/levels-deck.html</code>，约 10~11 张。核验：L1~L8 各一张、表格去 shadow 表头改黑白、徽章去彩色改文字、ffmpeg 命令在深底代码页、剥离 header/footer。换成任意其它网页 PPT 文件同理。</p>
+      </div>
+    </section>
+
+    <!-- ========== 常见问题 ========== -->
+    <section id="faq">
+      <h2>常见问题</h2>
+      <details class="faq-item" open>
+        <summary>这个 skill 和 design.html 是什么关系？</summary>
+        <p><a href="design.html">design.html</a> 是规范本身——告诉人"该怎么做"；本 skill 是规范的可执行落地——让 agent "直接做出来"。规范是约束，skill 是执行。遵循本 skill 产出的幻灯片，在 L4/L5 级别（CRF 34 + stillimage）下清晰度等同普通文稿在 CRF 28 下的效果，体积再降约 40%。</p>
+      </details>
+      <details class="faq-item">
+        <summary>生成的幻灯片能用彩色吗？</summary>
+        <p>不能。抗压缩规范强制仅三色（纯黑/中度灰/纯白），杜绝任何彩色。需要表达"区分"时，用斜体/下划线/图案填充，而非依赖灰度深浅或彩色。这是为了让幻灯片在被压缩成黑白低分辨率视频后依然可读。</p>
+      </details>
+      <details class="faq-item">
+        <summary>能加动画 / 过渡效果吗？</summary>
+        <p>不能。幻灯片是静态的，靠键盘翻页（←/→/Space/Home/End/F 全屏）。动画和过渡在压缩后要么丢失要么变成模糊残留，且增加编码负担。画面越简单，编码器越省力，压缩后越清晰。</p>
+      </details>
+      <details class="faq-item">
+        <summary>产物文件在哪？</summary>
+        <p>默认输出到仓库 <code>slides/</code> 目录，文件名 <code>&lt;主题或页面名&gt;-deck.html</code>，小写、空格用连字符。单文件 deck（内联 CSS + JS），可直接双击在浏览器打开。</p>
+      </details>
+      <details class="faq-item">
+        <summary>agent 没有 run_skill 怎么用？</summary>
+        <p>本 skill 的 <code>skill/SKILL.md</code> 是一份纯 Markdown playbook，任意 agent 读取后即可照做——它不需要特定框架。agent 按其中的页型清单、模板与强制约束，直接生成符合规范的 HTML 即可。</p>
+      </details>
+    </section>
+
+    <!-- ========== 获取方式 ========== -->
+    <section id="get">
+      <h2>获取方式</h2>
+      <p class="lead">本 Skill 是一个纯 Markdown playbook，无运行时依赖，拿到即可用。</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>方式</th><th>做法</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>克隆仓库</td>
+              <td><code>git clone https://github.com/brnme/1f6s.git</code>，文件位于 <code>skill/SKILL.md</code></td>
+            </tr>
+            <tr>
+              <td>直接下载</td>
+              <td>GitHub 上打开 <code>skill/SKILL.md</code>，点 Raw → 另存为</td>
+            </tr>
+            <tr>
+              <td>喂给 agent</td>
+              <td>把 <code>skill/SKILL.md</code> 内容粘贴进任意 agent 的对话/系统提示，agent 读后即可按其中页型清单与模板生成 deck</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout ok">
+        <div class="callout-title">文件位置</div>
+        <p>仓库 <code>skill/SKILL.md</code>（单文件）。无需安装、无需额外依赖——它是一份 playbook，agent 读懂就能照做。</p>
+      </div>
+    </section>
+
+    <!-- ========== 总结 ========== -->
+    <section id="summary">
+      <h2>总结</h2>
+      <p>PPT 生成 Skill 让「源头适配极限压缩」从口号变成可复现的产出：给主题或页面，得到一套纯黑白灰、大字粗线、零阴影零渐变、自包含可演示的幻灯片。它与 <a href="skill-compress.html">视频压缩 Skill</a> 互补——前者让源头幻灯片扛得住压缩，后者把成品视频压到规范体积，共同构成从源头到成片的完整闭环。</p>
+      <div class="callout ok">
+        <div class="callout-title">核心原则</div>
+        <p>画面越简单，编码器越省力，压缩后越清晰——这是抗压缩设计的延伸，也是 1帧6秒 的源头抓手。</p>
+      </div>
+    </section>
+
+    <hr>
+    <nav style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:24px 0">
+      <a href="design.html">← 上一页：PPT 抗压缩设计规范</a>
+      <a href="skill-compress.html">下一页：视频压缩 Skill →</a>
+    </nav>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">1帧6秒 · 视频压缩倡议</div>
+      <div>讲解类视频的标准抽帧频率 · v1.0</div>
+    </div>
+    <ul class="footer-nav">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="levels.html">八级规范</a></li>
+      <li><a href="scenarios.html">场景适配</a></li>
+      <li><a href="redlines.html">禁用红线</a></li>
+      <li><a href="design.html">PPT规范</a></li>
+      <li><a href="obs.html">OBS配置</a></li>
+      <li><a href="skill-ppt.html">PPT Skill</a></li>
+      <li><a href="skill-compress.html">压缩 Skill</a></li>
+      <li><a href="license.html">版权</a></li>
+    </ul>
+    <div class="footer-copy">本倡议内容按 <a href="license.html">CC BY 4.0</a> 授权，作者：韩烈 及 GLM-5.2。FFmpeg 命令均基于 H.264/AAC，经实测可直接投入生产使用。</div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

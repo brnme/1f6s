@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OBS 直播推流与本地录像配置 · 1帧6秒</title>
+<meta name="description" content="1帧6秒倡议的 OBS 配置教学：讲解类直播（PPT+口播）的推流参数、本地录像设置，含 GUI 步骤与高级参数，附录像后 1f6s 转码指引。">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">1帧6秒<span class="brand-tag">视频压缩倡议</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="levels.html">八级规范</a></li>
+      <li><a href="scenarios.html">场景适配</a></li>
+      <li><a href="redlines.html">禁用红线</a></li>
+      <li><a href="design.html">PPT规范</a></li>
+      <li><a href="obs.html">OBS配置</a></li>
+      <li><a href="skill-ppt.html">PPT Skill</a></li>
+      <li><a href="skill-compress.html">压缩 Skill</a></li>
+      <li><a href="license.html">版权</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ========== 顶部 ========== -->
+    <section id="top">
+      <h1>OBS 直播推流与本地录像配置</h1>
+      <p class="lead">本页把「1帧6秒」理念落到 OBS Studio 的两大场景：<strong>直播推流</strong>与<strong>本地录像</strong>。重点只覆盖<strong>「PPT+口播 / 屏幕共享」式的讲解类直播与录屏</strong>——这正是 1f6s 倡议认定的适用内容。</p>
+      <div class="callout">
+        <div class="callout-title">使用方法</div>
+        <p>先用下方「适用性判断」确认你的内容类型属于讲解类；再按需求二选一：实时开播看<strong>推流配置</strong>，留存录制看<strong>本地录像配置</strong>。两者参数截然不同，请勿混用。</p>
+      </div>
+    </section>
+
+    <!-- ========== 适用性判断 ========== -->
+    <section id="scope">
+      <h2>适用性判断：你的直播/录屏属于哪类？</h2>
+      <p>1f6s 的本质是「用时间换空间」，只适用于信息密度低、画面变化慢的内容。开播或录像前，先用反向判断法快速分流：</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>你的内容特征</th><th>类型</th><th>本页是否适用</th><th>该怎么做</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>PPT 讲解、桌面操作演示、屏幕共享讲座、代码走读——画面以静态/翻页为主，核心信息靠<strong>讲</strong></td>
+              <td>讲解类</td>
+              <td><strong>适用</strong></td>
+              <td>继续往下看本页</td>
+            </tr>
+            <tr>
+              <td>实时弹幕互动、主播表情特写、现场实物演示、手势/肢体语言丰富的直播</td>
+              <td>互动演示类</td>
+              <td><strong>不适用</strong></td>
+              <td>用 OBS 常规高帧率推流，1f6s 会毁掉画面连续性，详见 <a href="redlines.html">禁用红线</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout danger">
+        <div class="callout-title">红线提示</div>
+        <p>如果你的直播含<strong>实时演示动作、主播面部表情、弹幕回复时的肢体语言</strong>，画面连续性本身是内容价值的一部分。强行抽帧到 1帧/6秒 会让直播变成"PPT 翻页机"，<strong class="danger-text">请放弃本规范</strong>，使用 OBS 默认的 30fps 推流即可。</p>
+      </div>
+    </section>
+
+    <!-- ========== 推流配置 ========== -->
+    <section id="streaming">
+      <h2>一、直播推流配置</h2>
+      <p class="lead">推流是<strong>实时</strong>的，受上行带宽限制，且直播平台会对推流二次转码。这里有一个关键认知：<strong>推流不能直接套 1帧6秒 抽帧</strong>。</p>
+
+      <div class="callout ok">
+        <div class="callout-title">核心原则：推流用常规低码率，极致压缩留给录像后转码</div>
+        <p>直播协议（RTMP/SRT/WebRTC）要求<strong>关键帧间隔与帧率匹配平台规范</strong>。若把帧率压到 1帧/6秒、关键帧间隔设为 6 秒，观众端会严重卡顿、花屏，甚至被平台拒绝推流。正确做法是：<strong>推流时用 OBS 常规的低码率设置（讲解类 600~1200kbps 足够清晰），把 1f6s 的极致压缩留给「录像后转码」或「本地录像直接低码率」</strong>（见第二节）。</p>
+      </div>
+
+      <h3>场景特征</h3>
+      <div class="scene-block"><ul>
+        <li>实时传输，受上行带宽限制（家用宽带上行往往只有下行的 1/5~1/10）</li>
+        <li>直播平台（B站/抖音/YouTube）会对推流<strong>二次转码</strong>，源头太低质量会被进一步放大劣化</li>
+        <li>讲解类画面变化慢，天然适合低码率，但不适合低帧率（直播要求连续帧）</li>
+      </ul></div>
+
+      <h3>GUI 步骤（OBS Studio，设置 → 输出）</h3>
+      <p>以下按 OBS「设置 → 输出 → 输出模式：高级」路径填写。讲解类直播推荐参数：</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>设置项</th><th>推荐值</th><th>说明</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>输出模式</td><td>高级</td><td>展开全部参数控制</td></tr>
+            <tr><td>编码器（视频）</td><td>x264（无独显）/ NVIDIA NVENC H.264（有 N 卡）</td><td>有独显优先 NVENC，省 CPU；无独显用 x264（软件编码）</td></tr>
+            <tr><td>码率控制</td><td>CBR</td><td>直播必须用 CBR（恒定码率），平台按稳定码率调度，VBR 易触发卡顿</td></tr>
+            <tr><td>码率</td><td>600 ~ 1200 kbps</td><td>讲解类画面静态为主，远低于平台上限（B站建议≤6000、抖音≤4000）；上行 2Mbps 宽带即可稳定推 1200kbps</td></tr>
+            <tr><td>关键帧间隔</td><td>2 秒</td><td><strong>平台通用要求</strong>，必须与平台一致（见下方说明）</td></tr>
+            <tr><td>预设（x264）</td><td>veryfast 或 fast</td><td>直播偏实时性，用快预设降低编码延迟；NVENC 选「质量」或「低延迟」</td></tr>
+            <tr><td>分辨率（视频 → 缩放分辨率）</td><td>1280×720（720p）或 854×480（480p）</td><td>讲解类 480p 文字即可辨；上行紧张时降到 480p；基础分辨率保持屏幕原生</td></tr>
+            <tr><td>帧率（视频）</td><td>30 FPS</td><td>直播标准帧率，不要降（直播不允许抽帧）</td></tr>
+            <tr><td>音频码率（输出 → 音频）</td><td>96 ~ 128 kbps</td><td>AAC；讲解类人声 96kbps 足够干净</td></tr>
+            <tr><td>音频采样率</td><td>48 kHz</td><td>直播标准，勿降</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>设置 → 流（推流服务与推流码）</h4>
+      <div class="scene-block"><ul>
+        <li><strong>服务</strong>：选择对应平台（B站/抖音/YouTube 等）或「自定义」</li>
+        <li><strong>服务器</strong>：填平台提供的推流地址（如 <code>rtmp://live-push.example.com/app</code>）</li>
+        <li><strong>串流密钥</strong>：填平台直播间给出的推流码（切勿泄露）</li>
+      </ul></div>
+
+      <details class="faq-item">
+        <summary>高级参数（x264 调优、码率换算、为何推流不抽帧）</summary>
+        <h4>x264 高级选项（设置 → 输出 → 推流 → 高级设置）</h4>
+        <p>在「x264 设置」框可粘贴以下参数（讲解类直播调优）：</p>
+        <div class="code-block">
+          <div class="code-head"><span class="lang">x264 选项串</span></div>
+          <pre><code>keyint=60:min-keyint=60:scenecut=0:tune=zerolatency:profile=main</code></pre>
+        </div>
+        <ul>
+          <li><code>keyint=60:min-keyint=60</code>：30fps 下 2 秒 = 60 帧，与关键帧间隔 2 秒对齐；<code>scenecut=0</code> 关闭场景切换自适应插关键帧，保证关键帧严格等距</li>
+          <li><code>tune=zerolatency</code>：直播低延迟调优（注意：这与录像用的 <code>tune=stillimage</code> 不同——直播优先延迟，录像优先画质）</li>
+          <li><code>profile=main</code>：兼容性最佳，避免 baseline 画质不足或 high 在旧设备解码吃力</li>
+          <li>NVENC 用户：在「编码器」选 NVENC 后，下方有独立的「预设」「率控」「关键帧间隔」选项，无需粘贴 x264 串</li>
+        </ul>
+        <h4>码率与上行带宽换算</h4>
+        <p>推流码率 + 音频码率 + 协议开销 ≈ 实际上行占用。经验：留出 <strong>30% 余量</strong>给网络波动。</p>
+        <ul>
+          <li>设 1200kbps 视频 + 96kbps 音频 ≈ 1.3Mbps；建议上行带宽 ≥ 1.7Mbps</li>
+          <li>设 600kbps 视频 + 96kbps 音频 ≈ 0.7Mbps；建议上行带宽 ≥ 0.9Mbps（4G 热点也能推）</li>
+          <li>测上行：<code>speedtest.net</code> 看上传速度，1MB/s = 8Mbps，足够推 1200kbps</li>
+        </ul>
+        <h4>为什么推流不能抽帧（技术解释）</h4>
+        <p>直播平台的转码服务器假设推流是<strong>连续帧率</strong>（通常 30/60fps）。它按固定关键帧间隔（多要求 2 秒）切片 HLS 分段，再生成多档码率。若你推 1帧/6秒：</p>
+        <ul>
+          <li>关键帧间隔 6 秒 → 平台切片器按 2 秒切时会大量命中 P 帧，导致分段花屏</li>
+          <li>帧率 0.17fps → 观众端播放器按 30fps 解码，每帧重复显示 180 次，但缓冲区可能因帧间隔过长判定为断流而重连</li>
+          <li>部分平台直接拒绝帧率 &lt; 10fps 的推流</li>
+        </ul>
+        <p>结论：<strong>推流端保持 30fps + 关键帧 2 秒 + 低码率</strong>，把极致压缩交给录像后处理。</p>
+      </details>
+    </section>
+
+    <!-- ========== 本地录像配置 ========== -->
+    <section id="recording">
+      <h2>二、本地录像配置</h2>
+      <p class="lead">录像没有实时带宽压力，可以离线转码——<strong>1f6s 的极致压缩正是在这里直接可用</strong>。有两条路径，按你的工作流选择：</p>
+
+      <h3>路径对比</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>路径</th><th>做法</th><th>优点</th><th>缺点</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>路径 A（推荐）</strong><br>录高画质源 → 再用 1f6s 转码</td>
+              <td>OBS 录制高码率源片，录完用 ffmpeg/skill 按 L4 等级别转码</td>
+              <td>源片可复用（剪辑/重压/存档）；转码参数可控；与倡议口径完全一致；支持 2-Pass 锁体积</td>
+              <td>多一步转码，需额外磁盘空间暂存源片</td>
+            </tr>
+            <tr>
+              <td>路径 B<br>OBS 录像直接套低码率</td>
+              <td>OBS 输出→录像分栏直接设低码率/降分辨率，边录边压</td>
+              <td>省一步，录完即得压缩版</td>
+              <td>参数不如 ffmpeg 灵活；无法 2-Pass 锁体积；录砸了无源片可挽回</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>路径 A：录制高画质源片（OBS 设置）</h3>
+      <p>目标：录一份高质量源片，供后续 1f6s 转码。设置 → 输出 → 输出模式：高级 → <strong>录像</strong>分栏：</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>设置项</th><th>推荐值</th><th>说明</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>录像格式</td><td>MKV</td><td>容错好（录制中断不丢整文件）；录后可在「设置→高级→录像」勾选「自动重封装为 MP4」</td></tr>
+            <tr><td>视频编码器</td><td>x264 或 NVENC H.264</td><td>源片用 H.264，确保后续 ffmpeg 转码顺畅</td></tr>
+            <tr><td>码率控制</td><td>CRF（推荐 CRF 18~23）或 VBR</td><td>源片要「近似无损」留余量，CRF 18 几乎无损、23 视觉无损；若用 CBR 设 2500~4000kbps</td></tr>
+            <tr><td>码率（若 CBR）</td><td>2500 ~ 4000 kbps</td><td>给转码留足源质量；讲解类 4000kbps 已非常清晰</td></tr>
+            <tr><td>关键帧间隔</td><td>2 秒</td><td>保持默认，便于后续剪辑</td></tr>
+            <tr><td>预设（x264）</td><td>medium 或 slow</td><td>录像非实时，可用慢预设换画质</td></tr>
+            <tr><td>分辨率</td><td>原始分辨率（如 1920×1080）</td><td>源片保留全分辨率，转码时再缩到 480p/360p</td></tr>
+            <tr><td>帧率</td><td>30 FPS</td><td>标准；源片保留正常帧率，转码时再抽帧</td></tr>
+            <tr><td>音频码率</td><td>128 ~ 160 kbps / 48kHz</td><td>源片音频留余量，转码时再压到 20k/8k</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>录完后，用 1f6s 转码（见<a href="#transcode">录像后转码指引</a>）。</p>
+
+      <h3>路径 B：OBS 录像直接低码率（边录边压）</h3>
+      <p>目标：边录边压，录完即得 1f6s 风格的压缩版。设置 → 输出 → 输出模式：高级 → <strong>录像</strong>分栏：</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>设置项</th><th>推荐值</th><th>说明</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>录像格式</td><td>MP4 或 MKV</td><td>直接交付选 MP4；怕录制中断选 MKV（再重封装）</td></tr>
+            <tr><td>视频编码器</td><td>x264</td><td>便于直接套 <code>tune=stillimage</code></td></tr>
+            <tr><td>码率控制</td><td>CRF 34</td><td>对齐 1f6s L4/L5 的 CRF 值；或用 CBR 300~500kbps（讲解类极低码率）</td></tr>
+            <tr><td>码率（若 CBR）</td><td>300 ~ 500 kbps</td><td>讲解类 480p 黑白下 300kbps 文字仍可辨</td></tr>
+            <tr><td>关键帧间隔</td><td>2 秒</td><td>保持默认</td></tr>
+            <tr><td>预设（x264）</td><td>medium</td><td>平衡画质与编码负载</td></tr>
+            <tr><td>分辨率（缩放分辨率）</td><td>854×480（480p）</td><td>对齐 1f6s L1~L5 分辨率；极低带宽可降到 640×360（360p）</td></tr>
+            <tr><td>帧率</td><td>30 FPS</td><td>OBS 无法在录像时直接抽帧到 1帧/6秒（那是 ffmpeg 后处理），保持 30fps，靠 CRF/码率+分辨率降体积</td></tr>
+            <tr><td>音频码率</td><td>48 ~ 96 kbps / 48kHz</td><td>OBS 不便设 8kHz，用 48kbps 兜底；极致压缩交给后处理</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <div class="callout-title">路径 B 的局限</div>
+        <p>OBS 录像<strong>无法在录制时实现 1帧/6秒 抽帧</strong>（fps=1/6 是 ffmpeg 滤镜，OBS 无对应选项），也无法做 2-Pass 锁定体积。因此路径 B 只能在「码率/分辨率/CRF」层面靠拢 1f6s，<strong>真正的极致压缩仍需路径 A 的录后转码</strong>。若你追求倡议完整参数（抽帧 + 8k 音频 + 2-Pass），请走路径 A。</p>
+      </div>
+
+      <details class="faq-item">
+        <summary>高级参数（自定义 FFmpeg 输出、MKV 重封装、灰度滤镜）</summary>
+        <h4>OBS 自定义 FFmpeg 输出（设置 → 输出 → 输出模式：高级 → 录像格式选「自定义 FFmpeg 输出」）</h4>
+        <p>若想边录边套 <code>tune=stillimage</code> 或灰度滤镜，可在「自定义 FFmpeg 输出」里配置：</p>
+        <ul>
+          <li><strong>视频编码器</strong>：<code>libx264</code></li>
+          <li><strong>视频参数（FFmpeg 参数框）</strong>：<code>-preset slow -tune stillimage -crf 34 -pix_fmt yuv420p</code></li>
+          <li><strong>视频滤镜（可选，转黑白）</strong>：<code>format=gray</code>（讲解类内容可加，进一步降体积）</li>
+          <li><strong>音频编码器</strong>：<code>aac</code>，参数：<code>-ac 1 -ar 22050 -b:a 20k</code>（对齐 L4 音频）</li>
+        </ul>
+        <p>注意：OBS 自定义 FFmpeg 输出仍无法设 <code>fps=1/6</code> 抽帧（录制源是实时流），抽帧只能后处理。</p>
+        <h4>MKV 录制后重封装为 MP4</h4>
+        <p>路径 A 用 MKV 录制更安全，交付前可无损重封装（不重编码，秒级完成）：</p>
+        <div class="code-block">
+          <div class="code-head"><span class="lang">bash · ffmpeg 无损重封装</span></div>
+          <pre><code>ffmpeg -i recording.mkv -c copy -movflags +faststart recording.mp4</code></pre>
+        </div>
+        <h4>灰度滤镜（路径 B 进阶）</h4>
+        <p>若用 OBS 普通录像模式（非自定义 FFmpeg），可在「来源」的视频采集/窗口采集上右键→滤镜→添加「视频处理滤镜」→选「灰度」实现黑白，等效 <code>format=gray</code>。</p>
+      </details>
+    </section>
+
+    <!-- ========== 速查表 ========== -->
+    <section id="quick-table">
+      <h2>推流 vs 录像 参数对照速查表</h2>
+      <p>一眼看清两者差异，避免混用：</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>参数</th><th>推流（实时）</th><th>录像路径 A（高画质源）</th><th>录像路径 B（边录边压）</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>帧率</td><td>30 FPS（不可降）</td><td>30 FPS</td><td>30 FPS（OBS 无法抽帧）</td></tr>
+            <tr><td>关键帧间隔</td><td>2 秒（平台要求）</td><td>2 秒</td><td>2 秒</td></tr>
+            <tr><td>码率控制</td><td>CBR</td><td>CRF 18~23</td><td>CRF 34 或 CBR 300~500k</td></tr>
+            <tr><td>视频码率</td><td>600~1200 kbps</td><td>2500~4000 kbps</td><td>300~500 kbps</td></tr>
+            <tr><td>分辨率</td><td>720p / 480p</td><td>原始分辨率</td><td>480p / 360p</td></tr>
+            <tr><td>抽帧（fps=1/6）</td><td><strong>不可</strong></td><td>转码时做</td><td><strong>不可</strong>（需后处理）</td></tr>
+            <tr><td>tune</td><td>zerolatency</td><td>—</td><td>stillimage</td></tr>
+            <tr><td>音频码率</td><td>96~128 kbps / 48kHz</td><td>128~160 kbps / 48kHz</td><td>48~96 kbps / 48kHz</td></tr>
+            <tr><td>2-Pass 锁体积</td><td>不可</td><td>转码时做（L7）</td><td>不可</td></tr>
+            <tr><td>格式</td><td>平台接收</td><td>MKV（源片）</td><td>MP4 / MKV</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== 录像后转码指引 ========== -->
+    <section id="transcode">
+      <h2>录像后转码指引（1f6s 落地）</h2>
+      <p class="lead">路径 A 录完源片后，用 1f6s 工具转码即可得到倡议标准输出。两种方式：</p>
+
+      <h3>方式一：用 1f6s 脚本（推荐）</h3>
+      <p>仓库自带 <code>skill/1f6s-compress/1f6s.sh</code>，一行命令完成探测+转码：</p>
+      <div class="code-block">
+        <div class="code-head"><span class="lang">bash · 默认 L4 压缩</span></div>
+        <pre><code># 默认用 L4(1帧/6秒 + 480p 黑白 + CRF34 + stillimage)压缩
+./skill/1f6s-compress/1f6s.sh recording.mp4
+
+# 指定级别
+./skill/1f6s-compress/1f6s.sh recording.mp4 L4 -y
+
+# L7 锁定目标体积(如 8MB)
+./skill/1f6s-compress/1f6s.sh recording.mp4 L7 --target 8 -y</code></pre>
+      </div>
+      <p>产物默认 <code>recording_1f6s.mp4</code>，不覆盖源片。详见 <a href="skill/1f6s-compress/README.md">1f6s 工具 README</a>。</p>
+
+      <h3>方式二：直接用 ffmpeg 命令</h3>
+      <p>对应 <a href="levels.html">八级规范</a> 的完整命令，最常用的 L4：</p>
+      <div class="code-block">
+        <div class="code-head"><span class="lang">bash · ffmpeg L4</span></div>
+        <pre><code>ffmpeg -i recording.mp4 -vf "fps=1/6,scale=-2:480,format=gray" -c:v libx264 -preset slow -tune stillimage -crf 34 -c:a aac -ac 1 -ar 22050 -b:a 20k -pix_fmt yuv420p recording_1f6s.mp4</code></pre>
+      </div>
+
+      <div class="callout ok">
+        <div class="callout-title">推荐工作流</div>
+        <p><strong>直播推流（低码率 1200kbps）的同时开启本地录像（路径 A，CRF 18 高画质源）</strong>——一次直播同时产出：① 实时观众看的推流；② 录完的源片；③ 源片用 1f6s 转码后的归档/分发版。三者参数互不干扰，是讲解类直播的最优工作流。</p>
+      </div>
+    </section>
+
+    <!-- ========== 常见问题 ========== -->
+    <section id="faq-obs">
+      <h2>常见问题</h2>
+      <details class="faq-item" open>
+        <summary>推流为什么不能直接抽帧到 1帧/6秒？</summary>
+        <p>直播协议（RTMP/SRT）和平台转码器假设推流是连续帧率（30/60fps），按固定关键帧间隔（通常 2 秒）切片。1帧/6秒 会导致切片器大量命中非关键帧而花屏，播放器缓冲区也可能因帧间隔过长判定断流重连，部分平台甚至直接拒绝帧率过低的推流。<strong>推流保持 30fps，抽帧交给录像后处理</strong>。</p>
+      </details>
+      <details class="faq-item">
+        <summary>关键帧间隔为什么是 2 秒而不是 6 秒？</summary>
+        <p>2 秒是直播平台的通用要求（B站、抖音、YouTube 均如此），平台按此切片 HLS 分段。6 秒的关键帧间隔会让分段过长，观众首帧延迟增大、seek 不灵敏。1f6s 的「6 秒」是<strong>抽帧间隔</strong>（画面更新频率），与直播的<strong>关键帧间隔</strong>是两个不同概念，不可混用。</p>
+      </details>
+      <details class="faq-item">
+        <summary>录像用 MKV 还是 MP4？</summary>
+        <p>录制中优先 <strong>MKV</strong>——若 OBS 崩溃或断电，MKV 文件仍可恢复；MP4 在未正常关闭时会损坏整文件。OBS 支持录完后自动重封装为 MP4（设置→高级→录像→勾选「自动重封装」，格式选 MP4）。交付分发时用 MP4（兼容性最佳）。</p>
+      </details>
+      <details class="faq-item">
+        <summary>用 NVENC 还是 x264？</summary>
+        <p>有 NVIDIA 独显用 <strong>NVENC</strong>（硬件编码），省 CPU、直播时游戏/软件更流畅；无独显或追求极致画质用 <strong>x264</strong>（软件编码），同码率下 x264 画质略优。讲解类直播两者差异不大，优先选能减轻系统负担的。注意：1f6s 转码用 ffmpeg 时统一用 <code>libx264</code>，与 OBS 选什么无关。</p>
+      </details>
+      <details class="faq-item">
+        <summary>录完的源片还需要再压吗？</summary>
+        <p>看用途。<strong>归档/分发/发送</strong> → 用 1f6s 转 L4/L7 压到 16~19MB/8MB；<strong>后续剪辑</strong> → 保留源片不动；<strong>上传平台</strong> → 用 L1 彩色版（平台会二次转码，源头别太差）。源片建议保留一份在冷存储，日常分发用压缩版。</p>
+      </details>
+    </section>
+
+    <!-- ========== 获取方式 ========== -->
+    <section id="get">
+      <h2>获取方式</h2>
+      <p class="lead">本页是 OBS 配置教学，内容可直接照着 GUI 步骤在 OBS Studio 里操作，无需额外文件。录像后转码用到的 1f6s 工具从仓库获取：</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>方式</th><th>做法</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>克隆仓库</td>
+              <td><code>git clone https://github.com/brnme/1f6s.git</code>，转码工具位于 <code>skill/1f6s-compress/</code> 目录</td>
+            </tr>
+            <tr>
+              <td>直接使用脚本</td>
+              <td>克隆后 <code>chmod +x skill/1f6s-compress/1f6s.sh</code>，即可 <code>./skill/1f6s-compress/1f6s.sh recording.mp4 L4</code> 把录像压到规范体积</td>
+            </tr>
+            <tr>
+              <td>OBS 本体</td>
+              <td>从 <a href="https://obsproject.com" target="_blank" rel="noopener">obsproject.com</a> 下载 OBS Studio（免费开源），本页步骤基于 OBS 30.x</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout ok">
+        <div class="callout-title">依赖</div>
+        <p>OBS Studio（免费）+ ffmpeg/ffprobe（转码时需要，随 ffmpeg 安装）。本页 GUI 步骤无需命令行；录像后转码才用到 <code>skill/1f6s-compress/1f6s.sh</code>。</p>
+      </div>
+    </section>
+
+    <!-- ========== 总结 ========== -->
+    <section id="summary">
+      <h2>总结</h2>
+      <p>讲解类直播与录屏的 OBS 配置，核心在于<strong>分清实时与离线的边界</strong>：推流追求稳定连续（30fps + 低码率 + 关键帧 2 秒），极致压缩交给录像后转码（1f6s 抽帧 + 灰度 + stillimage）。两者参数互不干扰，一次直播可同时产出推流与可归档源片。</p>
+      <div class="callout ok">
+        <div class="callout-title">核心原则</div>
+        <p>推流不抽帧，录像留源片，转码用 1f6s——实时保连续，离线保极致。</p>
+      </div>
+    </section>
+
+    <hr>
+    <nav style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:24px 0">
+      <a href="scenarios.html">← 上一页：九大工作场景适配</a>
+      <a href="redlines.html">下一页：禁用红线清单 →</a>
+    </nav>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">1帧6秒 · 视频压缩倡议</div>
+      <div>讲解类视频的标准抽帧频率 · v1.0</div>
+    </div>
+    <ul class="footer-nav">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="levels.html">八级规范</a></li>
+      <li><a href="scenarios.html">场景适配</a></li>
+      <li><a href="redlines.html">禁用红线</a></li>
+      <li><a href="design.html">PPT规范</a></li>
+      <li><a href="obs.html">OBS配置</a></li>
+      <li><a href="skill-ppt.html">PPT Skill</a></li>
+      <li><a href="skill-compress.html">压缩 Skill</a></li>
+      <li><a href="license.html">版权</a></li>
+    </ul>
+    <div class="footer-copy">本倡议内容按 <a href="license.html">CC BY 4.0</a> 授权，作者：韩烈 及 GLM-5.2。FFmpeg 命令均基于 H.264/AAC，经实测可直接投入生产使用。</div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
