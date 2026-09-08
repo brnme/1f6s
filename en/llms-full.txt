@@ -1,0 +1,1616 @@
+# 1 Frame / 6 Seconds (1f6s)——Video Compression Initiative — full site text
+
+> 本文件为 https://brnme.github.io/1f6s/llms-full.txt,由 tools/build_md.py 自动生成,generated for one-shot ingestion by AI agents。规范版本 v1.0,CC BY 4.0。
+
+# 1 Frame / 6 Seconds · Video Compression Initiative for Lectures
+
+> 1帧6秒倡议 · https://brnme.github.io/1f6s/en/index.html · 本文为 Markdown 镜像,[HTML 原版](index.html)含交互组件。
+
+---
+
+FRAME EXTRACTION STANDARD · FPS 1/6
+
+## 1 Frame Every 6 Seconds as the Standard Sampling Rate for Compressing Lecture Videos
+
+Finding the golden balance between how often the picture updates and how much you compress: stretch the interval further and the picture drifts far from the audio; shorten it and you can no longer compress aggressively. 6 seconds is the sweet spot of perception, speech pace, and time-keeping convenience.
+
+v1.0 · Initiative
+H.264 / AAC
+8 compression levels
+9 work scenarios
+
+600*fr*
+
+Total frames per hour
+
+≈17.5*MB*
+
+99-min size · L4 recommended
+
+8*lvl*
+
+Compression levels L1 → L8
+
+9*scn*
+
+Work scenarios covered
+
+## Manifesto
+
+The core value of lecture-style videos (PPT walkthroughs, code demos, desktop operations) lies in the **content**, not **visual fluidity**. When viewers only need to "see what's on this page and hear what's being said", the traditional 30fps high frame rate is pure waste — it re-encodes thousands of nearly identical frames, spending precious bandwidth and storage on pixels with *zero information gain*.
+
+The core claim of the "1 frame / 6 seconds" initiative: **sample one frame every 6 seconds, so the picture only updates when the information actually changes**. This is not cutting corners — it is making encoding resources match the real information density of the content. The companion 8-level compression standard, scenario recommendations, and compression-resistant PPT design guidelines make this idea implementable, reproducible, and consistently executable across a team.
+
+In one sentence
+
+Trade time for space — it only works on content that is "mostly static, delivered by speech"; the moment content depends on continuous motion, emotional delivery, or precise timing, drop this guideline immediately.
+
+## Why 6 Seconds?
+
+While exploring the ultimate compression for lecture videos, we hit a core contradiction: the trade-off between picture update frequency and compression efficiency. After rounds of testing and reasoning, "1 frame / 6 seconds" is the optimal solution.
+
+### 1. Matches human perception
+
+Visual memory of a static picture lasts roughly **4–8 seconds**, and 6 seconds lands right in the middle of that range. Any shorter (e.g. 3–5 s) and the audience is forced to update before they have finished digesting the current slide, adding needless cognitive load; any longer (e.g. 8–10 s), and when the narration has moved to the next point, the picture still shows the previous slide, sharply amplifying the audio-visual mismatch.
+
+6 seconds also matches the natural rhythm of speech. At a normal Mandarin pace (about 150–180 characters/minute), 6 seconds equals roughly **15–18 characters** — just the amount of time needed to read a slide's core title or a key set of figures.
+
+### 2. Advantage over 5 seconds
+
+**Bigger compression gain:** 5 s/frame means 12 frames per minute; 6 s/frame means only 10 — 2 fewer frames per minute, 120 fewer per hour. For a 1-hour video, that reduces the video data by another ~**16.7%**.
+
+**Time-keeping convenience:** 6 is a divisor of both 60 (seconds per minute) and 3600 (seconds per hour). While watching, you only need the seconds digits of the timestamp to quickly figure out which frame you're on — second 6, 12, 18… aligned to the whole second, no mental math. 5 also divides 60, but being odd, 5 is less intuitive in minute–second conversions than the even 6.
+
+### 3. Advantage over 8 seconds and beyond
+
+Past 6 seconds, each extra second brings **diminishing returns** (from 6 s to 8 s, the frame rate only drops from 10 to 7.5 frames/minute — a 25% reduction — yet complaints about audio-video desync rise sharply). 6 seconds is "the longest interval that is still acceptable" — the golden balance between compression efficiency and viewing experience.
+
+### 4. A divisor of 60: low-effort time positioning
+
+Because 6 divides 60, every 10 frames correspond to exactly 1 minute and every 600 frames to 100 minutes. Viewers and editors **only need to look at the seconds digits** to tell "which frame we should be on" — no division required. This is the hidden advantage of 6 over non-divisible intervals like 7 or 9 seconds: in your mental model, time progress is an integer multiple relationship, not decimal arithmetic.
+
+## Measured Compression Comparison
+
+Frame counts and subjective experience at different sampling intervals (based on a 1-hour video):
+
+| Sampling interval | Frames / hour | Compression vs. 6 s | Subjective experience |
+| --- | --- | --- | --- |
+| 2 s | 1800 | Baseline (smoothest) | Large files; compression pointless |
+| 5 s | 720 | ~16.7% smaller | Good experience, awkward arithmetic |
+| **6 s** | **600** | **Baseline (recommended)** | **Best balance of experience and compression** |
+| 8 s | 450 | 25% smaller still | Noticeable audio-visual gap; not recommended |
+| 10 s | 360 | 40% smaller still | Only for very slow speech / purely static PPTs |
+
+## Size Estimator
+
+Enter the video duration (minutes); it is scaled linearly from the 99-minute baseline to estimate size and total frame count for each level. Figures are midpoints of empirical ranges; actual results depend on content complexity.
+
+## Plan Selector
+
+Answer three questions to get a recommended level instantly. The mapping logic follows the scenario quick-reference table.
+
+## Dive Into Each Topic
+
+[Page · 01
+
+8-Level Compression Standard
+
+From the standard level to the extreme H.265 level: L1–L8 parameters, complete ffmpeg commands, expected sizes, and the 2-Pass formula for exact size control.
+
+View the 8 levels →](levels.html)
+[Page · 02
+
+Nine Work Scenarios
+
+Email, WeChat, corporate training, public MOOCs, sales demos, compliance audits, offline viewing, platform uploads, batch archiving — a primary and an alternative plan for each.
+
+View scenario matching →](scenarios.html)
+[Page · 03
+
+Prohibited Red Lines
+
+Surveillance, film & TV, surgery, sign language, ASMR… explicitly what content must never use 1f6s, plus a one-question "reverse judgment" test.
+
+View the red lines →](redlines.html)
+[Page · 04
+
+Compression-Resistant PPT Design
+
+Making slides "survive" black-and-white + low resolution + high CRF at the source: fonts and sizes, a 3-level grayscale palette, layout whitespace, line weights, and a 3-step self-check.
+
+View the PPT guidelines →](design.html)
+[Page · 05
+
+OBS Live Streaming & Local Recording Setup
+
+OBS streaming parameters and local recording settings for lecture-style live streams (PPT + voiceover), with GUI steps and advanced settings, plus a post-recording 1f6s transcoding guide.
+
+View the OBS setup →](obs.html)
+
+## Toolbox · Skills
+
+Executable tools shipped with the initiative — standardizing everything from source slides to finished video, plus a streaming configuration guide.
+
+[Skill · 01
+
+🎬 PPT Generation Skill
+
+Generate slides from a topic/outline from scratch, or convert any site page into a compression-compliant HTML slide deck. Self-contained single file, keyboard paging, zero external dependencies.
+
+`run_skill ppt "topic: weekly report"` →](skill-ppt.html)
+[Skill · 02
+
+🎞️ Video-to-1f6s Skill
+
+Uses ffmpeg to convert a given video into an 8-level-compliant output. Probes the source first, shows the command, executes after confirmation, and never overwrites the original by default.
+
+`./1f6s.sh lecture.mp4 L4` →](skill-compress.html)
+[Related page · 05
+
+📺 OBS Streaming & Recording Setup
+
+OBS streaming parameters and local recording settings for lecture-style streams, with GUI steps and advanced settings, plus a post-recording 1f6s transcoding guide. Same page as "Topics · 05".
+
+Stream 1200kbps + record CRF 18 →](obs.html)
+
+## Ecosystem · Official Implementations
+
+The initiative goes beyond documentation — official services and tooling are being built around the spec, all consuming the single parameter source of truth `spec/levels.json`.
+
+Online service · in development
+
+⚙️ 1f6s Online Conversion Service
+
+Upload a video, the server compresses it per the 8-level spec, and a time-limited download link is delivered by email. Works without an account; built for low-bandwidth regions, with multi-node worker scheduling, credit-based billing, and shared org credit pools.
+
+Publishing platform · in development
+
+📺 1f6s Lecture-Video Hosting
+
+A publishing and distribution platform for videos compressed per the spec: browser-side pre-check + server-side re-verification + manual review, with zero transcode load on the server — a small VPS suffices. Bilingual (EN/中文), aimed at overseas audiences.
+
+[Open-source repository
+
+🧩 GitHub · brnme/1f6s
+
+This site's source and all spec assets: the levels.json parameter source of truth, the 1f6s.sh compression script, and the SKILL.md agent playbook.
+
+One-line install: `curl -fsSL -o 1f6s.sh https://raw.githubusercontent.com/brnme/1f6s/main/skill/1f6s-compress/1f6s.sh` →](https://github.com/brnme/1f6s)
+
+## Terminology Quick Reference
+
+**fps=1/6** — The FFmpeg filter parameter that outputs 1 frame every 6 seconds — i.e. the technical spelling of "1 frame / 6 seconds".
+
+**CRF** — Constant Rate Factor. Higher values mean lower quality and smaller files; 28 is the visually-lossless baseline, anything above 34 counts as heavy compression.
+
+**tune=stillimage** — x264's dedicated tuning for still images/slides: lowers inter-frame prediction weight and strengthens per-frame detail retention — ideal for post-sampling video.
+
+**2-Pass** — Two-pass encoding: the first pass analyzes the whole file's bitrate distribution, the second allocates bits precisely to hit a target — used to "lock in" an exact file size.
+
+**HEVC / H.265** — The next-generation codec: roughly half the size of H.264 at equal quality, but with worse compatibility — confirm player support first.
+
+**480p / 360p** — Vertical pixel count. 480p ≈ 854×480, 360p ≈ 640×360; for lecture content the two are barely distinguishable on a phone screen.
+
+**yuv420p** — Pixel format that guarantees maximum playback compatibility (supported by old devices/browsers) — a required parameter for delivered files.
+
+**scale=-2:480** — Scales proportionally to 480px height; width is computed automatically and forced to an even number (a codec requirement). -2 means "automatic and even".
+
+## Frequently Asked Questions
+
+**Q:Why recommend H.264 by default instead of H.265?**
+
+Compatibility. H.264 plays directly on virtually every device, browser, and player, while H.265 may fail to decode on older Android phones, corporate audit systems, and some web players. The default plan L4 prioritizes "opens wherever it's sent"; H.265 (L8) is only an extreme option once player support is explicitly confirmed.
+
+**Q:Can 8kHz audio really be understood?**
+
+You can clearly hear "what is being said", with a slight metallic tint. 8kHz sampling is telephone-grade: the speech band (300Hz–3.4kHz) is largely preserved, which is enough for phone speakers and noisy environments. If content involves music, tonal nuance, or foreign-language listening practice, fall back to 22.05kHz (L1–L4).
+
+**Q:Why not just send a GIF or plain images?**
+
+GIFs have no audio and a limited palette, so they cannot carry the narration; plain images lose the "watch while listening" time synchronization. The essence of 1f6s is keeping audio's time stream while compressing the picture's time stream — extremely low frame rate for size, while preserving the sense that "when you hear this sentence, you should be looking at that frame".
+
+**Q:Won't the "jumping" picture after sampling be jarring?**
+
+Not for lecture content. Adjacent frames are usually different parts of the same PPT page, or page turns — the audience already expects "look at a page, listen for a while, turn the page". What really feels jarring is audio-video misalignment (picture lagging behind the narration), which is exactly why 6 seconds was chosen over 8 or 10.
+
+**Q:Does this standard suit live-stream recordings?**
+
+Depends on the content. For "PPT + voiceover" style live lectures, yes (just process with L4). For live streams with real-time bullet comments, host facial expressions, or live demonstrations, visual continuity matters — don't. See the "reverse judgment" test on the Red Lines page.
+
+**Q:Some teammates use Mac, some Windows — do parameters change?**
+
+No. The FFmpeg commands are identical on both platforms as long as the FFmpeg versions are close (4.x+ recommended). The only difference is path syntax (Windows replaces /dev/null with NUL ), which matters in L7's 2-Pass first pass.
+
+
+---
+
+# 8-Level Compression Standard · 1f6s
+
+> 1帧6秒倡议 · https://brnme.github.io/1f6s/en/levels.html · 本文为 Markdown 镜像,[HTML 原版](levels.html)含交互组件。
+
+---
+
+## The 8-Level Compression Standard
+
+The plans below are ordered from least to most aggressive compression, suited to different scenarios (WeChat sending, email attachments, ultra-low-bandwidth transfer, archival backup, etc.). All plans use **H.264 (libx264)** encoding + **AAC audio** for maximum compatibility — except L8 (H.265).
+
+Default recommendation
+
+We recommend **L4** (1 frame/6 s + 480p B&W + CRF 34 + stillimage + 20k audio) as the default standard plan: it strikes the best balance between size (~16–19 MB for 99 minutes) and viewing experience.
+
+## 8-Level Parameter Overview
+
+| Level | Sampling interval | Resolution | Color | Video quality | Audio | Extra tuning | Size for 99 min |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| L1 Standard | 1 f / 6 s | 480p | Color | CRF 32 | 20k / 22.05kHz | — | ≈30–35 MB |
+| L2 Grayscale | 1 f / 6 s | 480p | B&W | CRF 32 | 20k / 22.05kHz | — | ≈24–28 MB |
+| L3 High compression | 1 f / 6 s | 480p | B&W | CRF 34 | 20k / 22.05kHz | — | ≈18–22 MB |
+| L4 Smart tuning | 1 f / 6 s | 480p | B&W | CRF 34 | 20k / 22.05kHz | tune=stillimage | ≈16–19 MB |
+| L5 Audio extreme | 1 f / 6 s | 480p | B&W | CRF 34 | 8k / 8kHz | tune=stillimage | ≈14–17 MB |
+| L6 Long interval | 1 f / 10 s | 360p | B&W | CRF 36 | 8k / 8kHz | tune=stillimage | ≈10–12 MB |
+| L7 2-Pass | 1 f / 10 s | 360p | B&W | 2-Pass dynamic | 8k / 8kHz | tune=stillimage | Locked to target |
+| L8 H.265 extreme | 1 f / 10 s | 360p | B&W | CRF 38 (x265) | 8k / 8kHz | keyint=1 | ≈6–8 MB |
+
+🟢 L1 Standard
+
+### Quick compression, keeping quality and color
+
+ColorBest compatibility
+
+**Use when:** the client has basic quality requirements and color must be preserved (e.g. chart palettes, UI distinctions).
+
+|  |  |
+| --- | --- |
+| Picture refresh interval | 1 frame / 6 seconds |
+| Resolution | 480p (scale=-2:480) |
+| Color | Color |
+| Video quality | CRF 32 (H.264) |
+| Audio bitrate / sample rate | 20 kbps / 22.05 kHz / mono |
+| Extra tuning | None |
+
+bash · ffmpegCopy
+
+```
+ffmpeg -i input.mp4 -vf "fps=1/6,scale=-2:480" -c:v libx264 -preset slow -crf 32 -c:a aac -ac 1 -ar 22050 -b:a 20k -pix_fmt yuv420p output_L1.mp4
+```
+
+**Expected result:** a 99-minute video ≈ 30–35 MB. Crisp text, complete color, clean voice.
+
+⚫ L2 Grayscale
+
+### Give up color to gain size
+
+B&W20% smaller
+
+**Use when:** the picture is mostly B&W PPTs, code, and text, where color carries no meaning.
+
+|  |  |
+| --- | --- |
+| Picture refresh interval | 1 frame / 6 seconds |
+| Resolution | 480p (scale=-2:480) |
+| Color | B&W (format=gray) |
+| Video quality | CRF 32 |
+| Audio bitrate / sample rate | 20 kbps / 22.05 kHz / mono |
+| Extra tuning | None |
+
+bash · ffmpegCopy
+
+```
+ffmpeg -i input.mp4 -vf "fps=1/6,scale=-2:480,format=gray" -c:v libx264 -preset slow -crf 32 -c:a aac -ac 1 -ar 22050 -b:a 20k -pix_fmt yuv420p output_L2.mp4
+```
+
+**Expected result:** a 99-minute video ≈ 24–28 MB. Text sharpness unchanged; size drops another ~20%.
+
+🟠 L3 High compression
+
+### CRF 34 + B&W
+
+CRF 34Slight grain
+
+**Use when:** you need to compress further and the client accepts some grain in the picture.
+
+|  |  |
+| --- | --- |
+| Picture refresh interval | 1 frame / 6 seconds |
+| Resolution | 480p |
+| Color | B&W |
+| Video quality | CRF 34 |
+| Audio bitrate / sample rate | 20 kbps / 22.05 kHz / mono |
+| Extra tuning | None |
+
+bash · ffmpegCopy
+
+```
+ffmpeg -i input.mp4 -vf "fps=1/6,scale=-2:480,format=gray" -c:v libx264 -preset slow -crf 34 -c:a aac -ac 1 -ar 22050 -b:a 20k -pix_fmt yuv420p output_L3.mp4
+```
+
+**Expected result:** a 99-minute video ≈ 18–22 MB. Large text stays readable; small font edges get slightly blurry.
+
+🔵 L4 Smart tuning
+
+### CRF 34 + B&W + tune=stillimage ★ Default recommended
+
+stillimageBest sharpness
+
+**Use when:** the picture is mostly slides/static charts and you need maximum sharpness at minimum size.
+
+|  |  |
+| --- | --- |
+| Picture refresh interval | 1 frame / 6 seconds |
+| Resolution | 480p |
+| Color | B&W |
+| Video quality | CRF 34 |
+| Audio bitrate / sample rate | 20 kbps / 22.05 kHz / mono |
+| Extra tuning | -tune stillimage (slide-specific optimization) |
+
+bash · ffmpegCopy
+
+```
+ffmpeg -i input.mp4 -vf "fps=1/6,scale=-2:480,format=gray" -c:v libx264 -preset slow -tune stillimage -crf 34 -c:a aac -ac 1 -ar 22050 -b:a 20k -pix_fmt yuv420p output_L4.mp4
+```
+
+**Expected result:** a 99-minute video ≈ 16–19 MB. Sharper text than L3 at the same size.
+
+🟣 L5 Audio extreme
+
+### CRF 34 + B&W + stillimage + 8kHz audio
+
+8k audioPhone-grade sound
+
+**Use when:** bandwidth is extremely low (e.g. 2G/3G networks) and you only need "to hear clearly what is being said".
+
+|  |  |
+| --- | --- |
+| Picture refresh interval | 1 frame / 6 seconds |
+| Resolution | 480p |
+| Color | B&W |
+| Video quality | CRF 34 |
+| Audio bitrate / sample rate | 8 kbps / 8 kHz / mono (phone-grade) |
+| Extra tuning | -tune stillimage |
+
+bash · ffmpegCopy
+
+```
+ffmpeg -i input.mp4 -vf "fps=1/6,scale=-2:480,format=gray" -c:v libx264 -preset slow -tune stillimage -crf 34 -c:a aac -ac 1 -ar 8000 -b:a 8k -pix_fmt yuv420p output_L5.mp4
+```
+
+**Expected result:** a 99-minute video ≈ 14–17 MB. Audio has a slight metallic tint but speech stays intelligible.
+
+🔴 L6 Long interval
+
+### 10 s/frame + 360p + 8kHz
+
+10 s interval360p
+
+**Use when:** you need extreme compression, speech is slow, and the client accepts visible picture jumps.
+
+|  |  |
+| --- | --- |
+| Picture refresh interval | 1 frame / 10 seconds |
+| Resolution | 360p (scale=-2:360) |
+| Color | B&W |
+| Video quality | CRF 36 |
+| Audio bitrate / sample rate | 8 kbps / 8 kHz |
+| Extra tuning | -tune stillimage |
+
+bash · ffmpegCopy
+
+```
+ffmpeg -i input.mp4 -vf "fps=1/10,scale=-2:360,format=gray" -c:v libx264 -preset slow -tune stillimage -crf 36 -c:a aac -ac 1 -ar 8000 -b:a 8k -pix_fmt yuv420p output_L6.mp4
+```
+
+**Expected result:** a 99-minute video ≈ 10–12 MB. Only suitable for small phone screens; large headings remain legible.
+
+⚪ L7 2-Pass precise control
+
+### Lock in the exact target size
+
+2-PassExact size
+
+**Use when:** the client explicitly demands "the file must be under XX MB" and you need precise output-size control.
+
+|  |  |
+| --- | --- |
+| Picture refresh interval | 1 frame / 10 seconds |
+| Resolution | 360p |
+| Color | B&W |
+| Encoding mode | 2-Pass (two-pass encoding) |
+| Video bitrate | Computed from the target size |
+| Audio bitrate / sample rate | 8 kbps / 8 kHz |
+| Extra tuning | -tune stillimage |
+
+#### How to compute it
+
+1. Target size (MB) → total bitrate (kbps) = target (MB) × 8192 / duration (seconds)
+2. Video bitrate = total bitrate − audio bitrate (8 kbps)
+3. Pass 1 analyzes, Pass 2 outputs
+
+Example below: 99 minutes into 8MB (video bitrate ≈ 3k):
+
+bash · pass 1 analyzeCopy
+
+```
+# pass 1
+ffmpeg -i input.mp4 -vf "fps=1/10,scale=-2:360,format=gray" -c:v libx264 -preset slow -tune stillimage -b:v 3k -pass 1 -f mp4 /dev/null
+```
+
+bash · pass 2 outputCopy
+
+```
+# pass 2
+ffmpeg -i input.mp4 -vf "fps=1/10,scale=-2:360,format=gray" -c:v libx264 -preset slow -tune stillimage -b:v 3k -pass 2 -c:a aac -ac 1 -ar 8000 -b:a 8k -pix_fmt yuv420p output_L7.mp4
+```
+
+Windows note
+
+In pass 1, replace `/dev/null` with `NUL` on Windows.
+
+⚫ L8 H.265 extreme
+
+### Trading compatibility for extreme size
+
+libx265Confirm support
+
+**Use when:** the client uses modern players (VLC, PotPlayer, etc.) and does not rely on the OS's native decoding.
+
+|  |  |
+| --- | --- |
+| Encoder | libx265 (H.265/HEVC) |
+| Picture refresh interval | 1 frame / 10 seconds |
+| Resolution | 360p |
+| Color | B&W |
+| Video quality | CRF 38 |
+| Audio bitrate / sample rate | 8 kbps / 8 kHz |
+| Extra tuning | keyint=1 (every frame is a keyframe) |
+
+bash · ffmpegCopy
+
+```
+ffmpeg -i input.mp4 -vf "fps=1/10,scale=-2:360,format=gray" -c:v libx265 -preset slow -crf 38 -x265-params "keyint=1:min-keyint=1" -c:a aac -ac 1 -ar 8000 -b:a 8k -pix_fmt yuv420p output_L8.mp4
+```
+
+Compatibility warning
+
+Expected result: a 99-minute video ≈ 6–8 MB, quality close to L6 at half the size. **You must confirm the client player supports H.265**, otherwise they won't be able to play it.
+
+## Closing Words
+
+The value of this standard is **standardization** — a consistent team-wide baseline so parameters are not renegotiated every time, and any member can quickly produce outputs with consistent quality and controlled size.
+
+Final advice
+
+Adopt this initiative as a team operating standard, train new hires on it, and keep video output consistent. As new scenarios arise, extend with additional levels built on this foundation.
+
+All plans above have been tested and verified; they are ready for production use.
+
+---
+
+[← Back to home](index.html)
+[Next: nine work scenarios →](scenarios.html)
+
+
+---
+
+# Nine Work Scenarios · 1f6s
+
+> 1帧6秒倡议 · https://brnme.github.io/1f6s/en/scenarios.html · 本文为 Markdown 镜像,[HTML 原版](scenarios.html)含交互组件。
+
+---
+
+## Nine Work Scenarios
+
+Playback environment, receiving devices, network conditions, and client expectations differ wildly across scenarios. One compression plan cannot fit everything — standardization is not one-size-fits-all, but a clear decision path.
+
+How to use
+
+Locate your scenario, look up the "primary/alternative" plan numbers, then get the matching ffmpeg command from the [8-level standard page](levels.html). Each section ends with "operational advice", covering delivery wording and cautions.
+
+### 📧Scenario 1: Email attachment delivery
+
+**Characteristics:**
+
+- Mainstream mail providers cap attachments around 20–25 MB (see comparison table below); some domestic basic plans go as low as 15 MB
+- Clients usually download and watch on a desktop with a high-resolution screen
+- Email transfer speed is directly affected by attachment size
+
+**📊 Mainstream email attachment limits** (taking each provider's smallest / basic limit, sorted from smallest to largest)
+
+| Provider | Minimum attachment limit | Notes |
+| --- | --- | --- |
+| Wo Mail (China Unicom) | **15 MB** | Basic plan; premium plans reach 2 GB |
+| NetEase Mail (163/126) | **20 MB** | Official help center says 20 MB; some versions allow 50 MB |
+| 139 Mail (China Mobile) | **20 MB** | Low-tier plan 20 MB; high-tier up to 50 MB |
+| Outlook.com / Hotmail | **20 MB** | Oversized files prompt sharing via OneDrive |
+| iCloud Mail | **20 MB** | Mail Drop can send temporary links up to 5 GB |
+| Zoho Mail | **20 MB** | Free tier; paid plans raise the limit |
+| GMX (free) | **20 MB** | Some versions allow 50 MB |
+| Gmail | **25 MB** | Larger files auto-convert to Google Drive links |
+| Yahoo Mail | **25 MB** | Hard limit; no automatic cloud conversion |
+| Proton Mail | **25 MB** | Known for encryption and privacy |
+| AOL Mail | **25 MB** | — |
+| Mail.com | **30 MB** | — |
+| QQ Mail | **50 MB** | Single regular attachment ≤50 MB; whole email ≤55 MB |
+| Sina Mail | **50 MB** | — |
+| Sohu Mail | **50 MB** | — |
+| Fastmail | **50 MB** | One of the mainstream providers with a higher bar |
+
+Key takeaway
+
+Among 16 mainstream providers, **11 have minimum attachment limits clustered at 15–25 MB** (Wo Mail's 15 MB is the lowest; Outlook / iCloud / NetEase / Zoho / GMX etc. at 20 MB; Gmail / Yahoo / Proton / AOL at 25 MB), and only QQ / Sina / Sohu / Fastmail allow 50 MB. Corporate mail (Microsoft 365 / Exchange Online) defaults are also commonly 25–35 MB. Compressing your video to **10–19 MB** (L4's 16–19 MB or L6's <10 MB) therefore ships reliably through almost any mailbox.
+
+**Recommended plan:**L4 (1 frame/6 s + 480p B&W + CRF 34 + stillimage + 20k audio) — a 99-minute video ≈ 16–19 MB, fitting most attachment limits; B&W stays sharp on desktop screens, and 20k audio keeps the voice clean. To stay under 10 MB, step up to L6 (10 s/frame + 360p + 8k audio), trading some quality for deliverability.
+
+**Operational advice:**
+
+- When sending, note in the email body: "This video is heavily compressed; fullscreen is recommended on small screens"
+- If the video exceeds the attachment limit, upload it to cloud storage and link it — after compression this rarely happens
+
+### 📱Scenario 2: WeChat / WeCom / DingTalk instant transfer
+
+**Characteristics:**
+
+- WeChat single-file limit is 1 GB (stable transfer practically suggests <100 MB)
+- But clients usually watch on a phone — small screen, insensitive to resolution
+- WeChat's H.265 compatibility is poor (iPhones support it, most Androids do, older models don't)
+- Transfer time scales directly with file size — smaller is faster
+
+**Recommended plan:**L5 (1 frame/6 s + 480p B&W + CRF 34 + stillimage + 8k audio) or L6 (10 s/frame + 360p + 8k audio) — L5: 99 minutes ≈ 14–17 MB; 480p vs 360p barely matters on a phone screen; 8k audio is plenty clear on phone speakers; the file is small enough to send quickly over 4G/5G.
+
+**Operational advice:**
+
+- Add a text note when sending: "Video is maximally compressed; landscape fullscreen recommended"
+- If the client explicitly plans to cast to a TV/projector, upgrade to L4
+- Avoid H.265 (L8) — compatibility issues may leave the recipient unable to open it
+
+### 🏢Scenario 3: Corporate training / knowledge-base recording
+
+**Characteristics:**
+
+- Usually archived long-term; storage cost is a real business consideration
+- Audience is internal staff — demanding about content, tolerant of quality (they care about substance)
+- Playback may happen on intranet platforms or an LMS with broad format support
+- Videos may be downloaded and forwarded many times; small size helps distribution speed
+
+**Recommended plan:**L3 (CRF 34 + B&W) or L4 (plus stillimage) as the standard; L5 can further cut costs when batch-transcoding legacy archives.
+
+**Operational advice:**
+
+- Establish an internal rule: all newly recorded training videos enter the archive using the L4 standard
+- Keep one original file for the archive (cold storage); distribute the compressed version daily
+- Pair with a batch script to automatically compress new videos and replace old versions weekly
+- Expected storage cost reduction: 80%–90%
+
+### 🌐Scenario 4: Public courses / open lectures / MOOCs
+
+**Characteristics:**
+
+- Audience may come from poorly connected regions (remote areas, low-bandwidth abroad)
+- Videos must work across all kinds of devices (old phones, tablets, public computers)
+- Usually uploaded to video platforms (Bilibili, YouTube, local MOOC platforms), which re-transcode
+- Small size = faster upload + faster load + less platform traffic
+
+**Recommended plan:**L5 (1 frame/6 s + 480p B&W + 8k audio) by default; for colorblind/weak-sighted audiences or courses explaining palettes, keep color with L1 and accept the larger size.
+
+**Operational advice:**
+
+- Add to the course description: "This video is an ultra-low-bandwidth optimized version, suitable for slow connections"
+- If the platform supports adaptive bitrate (ABR), upload multiple levels simultaneously and let the platform adapt
+- For pure-audio content (e.g. language courses), offer an additional MP3 version (80% smaller still) as a supplementary resource
+
+### 💼Scenario 5: Sales demos / pre-sales walkthroughs (for client decision-makers)
+
+**Characteristics:**
+
+- Audience is executives (directors, VPs, CEOs) with expectations of "professionalism"
+- Charts, data, and logos must be clearly legible; color is sometimes a brand requirement
+- Decision-makers may use any device (quick phone preview, careful desktop study)
+- Size can't be too big (they won't bother downloading) and quality can't be too low (it looks unprofessional)
+
+**Recommended plan:**L1 (1 frame/6 s + 480p color + CRF 32 + 20k audio) — keeps color so brand hues and chart distinctions stand out; 480p remains crisp on big screens; 99 minutes ≈ 30–35 MB — neither embarrassing nor bulky.
+
+**Operational advice:**
+
+- If the client explicitly plans to project on a big screen, upgrade to 720p (scale=-2:720) + CRF 28 (≈60–80 MB)
+- Name files with the company abbreviation and date to look professional
+- Quickly preview the file yourself before sending to make sure compression left no obvious artifacts
+
+### 📝Scenario 6: Regulatory / compliance / audit archival video
+
+**Characteristics:**
+
+- Core requirements: content must be tamper-proof, traceable, and preserved long-term
+- Original quality is usually kept as evidence, but archival storage costs are high
+- Playback is extremely rare (possibly once every few years)
+- Format stability matters greatly (H.264 is the first choice; H.265 may not be supported by audit systems)
+
+**Recommended plan:**
+
+- Original: keep one full high-bitrate file for legal effect
+- Daily review copy: L2 (grayscale standard) or L3 (CRF 34) for fast content retrieval
+
+**Operational advice:**
+
+- Store the original in compliance storage (e.g. WORM); the compressed copy for everyday review
+- Preserve all metadata when compressing (recording time, recorder, device info, etc.)
+- Consider overlaying a timestamp watermark on the video (drawtext filter) to reinforce legal effect
+- L6/L8 are not recommended — heavy picture jumping may invite questions about content continuity
+
+### 📱Scenario 7: Mobile / offline viewing (travel, commuting)
+
+**Characteristics:**
+
+- Users pre-download to a phone/tablet and watch with no network
+- Device storage is limited (especially 64GB/128GB models)
+- Usually many episodes are batch-downloaded at once
+
+**Recommended plan:**L6 (1 frame/10 s + 360p + 8k audio) or L8 (H.265 extreme), provided the player supports it — 360p is plenty sharp on a phone screen; at under 10 MB per episode, 20 episodes download in less than 200 MB.
+
+**Operational advice:**
+
+- Offer an "offline (low-bitrate)" option on the download page so users choose as needed
+- For Apple users (iOS natively supports H.265), prioritize the smallest L8 version
+- Ship a short "viewing guide" explaining that picture jumps from long sampling intervals are by design
+
+### 🖥️Scenario 8: Video platform upload (Bilibili / YouTube / Douyin, etc.)
+
+**Characteristics:**
+
+- Platforms re-transcode uploads themselves
+- Platforms publish recommended specs for resolution, bitrate, and codec
+- Video sharpness directly affects recommendation algorithms and user experience
+- Upload speed is affected by file size
+
+**Recommended plan:** upload L1 (color 480p), because platform transcoding only compresses 480p further — if the source starts too low, the final result is poor. If the platform allows, upload two versions: L1 as the main one, L6 as a low-bandwidth fallback.
+
+**Operational advice:**
+
+- Check the platform's officially recommended parameters and fine-tune from L1
+- E.g. Bilibili recommends H.264 at ≤6000kbps; L1 is far below that ceiling, no extra adjustment needed
+- Short-video platforms (Douyin/Kuaishou) recommend vertical 9:16 — change the command to `scale=-2:720,crop=ih*9/16:ih`
+
+### 🗂️Scenario 9: Batch archiving of legacy material / storage cleanup
+
+**Characteristics:**
+
+- Deals with an existing library of hundreds of thousands of hours of video
+- Goal: free up storage while losing as little core information as possible
+- Long batch processing time is acceptable (runs in the background)
+
+**Recommended plan:**L5 (1 frame/6 s + 480p B&W + 8k audio) — the optimal balance between compression ratio and content preservation.
+
+**Operational advice:**
+
+- Test-compress 100 sample files first and confirm content is still recognizable
+- Use GNU Parallel or xargs for parallel compression and make full use of multi-core CPUs
+- After compression, verify all outputs with FFmpeg's `-f null -`
+- Once the compressed versions check out, move originals to cold storage (tape or archive cloud) rather than deleting them outright, in case of surprises
+
+## Plan Selection Quick Reference
+
+| Work scenario | Primary plan | Alternative plan | Key consideration |
+| --- | --- | --- | --- |
+| Email attachment | L4 | L6 | Attachment limits + desktop viewing |
+| WeChat/DingTalk transfer | L5 | L6 | Phone screen + transfer speed |
+| Corporate training / KB | L4 | L3 | Long-term archive + internal circulation |
+| Public course / MOOC | L5 | L1 (platform version) | Low-bandwidth audience + platform compatibility |
+| Sales demo / pre-sales | L1 | L1-720p | Professionalism + brand color |
+| Compliance / audit archive | L2 (review copy) | Original file (archive) | Legal effect + storage cost |
+| Mobile offline viewing | L6 | L8 (Apple users) | Storage + batch download |
+| Video platform upload | L1 | Platform-native specs | Platform transcoding loss |
+| Legacy batch archiving | L5 | L6 | Huge file volume + freeing space |
+
+## Scenario Decision Flowchart
+
+Start: you have a lecture-style video to compress
+
+Must color be preserved?
+
+Yes · brand/palette
+
+Client projecting on a big screen?
+
+Yes
+
+L1-720p + CRF 28
+
+No
+
+L1 standard
+
+No · B&W is fine
+
+Channel and bandwidth?
+
+Email / training
+
+L4 smart tuning
+
+WeChat / MOOC
+
+L5 audio extreme
+
+Offline / ultra-low bandwidth
+
+L6 long interval
+
+Hard size ceiling?
+
+Yes
+
+L7 2-Pass locked size
+
+No · H.265 supported
+
+L8 H.265 extreme
+
+No · H.265 not supported
+
+Use the result above
+
+## Summary
+
+"1 frame / 6 seconds" is a philosophy; the 8-level compression standard is the toolbox. What actually makes the system work is choosing correctly per scenario — using L6 where it doesn't belong makes clients think "this video is too rough", and using L1 where it doesn't belong lets storage costs spiral.
+
+Core principle
+
+Use the right plan at the right time — neither waste bandwidth nor shortchange the content.
+
+---
+
+[← Previous: 8-level compression standard](levels.html)
+[Next: prohibited red lines →](redlines.html)
+
+
+---
+
+# Prohibited Red Lines · 1f6s
+
+> 1帧6秒倡议 · https://brnme.github.io/1f6s/en/redlines.html · 本文为 Markdown 镜像,[HTML 原版](redlines.html)含交互组件。
+
+---
+
+## Prohibited Red Lines
+
+"1 frame / 6 seconds" is not universal. Its essence is "trade time for space", and it only suits content with "low information density and slow visual change". The moment a video's core value depends on "continuous motion", "emotional delivery", or "precise timing", this standard destroys the content itself.
+
+Fatal weakness
+
+The fatal weakness of 1f6s is **the lack of motion continuity**. The scenarios below are clearly unsuitable — some are **strictly forbidden**. Placing this list prominently as the initiative's "red-line clause" effectively prevents misuse by newcomers.
+
+## I. Physical world & precision motion (picture = evidence / data)
+
+The core of these videos is "recording the process" or "capturing the instant" — a missing frame equals failed evidence.
+
+### 🚨 Security surveillance / security footage
+
+The goal is to capture the instant a "thief breaks in" or a "person falls abnormally". With only one frame every 6 seconds, a thief can reach the window at second 2 and vanish by second 4 — the footage shows only the window open/closed with the whole process missing, and **the footage loses its legal value**.
+
+### 🏃 Sports events / motion-form analysis
+
+Golf swings, 100m sprints, boxing punches — micro-corrections happen in milliseconds. At one frame per 6 seconds you only see "the start" and "the finish line"; the muscle engagement in between is gone, **completely useless for training review**.
+
+### ⚙️ Precision manufacturing / machine-operation monitoring
+
+Robotic arms picking on a line, high-speed bearings, chip-placement machines. A 6-second gap is enough for dozens of machine cycles — **the compressed video cannot show whether equipment stutters or vibrates**.
+
+### 🔬 Surgery / medical teaching
+
+A surgeon's suturing technique, the advance/retreat of an endoscope. If the "thread-lifting" move at second 3 is skipped, students are baffled: "why did the thread suddenly go through?" — **a serious misdirection for teaching**.
+
+## II. Sensory & artistic expression (picture = emotion / atmosphere)
+
+The essence of these videos is "flowing aesthetics" — sampling siphons away the soul.
+
+### 🎬 Films / TV dramas / narrative shorts
+
+The nuance of an actor's micro-expressions (sliding from a smile to tears), the trajectory of falling raindrops, the flicker of candlelight. One frame per 6 seconds turns an art film into "PPT paging" — **a Wong Kar-wai film becomes a "slideshow of stills"**, destroying montage and narrative rhythm entirely.
+
+### 🎵 Music videos (MV) / live concerts
+
+The picture must lock to the musical beat — the drum hit should land exactly on the dancer's explosive move. At one frame per 6 seconds, action and rhythm go wildly out of sync, **looking like a buffering disaster**.
+
+### 💃 Dance / movement arts
+
+Ballet grand jetés, hip-hop waving, tango head snaps. Lose the intermediate frames and flowing beauty becomes "a skipping zombie" — **entirely losing its watchability**.
+
+### 🏔️ Natural scenery / travel vlogs
+
+Foam hitting the rocks, clouds rolling over mountains, silk-like waterfalls. One frame per 6 seconds turns these gorgeous moving scenes into static postcards, **losing the immersive "being there" feeling**.
+
+## III. Human–computer interaction & teaching demos (picture = operational logic)
+
+These videos are about "mouse trajectories" and "interface feedback" — stuttering makes the operation path incomprehensible.
+
+### 🖱️ Software tutorials / design demos (e.g. PS, PR, CAD)
+
+Dragging a slider, marquee-selecting layers, stretching a curve. The drag is half-done at second 2 and only refreshed at second 6 — **viewers never see the real-time preview changes during the drag** and simply cannot learn the technique.
+
+### 🎮 Esports / gameplay footage (FPS, MOBA)
+
+Aiming, positioning, skill projectile trajectories. One frame per 6 seconds means you only see "I was under tower" and "I'm dead" — the entire getting-ganked process is gone, and **fans will roast the creator to trending**.
+
+### 🚁 Remote operation / drone first-person view (FPV)
+
+Micro joystick adjustments for dodging obstacles. Jumpy footage gives **the operator motion sickness** and makes real spatial distance impossible to judge.
+
+## IV. Extreme "brainstorm" & "physically-impossible" content (let imagination fly)
+
+These scenarios look niche, but misuse of 1f6s here is often both absurd and serious.
+
+### 🤟 Real-time interpreting / sign-language translation videos
+
+Sign language uses continuous hand trajectories and orientation to express grammar and tense. Sampling every 6 seconds **shreds sign-language grammar, leaving deaf viewers with "grammatically scrambled gibberish"** they cannot understand.
+
+### 🍳 Cooking tutorials (the pan-toss)
+
+In those two seconds the food flies out of the pan, viewers want the visual temptation of "golden ingredients tumbling through the air". At one frame per 6 seconds you only see "food in the pan" and "food in the plate" — the state-bistro pan-toss virtuosity is erased, and **food videos lose their "wok hei"**.
+
+### 🐱 Pet / baby behavior observation
+
+The stretch of a kitten's full-body yawn, the trembling muscle effort of a baby's first roll-over. What makes these cute/touching is precisely the detail in continuous frames. At one frame per 6 seconds, **even the cutest cat becomes a "staged specimen" and cutesy accounts instantly lose followers**.
+
+### 🧼 ASMR (visual triggers)
+
+Cutting soap, fluid mixing, sand art. These rely on continuous visual white noise to relax the nerves — **jumpy images don't lull; they trigger anxiety and discomfort**.
+
+## Reverse Judgment: one question decides it
+
+Before compressing, every operator should ask themselves one question —
+
+"If you deleted everything in between these 6 seconds and only kept the start and end points, would viewers still find this video 'valuable' or 'professional'?"
+
+**If the answer is "yes — it's just a few lines being spoken"** → go ahead and use 1f6s.
+
+**If the answer is "no — there's craft / beauty / evidence in between"** → drop it immediately and use traditional video compression (keep the original frame rate; use CRF only, or drop resolution to 720p).
+
+Where the red-line clause sits
+
+Keeping this as the initiative's "forbidden list (red lines)" in a prominent place effectively stops newcomers from misusing it and protects the delivery quality of core content. 1f6s is a **tool**, not a **faith** — knowing when not to use it matters more than knowing when to.
+
+---
+
+[← Previous: scenarios](scenarios.html)
+[Next: PPT design guidelines →](design.html)
+
+
+---
+
+# Compression-Resistant PPT Design · 1f6s
+
+> 1帧6秒倡议 · https://brnme.github.io/1f6s/en/design.html · 本文为 Markdown 镜像,[HTML 原版](design.html)含交互组件。
+
+---
+
+## Compression-Resistant PPT Design
+
+To pair with the extreme "B&W + low resolution (480p/360p) + high compression (CRF 34+)" plans, we design presentations (PPT/Keynote) to be "compression-resistant" at the source.
+
+Core principle
+
+At low bitrates, encoders prioritize high-contrast edges and large color patches, sacrificing gradients, thin lines, and similar hues. The core principle is therefore: **"Black is black, white is white: no grayscale gradients, no reliance on thin lines."**
+
+## I. Font & Size Guidelines (fighting blur)
+
+At low resolutions, complex-stroke fonts blur into mush and small sizes simply disappear.
+
+| Design element | Mandatory rule | Reason & notes |
+| --- | --- | --- |
+| **Font family** | Mandatory **sans-serif** (e.g. Source Han Sans, Microsoft YaHei, Arial, Helvetica). Strictly forbidden: serif or script fonts like SimSun, KaiTi, Times New Roman. | Sans-serif strokes are uniform and evenly weighted; after pixelated compression the outline stays crisp. The "flared mouths" and "triangular serifs" of serif faces become mosaic noise at 360p. |
+| **Minimum size (body)** | ≥ **24pt** (titles recommended ≥ 36pt). | Field-tested: 24pt at 480p scaling (854×480) reads comfortably in landscape on a small phone; text below 20pt loses its strokes entirely at 360p. |
+| **Font color (B&W)** | Pure black (`#000000`) for body text, pure white (`#FFFFFF`) for reversed-out text (dark backgrounds). Strictly forbidden to substitute dark gray (e.g. `#333333`) for black. | The x264 encoder detects pure-black edges most reliably and preferentially preserves sharp edges when compressing; dark gray gets mistaken for "noise" or "shadow" and blurred away, making text look soft. |
+| **Font weight** | Use **Bold or Heavy** for regular display. Light/Thin only for oversized titles (>48pt). | Bold strokes have greater pixel coverage and resist H.264 detail smearing at CRF 34. |
+
+## II. Color & Grayscale Contrast (working in black, white, gray)
+
+Once compressed to B&W, visual hierarchy relies entirely on "luminance differences". We use only **3 grayscale levels**.
+
+| Grayscale level | Hex value | RGB | Use for | Compression performance |
+| --- | --- | --- | --- | --- |
+| **Pure black (foreground)** | `#000000` | (0,0,0) | Body text, primary lines, chart borders, titles on dark backgrounds. | Excellent. Sharp edges, lowest bitrate. |
+| **Mid gray (emphasis)** | `#808080` | (128,128,128) | Supplementary text, minor table cells, helper arrows, watermarks. | Usable. Requires ≥ 28pt or gray areas may compress to "blank". |
+| **Pure white (background)** | `#FFFFFF` | (255,255,255) | Page background, text on light backgrounds (reversed), highlight areas. | Excellent. More whitespace → the encoder more easily classifies the area as "static" → smaller files. |
+| **❌ Light gray forbidden** | `#CCCCCC` and lighter | (200+) | Strictly forbidden for text or chart lines. | Very poor. Nearly invisible after compression, or appears as "dirty" blotches. |
+
+🔴 Red-line rule
+
+**Eliminate all color** (red, green, blue, yellow, purple) from the final deliverable. If the source has color, select all with Ctrl+A in PPT before export, force font color to "Automatic (black)", and replace colored shape fills with the grayscale values above.
+
+To express "distinction" without gray levels, use **italics** or **underlines** instead of relying on gray shades.
+
+## III. Layout & Whitespace (lightening the encoder's load)
+
+At high compression, complex textures (grids, shadows, gradients) are "size killers" — they bloat files and dirty the picture.
+
+| Design element | Mandatory rule | Reason |
+| --- | --- | --- |
+| **Background** | Pure white (`#FFFFFF`) or pure black (`#000000`) only. Strictly forbidden: PPT's built-in "gradient backgrounds", "texture fills", or "image watermarks". | Solid backgrounds have near-zero DCT (discrete cosine transform) coefficients — the encoder restores them with almost no bits, leaving bitrate for the text. |
+| **Shadows / 3D effects** | Completely disabled: text shadows, shape shadows, reflections, glows, 3D rotation, bevel effects. | Shadows become ugly "ghost" mosaics at low bitrates, eating into the sharpness of text edges. |
+| **Charts (bars/pies)** | Alternate **solid black fills** with **hollow white outlines (strokes)**. Distinguish legends with **patterns (hatching/dots)** instead of colors. | Adjacent pie slices (gray vs black) need contrast above 50% (e.g. black–white–gray alternation), or they become indistinguishable after compression. |
+| **Line weight** | Strokes/lines ≥ **2.25pt** (~3px). Lines under 1pt break at 360p. | Keeps divider and table borders continuous under extreme compression. |
+
+## IV. Special Element Adaptation
+
+### Embedding screenshots (code / UI)
+
+- Strictly forbidden to paste full-screen screenshots directly (they carry tons of irrelevant pixels).
+- Procedure: crop away the extra UI frame in PPT, keep only the core code/operation area; set the screenshot to "grayscale mode" and raise contrast ~+30%.
+- Size: ensure code inside the screenshot is ≥ 14pt (physical size), otherwise enlarge the screenshot to a full page.
+
+### Formulas / math symbols
+
+- Use PPT's built-in equation editor for **vector formulas**; strictly forbidden to use image-format formulas.
+- Thicken fraction bars and radical strokes in formulas so they don't fracture under compression.
+
+## V. Final Self-Check (3-Step Method)
+
+Before exporting the MP4, run this "3-step self-check" on the last slide (click to check off; state is saved locally):
+
+- **Shrink test:** zoom the PPT to 50% and view from 1 meter away. If the title is unreadable, the size is too small — enlarge it.
+- **Decolor test:** switch the page to "grayscale/B&W" preview in PPT. If two adjacent elements blend together, contrast is insufficient — change them to pure black/white.
+- **Thin-line scan:** check all table and chart borders. Anything that shows "a single dot" instead of "a wide line" when you click it (i.e. thin lines) must be set to ≥ 2.25pt.
+
+Reset checks
+
+## Additional Advice
+
+The compound effect of source adaptation
+
+If your deck follows the rules above, its sharpness at L4/L5 (CRF 34 + stillimage) equals what an ordinary deck gets at CRF 28. That means you can **cut video size by another 40%** without **sacrificing reading experience**.
+
+That's the compound effect of "source adaptation" — compression is not a post-production fixup; it's a collaboration that starts at the design stage.
+
+---
+
+[← Previous: red lines](redlines.html)
+[Back to home →](index.html)
+
+
+---
+
+# OBS Live Streaming & Local Recording Setup · 1f6s
+
+> 1帧6秒倡议 · https://brnme.github.io/1f6s/en/obs.html · 本文为 Markdown 镜像,[HTML 原版](obs.html)含交互组件。
+
+---
+
+## OBS Live Streaming & Local Recording Setup
+
+This page applies the "1f6s" philosophy to two OBS Studio scenarios: **live streaming** and **local recording**. It covers only **"PPT + voiceover / screen-share" style lecture streams and screen recordings** — exactly the content the 1f6s initiative considers suitable.
+
+How to use
+
+First use the "suitability check" below to confirm your content is lecture-style; then pick one of the two paths: go live → see **streaming setup**; keep a recording → see **local recording setup**. The parameters are very different — don't mix them.
+
+## Suitability Check: which type is your stream/recording?
+
+The essence of 1f6s is "trade time for space" — it only fits content with low information density and slowly changing pictures. Before going live or recording, use the reverse-judgment test to sort yourself quickly:
+
+| Your content's characteristics | Type | Applicable here? | What to do |
+| --- | --- | --- | --- |
+| PPT walkthroughs, desktop operation demos, screen-share lectures, code walkthroughs — picture mostly static/page-turning, core information carried by **speech** | Lecture-style | **Yes** | Keep reading this page |
+| Real-time bullet comments, host facial close-ups, live physical demos, gesture/body-language-rich streams | Interactive demo | **No** | Use OBS's normal high frame rate; 1f6s destroys visual continuity — see [Red Lines](redlines.html) |
+
+Red-line reminder
+
+If your stream includes **live demonstration moves, host facial expressions, or body language while answering comments**, picture continuity is itself part of the value. Forcing 1 frame/6 seconds turns the stream into a "PPT pager" — **drop this standard** and use OBS's default 30fps streaming.
+
+## I. Live Streaming Setup
+
+Streaming is **real-time**: bounded by upload bandwidth, and platforms re-transcode your stream. A key insight here: **you cannot simply apply 1f6s frame sampling to a live stream**.
+
+Core principle: stream at regular low bitrate; keep extreme compression for post-recording transcoding
+
+Streaming protocols (RTMP/SRT/WebRTC) require **keyframe intervals and frame rates that match platform specs**. If you push the frame rate down to 1 frame/6 seconds and set a 6-second keyframe interval, viewers get severe buffering and artifacts — some platforms even refuse the stream. The right approach: **stream with OBS's regular low-bitrate settings (600–1200kbps is plenty clear for lecture-style content), and leave 1f6s's extreme compression to "post-recording transcoding" or "local recording at low bitrate"** (see section II).
+
+### Scenario characteristics
+
+- Real-time transport, bounded by upload bandwidth (home uploads are often only 1/5–1/10 of download)
+- Platforms (Bilibili/Douyin/YouTube) **re-transcode** the stream; a poor source gets further degraded
+- Lecture footage changes slowly — naturally suited to low bitrate, but not to low frame rate (streams require continuous frames)
+
+### GUI steps (OBS Studio, Settings → Output)
+
+Fill in via OBS "Settings → Output → Output Mode: Advanced". Recommended lecture-style streaming parameters:
+
+| Setting | Recommended value | Notes |
+| --- | --- | --- |
+| Output mode | Advanced | Exposes full parameter control |
+| Encoder (video) | x264 (no discrete GPU) / NVIDIA NVENC H.264 (NVIDIA GPU) | Prefer NVENC with a discrete GPU to save CPU; use x264 (software encoding) otherwise |
+| Rate control | CBR | Streaming requires CBR (constant bitrate); platforms schedule on stable bitrate, VBR tends to stutter |
+| Bitrate | 600–1200 kbps | Lecture footage is mostly static — far below platform caps (Bilibili ≤6000, Douyin ≤4000); 2Mbps upload pushes 1200kbps steadily |
+| Keyframe interval | 2 seconds | **Universal platform requirement**; must match the platform (see notes below) |
+| Preset (x264) | veryfast or fast | Streaming favors real-time; fast presets cut encode latency; NVENC: pick "Quality" or "Low Latency" |
+| Resolution (Video → Output (Scaled) Resolution) | 1280×720 (720p) or 854×480 (480p) | Lecture 480p text is legible; drop to 480p when upload is tight; keep base resolution native |
+| FPS (Video) | 30 FPS | Standard streaming frame rate — don't lower (streams cannot be frame-sampled) |
+| Audio bitrate (Output → Audio) | 96–128 kbps | AAC; 96kbps keeps lecture voice clean |
+| Audio sample rate | 48 kHz | Streaming standard; don't lower |
+
+#### Settings → Stream (service and stream key)
+
+- **Service**: pick the matching platform (Bilibili/Douyin/YouTube etc.) or "Custom"
+- **Server**: enter the platform's ingest URL (e.g. `rtmp://live-push.example.com/app`)
+- **Stream key**: your room's stream code (never leak it)
+
+**Q:Advanced parameters (x264 tuning, bitrate math, why streaming can't be frame-sampled)**
+
+x264 advanced options (Settings → Output → Streaming → Advanced) Paste the following into the "x264 Options" box (lecture-stream tuning): x264 options string keyint=60:min-keyint=60:scenecut=0:tune=zerolatency:profile=main keyint=60:min-keyint=60 : at 30fps, 2 seconds = 60 frames, aligned with the 2s keyframe interval; scenecut=0 disables scene-cut adaptive keyframes so keyframes stay strictly equidistant tune=zerolatency : low-latency tuning for streaming (note: this differs from recording's tune=stillimage — streaming prioritizes latency, recording prioritizes quality) profile=main : best compatibility — baseline lacks quality, high strains old-device decoding NVENC users: after selecting NVENC as encoder, independent "Preset", "Rate Control", and "Keyframe Interval" options appear below — no x264 string needed Bitrate and upload bandwidth math Stream bitrate + audio bitrate + protocol overhead ≈ actual upload usage. Rule of thumb: keep 30% headroom for network fluctuation. 1200kbps video + 96kbps audio ≈ 1.3Mbps; recommend upload ≥ 1.7Mbps 600kbps video + 96kbps audio ≈ 0.7Mbps; recommend upload ≥ 0.9Mbps (works on a 4G hotspot) Test upload: check speedtest.net ; 1MB/s = 8Mbps, plenty for 1200kbps streaming Why a stream cannot be frame-sampled (technical explanation) Platform transcoding servers assume the stream is continuous-frame-rate (usually 30/60fps). They slice HLS segments at a fixed keyframe interval (usually 2 seconds) and generate multiple bitrate ladders. If you push 1 frame/6 s: A 6s keyframe interval → the slicer, cutting at 2s, hits P-frames constantly → segment artifacts Frame rate 0.17fps → viewer players decode at 30fps and repeat each frame ~180 times, while buffers may judge the stream dead from the long frame gap and reconnect Some platforms outright refuse streams below 10fps Conclusion: keep 30fps + 2s keyframes + low bitrate on the stream side; hand the extreme compression to post-processing.
+
+## II. Local Recording Setup
+
+Recording has no real-time bandwidth pressure and can be transcoded offline — **this is where 1f6s's extreme compression is directly usable**. Two paths, choose by your workflow:
+
+### Path comparison
+
+| Path | Approach | Pros | Cons |
+| --- | --- | --- | --- |
+| **Path A (recommended)** Record high-quality source → transcode with 1f6s | OBS records a high-bitrate source; afterwards use ffmpeg/skill to transcode to L4 etc. | Source is reusable (editing/re-encoding/archiving); transcode parameters controllable; fully aligned with the initiative; supports 2-Pass size locking | One extra transcoding step; needs temporary disk space for the source |
+| Path B OBS records straight to low bitrate | In OBS Output → Recording, set low bitrate/reduced resolution directly while recording | Saves a step; compressed result right after recording | Parameters less flexible than ffmpeg; no 2-Pass size locking; a botched recording can't be recovered from a source |
+
+### Path A: record a high-quality source (OBS settings)
+
+Goal: record a high-quality source file for later 1f6s transcoding. Settings → Output → Output Mode: Advanced → **Recording** tab:
+
+| Setting | Recommended value | Notes |
+| --- | --- | --- |
+| Recording format | MKV | Fault-tolerant (an interrupted recording doesn't lose the whole file); can tick "Automatically remux to MP4" under Settings → Advanced → Recording afterwards |
+| Video encoder | x264 or NVENC H.264 | Use H.264 for the source so later ffmpeg transcoding is smooth |
+| Rate control | CRF (recommend CRF 18–23) or VBR | The source should be "near-lossless" with headroom: CRF 18 is nearly lossless, 23 visually lossless; if CBR, set 2500–4000kbps |
+| Bitrate (if CBR) | 2500–4000 kbps | Leaves ample source quality for transcoding; 4000kbps is already very clear for lecture content |
+| Keyframe interval | 2 seconds | Keep default, convenient for later editing |
+| Preset (x264) | medium or slow | Recording is not real-time; slower presets trade time for quality |
+| Resolution | Native (e.g. 1920×1080) | Keep full resolution in the source; scale to 480p/360p during transcoding |
+| FPS | 30 FPS | Standard; keep normal frame rate in the source, sample it down during transcoding |
+| Audio bitrate | 128–160 kbps / 48kHz | Keep audio headroom in the source; compress to 20k/8k during transcoding |
+
+After recording, transcode with 1f6s (see [post-recording transcoding guide](#transcode)).
+
+### Path B: OBS records directly at low bitrate (compress while recording)
+
+Goal: compress while recording — the result is already in 1f6s style. Settings → Output → Output Mode: Advanced → **Recording** tab:
+
+| Setting | Recommended value | Notes |
+| --- | --- | --- |
+| Recording format | MP4 or MKV | MP4 for direct delivery; MKV if you fear interruptions (then remux) |
+| Video encoder | x264 | So you can directly apply `tune=stillimage` |
+| Rate control | CRF 34 | Matches 1f6s L4/L5's CRF value; or CBR 300–500kbps (extreme low bitrate for lectures) |
+| Bitrate (if CBR) | 300–500 kbps | At 480p B&W, 300kbps still keeps text legible for lectures |
+| Keyframe interval | 2 seconds | Keep default |
+| Preset (x264) | medium | Balance quality vs. encoding load |
+| Resolution (Scaled Resolution) | 854×480 (480p) | Matches 1f6s L1–L5 resolution; drop to 640×360 (360p) on extremely low bandwidth |
+| FPS | 30 FPS | OBS cannot frame-sample to 1 frame/6 s while recording (that's ffmpeg post-processing); keep 30fps and reduce size via CRF/bitrate + resolution |
+| Audio bitrate | 48–96 kbps / 48kHz | OBS can't easily set 8kHz; 48kbps is a safe floor; leave extreme compression to post-processing |
+
+Path B's limits
+
+OBS recording **cannot do 1 frame/6 s sampling while recording** (fps=1/6 is an ffmpeg filter; OBS has no equivalent option), nor can it 2-Pass lock a size. Path B can only approach 1f6s on the "bitrate/resolution/CRF" axes — **true extreme compression still requires Path A's post-recording transcode**. If you want the initiative's full parameter set (sampling + 8k audio + 2-Pass), go with Path A.
+
+**Q:Advanced parameters (custom FFmpeg output, MKV remux, grayscale filter)**
+
+OBS custom FFmpeg output (Settings → Output → Output Mode: Advanced → Recording format: "Custom FFmpeg output") To apply tune=stillimage or a grayscale filter while recording, configure the "Custom FFmpeg Output": Video encoder : libx264 Video parameters (FFmpeg options box) : -preset slow -tune stillimage -crf 34 -pix\_fmt yuv420p Video filter (optional, to B&W) : format=gray (can be added for lectures to shrink size further) Audio encoder : aac , parameters: -ac 1 -ar 22050 -b:a 20k (aligns with L4 audio) Note: OBS custom FFmpeg output still cannot set fps=1/6 sampling (the recording source is a real-time stream) — sampling can only happen in post-processing. Remuxing an MKV recording to MP4 Path A records MKV for safety; before delivery you can remux losslessly (no re-encode, completes in seconds): bash · ffmpeg lossless remux ffmpeg -i recording.mkv -c copy -movflags +faststart recording.mp4 Grayscale filter (Path B advanced) In OBS's normal recording mode (non-custom FFmpeg), right-click the video/display capture in "Sources" → Filters → Add "Video Processing Filter" → pick "Grayscale" to get B&W, equivalent to format=gray .
+
+## Streaming vs. Recording Parameter Quick Reference
+
+See the differences at a glance and avoid mixing them up:
+
+| Parameter | Streaming (live) | Recording Path A (high-quality source) | Recording Path B (compress while recording) |
+| --- | --- | --- | --- |
+| FPS | 30 FPS (can't lower) | 30 FPS | 30 FPS (OBS can't sample frames) |
+| Keyframe interval | 2 s (platform requirement) | 2 s | 2 s |
+| Rate control | CBR | CRF 18–23 | CRF 34 or CBR 300–500k |
+| Video bitrate | 600–1200 kbps | 2500–4000 kbps | 300–500 kbps |
+| Resolution | 720p / 480p | Native | 480p / 360p |
+| Sampling (fps=1/6) | **No** | During transcoding | **No** (requires post-processing) |
+| tune | zerolatency | — | stillimage |
+| Audio bitrate | 96–128 kbps / 48kHz | 128–160 kbps / 48kHz | 48–96 kbps / 48kHz |
+| 2-Pass size lock | No | During transcoding (L7) | No |
+| Format | Platform ingest | MKV (source) | MP4 / MKV |
+
+## Post-Recording Transcoding Guide (1f6s in practice)
+
+After recording the source with Path A, transcode it with the 1f6s tool to get standard initiative output. Two ways:
+
+### Way 1: the 1f6s script (recommended)
+
+The repo ships `skill/1f6s-compress/1f6s.sh` — one command probes and transcodes:
+
+bash · default L4 compression
+
+```
+# default: L4 (1 frame/6 s + 480p B&W + CRF 34 + stillimage)
+./skill/1f6s-compress/1f6s.sh recording.mp4
+
+# specify a level
+./skill/1f6s-compress/1f6s.sh recording.mp4 L4 -y
+
+# L7 locks the target size (e.g. 8MB)
+./skill/1f6s-compress/1f6s.sh recording.mp4 L7 --target 8 -y
+```
+
+The output defaults to `recording_1f6s.mp4` and never overwrites the source. See the [1f6s tool README](../skill/1f6s-compress/README.md).
+
+### Way 2: direct ffmpeg commands
+
+The complete commands from the [8-level standard](levels.html); the most-used L4:
+
+bash · ffmpeg L4
+
+```
+ffmpeg -i recording.mp4 -vf "fps=1/6,scale=-2:480,format=gray" -c:v libx264 -preset slow -tune stillimage -crf 34 -c:a aac -ac 1 -ar 22050 -b:a 20k -pix_fmt yuv420p recording_1f6s.mp4
+```
+
+Recommended workflow
+
+**Stream live (low bitrate ~1200kbps) while recording locally (Path A, CRF 18 high-quality source)** — one live event yields three outputs: ① the stream viewers watch in real time; ② the finished source; ③ the source transcoded with 1f6s for archiving/distribution. The three parameter sets don't interfere — this is the optimal workflow for lecture-style live streaming.
+
+## Frequently Asked Questions
+
+**Q:Why can't a stream be sampled directly to 1 frame/6 s?**
+
+Streaming protocols (RTMP/SRT) and platform transcoders assume continuous frame rates (30/60fps) and slice at fixed keyframe intervals (usually 2s). 1 frame/6 s makes the slicer hit non-keyframes constantly, causing artifacts; player buffers may also declare the stream dead from overlong frame gaps and reconnect; some platforms outright reject very low frame rates. Keep 30fps on the stream; do the sampling in post-processing .
+
+**Q:Why is the keyframe interval 2 seconds instead of 6?**
+
+2 seconds is a universal platform requirement (Bilibili, Douyin, YouTube all use it) — platforms slice HLS segments on it. A 6s keyframe interval makes segments too long: higher first-frame latency for viewers and sluggish seeking. 1f6s's "6 seconds" is the sampling interval (picture update frequency); a streaming keyframe interval is a different concept — don't mix them.
+
+**Q:MKV or MP4 for recording?**
+
+Prefer MKV while recording — if OBS crashes or power dies, the MKV is still recoverable; an MP4 damaged by a non-clean close loses the whole file. OBS can auto-remux to MP4 after recording (Settings → Advanced → Recording → tick "Automatically remux", format MP4). Use MP4 for delivery/distribution (best compatibility).
+
+**Q:NVENC or x264?**
+
+With an NVIDIA GPU use NVENC (hardware encoding) — saves CPU and keeps games/apps smooth while streaming; without one, or for maximum quality, use x264 (software encoding), which is slightly better at equal bitrate. For lecture streams the two are comparable — pick whichever lightens your system load. Note: when transcoding with 1f6s/ffmpeg, always use libx264 , regardless of the OBS choice.
+
+**Q:Does the recorded source still need compressing?**
+
+Depends on the use. Archive / distribute / send → transcode with 1f6s to L4/L7 (16–19MB / 8MB); later editing → keep the source untouched; platform upload → use the L1 color version (platforms re-transcode; don't start too low). Keep one source copy in cold storage and distribute the compressed version daily.
+
+## Getting it
+
+This page is an OBS setup guide — follow the GUI steps in OBS Studio directly, no extra files needed. The 1f6s tool used for post-recording transcoding comes from the repo:
+
+| Way | How |
+| --- | --- |
+| Clone the repo | `git clone https://github.com/brnme/1f6s.git`; the transcoding tool lives in `skill/1f6s-compress/` |
+| Use the script directly | After cloning, `chmod +x skill/1f6s-compress/1f6s.sh`, then `./skill/1f6s-compress/1f6s.sh recording.mp4 L4` compresses the recording to standard size |
+| OBS itself | Download OBS Studio (free, open source) from [obsproject.com](https://obsproject.com); the steps here are based on OBS 30.x |
+
+Dependencies
+
+OBS Studio (free) + ffmpeg/ffprobe (needed for transcoding, ships with ffmpeg). The GUI steps here need no command line; only post-recording transcoding uses `skill/1f6s-compress/1f6s.sh`.
+
+## Summary
+
+OBS setup for lecture streams and screen recordings boils down to **knowing the real-time vs. offline boundary**: streaming wants stable continuity (30fps + low bitrate + 2s keyframes); extreme compression goes to post-recording transcoding (1f6s sampling + grayscale + stillimage). The parameter sets don't interfere — one live event can simultaneously produce a stream and an archivable source.
+
+Core principle
+
+No sampling on the stream; keep the source for recordings; transcode with 1f6s — real-time stays continuous, offline stays extreme.
+
+---
+
+[← Previous: nine work scenarios](scenarios.html)
+[Next: prohibited red lines →](redlines.html)
+
+
+---
+
+# PPT Generation Skill · 1f6s
+
+> 1帧6秒倡议 · https://brnme.github.io/1f6s/en/skill-ppt.html · 本文为 Markdown 镜像,[HTML 原版](skill-ppt.html)含交互组件。
+
+---
+
+## PPT Generation Skill
+
+Generates a deck **from scratch** from a topic or outline, or **converts** a given web-PPT into an HTML slide deck conforming to the "1f6s" compression-resistant PPT guidelines. The output is a **self-contained single .html file** — inline CSS + minimal paging JS, zero external dependencies; double-click in a browser for keyboard paging / fullscreen presenting.
+
+What it is
+
+A shareable playbook any agent can read and follow (`skill/SKILL.md`). An agent reading it produces, from a given topic or page, a slide deck that implements the compression-resistant guidelines slide by slide. It serves the initiative's core claim — **presentations must be adapted for extreme compression at the source**.
+
+## Two Working Modes
+
+| Mode | Trigger | Input | Output |
+| --- | --- | --- | --- |
+| **Generate mode** (main) | User gives a topic or outline | Topic / outline points | A guideline-compliant deck generated from scratch |
+| **Convert mode** | User gives a web-PPT file path (HTML) | Any HTML slide/page file path (e.g. `my-deck.html`, `slides/intro.html`, or a site page like `levels.html`) | That web-PPT's content turned into a compliant deck |
+
+**Default convention**: output merges into a single-file deck, written to the repo `slides/` directory, named like `slides/<topic-or-page>-deck.html`.
+
+## Compression-Resistant Guidelines Summary
+
+Every generated page must strictly follow the "Compression-Resistant PPT Design" rules in <design.html>. Key points:
+
+- **Only three colors**: pure black `#000000`, mid gray `#808080`, pure white `#FFFFFF` — no color whatsoever
+- **Sans-serif only**: Source Han Sans / Microsoft YaHei / Arial; serif fonts like SimSun, KaiTi strictly forbidden
+- **Minimum sizes**: body ≥ 24pt, titles recommended ≥ 36pt, mid-gray text ≥ 28pt
+- **Lines ≥ 3px**: borders, table rules, chart lines all ≥ 3px; thin lines fracture at 360p
+- **Solid backgrounds**: pure white or pure black; gradients, textures, and image watermarks strictly forbidden
+- **Zero shadows, zero gradients**: no box-shadow / text-shadow / gradient / 3D effects
+- **Charts don't rely on color**: solid black fill + white outline + hatching/dot patterns alternate
+
+Iron rule
+
+Structure may be borrowed; styles must be rebuilt. You may reuse the source page's HTML semantics, but **strictly forbidden to reference** `assets/css/style.css` or `assets/js/main.js` directly — they contain color, shadows, gradients, small text, and thin lines, all violating this standard. Slides must use the skill's embedded standalone stylesheet.
+
+## Call Convention & Examples
+
+When invoking this Skill, pass `arguments` in the following format:
+
+### Generate mode
+
+call examples
+
+```
+# topic only; the skill plans the outline
+run_skill ppt "topic: team weekly report"
+
+# given an outline, generate page by page per outline point
+run_skill ppt "topic: team weekly report; outline: this week's progress, risks and blockers, next week's plan, data dashboard"
+
+# optional extra constraints
+run_skill ppt "topic: team weekly report; audience: everyone; pages: about 8"
+```
+
+Output: `slides/team-weekly-report-deck.html`
+
+### Convert mode
+
+call examples
+
+```
+# convert a given web-PPT
+run_skill ppt "convert: my-deck.html"
+# output: slides/my-deck-deck.html
+
+# convert a site page as an example (site pages are valid web-PPT inputs too)
+run_skill ppt "convert: levels.html"
+# output: slides/levels-deck.html
+```
+
+## Workflow Essentials
+
+### Generate mode in 5 steps
+
+1. **Break down the input**: distill topic, audience, and key points; with only a topic, plan 5–12 key points (one point ≈ one page)
+2. **Plan the page sequence**: cover → table of contents → content pages (one point per page) → closing thanks; rather split one more page than cram one
+3. **Generate page by page**: pick a page type (cover/toc/keypoint/table/chart/compare/code/checklist/thanks), apply minimal compliant snippets, and implement each mandatory action (size tiers / three-color / line thickening / no effects / chart compliance / solid backgrounds / no external deps)
+4. **Self-check**: run the "3-step self-check" (shrink test / decolor test / thin-line scan) on the most info-dense page
+5. **Write out**: save to `slides/<topic>-deck.html`
+
+### Convert mode slicing rules
+
+- **Level-1 slicing**: use the source web-PPT's `<section id="…">` as the unit — one section → one slide
+- **Level-2 slicing** (drill down when content is too dense): e.g. a page with L1–L8 gets one slide each, a page with 9 scenarios gets one slide each
+- **Stripping**: remove header nav, footer, and inter-page hr/nav (keyboard paging replaces them in slides)
+- **Style rebuild**: tables lose shadows, headers go B&W, badges lose color and use text, callouts lose colored borders, code blocks get dark backgrounds with white text
+
+## Self-Test Samples
+
+Sample A — generate mode
+
+On the "Compression-Resistant PPT Design" content of <design.html>, produce a deck in generate mode. Input understood as: `topic: compression-resistant PPT design; outline: fonts and sizes, color and grayscale, layout and whitespace, special elements, three-step self-check`. Expected output `slides/design-deck.html`, about 7 slides. Verify: pure B&W/gray, no shadow or gradient, text ≥ 24pt, lines ≥ 3px, keyboard paging works, fullscreen works.
+
+Sample B — convert mode
+
+Use this site's <levels.html> as the given web-PPT and produce a deck in convert mode. Input: `convert: levels.html`. Expected output `slides/levels-deck.html`, about 10–11 slides. Verify: one slide per L1–L8, tables without shadows and with B&W headers, badges without color and with text, ffmpeg commands on dark code pages, header/footer stripped. Any other web-PPT file works the same way.
+
+## Frequently Asked Questions
+
+**Q:How does this skill relate to design.html?**
+
+design.html is the standard itself — it tells people "how it should be done"; this skill is the standard made executable — it lets an agent "just build it". The standard is the constraint, the skill is the execution. Slides produced by following this skill, at L4/L5 (CRF 34 + stillimage), are as sharp as ordinary decks at CRF 28, with size cut roughly another 40%.
+
+**Q:Can generated slides use color?**
+
+No. The compression-resistant standard mandates exactly three colors (pure black / mid gray / pure white) and forbids all color. To express "distinction", use italics / underlines / pattern fills instead of gray shades or color. This is what keeps slides readable after being compressed to a B&W low-resolution video.
+
+**Q:Can I add animations / transitions?**
+
+No. Slides are static, paged by keyboard (←/→/Space/Home/End/F for fullscreen). After compression, animations and transitions are either lost or become blurry remnants, and they add encoding load. The simpler the picture, the easier the encoder's job and the sharper the result after compression.
+
+**Q:Where do output files go?**
+
+Default output goes to the repo's slides/ directory, named -deck.html — lowercase, spaces as hyphens. Single-file decks (inline CSS + JS) open directly in a browser by double-click.
+
+**Q:How do I use it if my agent has no run\_skill?**
+
+The skill's skill/SKILL.md is a plain-Markdown playbook; any agent can read it and follow along — no specific framework needed. The agent uses its page-type list, templates, and mandatory constraints to generate compliant HTML directly.
+
+## Getting It
+
+This Skill is a pure-Markdown playbook with no runtime dependencies — grab it and go.
+
+| Way | How |
+| --- | --- |
+| Clone the repo | `git clone https://github.com/brnme/1f6s.git`; the file lives at `skill/SKILL.md` |
+| Download directly | On GitHub open `skill/SKILL.md` → Raw → Save As |
+| Feed an agent | Paste the `skill/SKILL.md` content into any agent's conversation or system prompt; the agent follows its page-type list and templates to generate a deck |
+
+File location
+
+Repo `skill/SKILL.md` (single file). No installation, no extra dependencies — it's a playbook; an agent that reads it can follow it.
+
+## Summary
+
+The PPT Generation Skill turns "source-side adaptation for extreme compression" from a slogan into a reproducible output: give a topic or a page, get a set of self-contained, presentable slides in pure B&W/gray, big text, thick lines, zero shadows, zero gradients. It complements the [Video Compression Skill](skill-compress.html) — the former makes source slides survive compression, the latter compresses finished video to standard size; together they close the loop from source to finished piece.
+
+Core principle
+
+The simpler the picture, the easier the encoder's job and the sharper the compressed result — an extension of compression-resistant design, and 1f6s's handle at the source.
+
+---
+
+[← Previous: compression-resistant PPT design](design.html)
+[Next: video compression skill →](skill-compress.html)
+
+
+---
+
+# Video-to-1f6s Skill · 1f6s
+
+> 1帧6秒倡议 · https://brnme.github.io/1f6s/en/skill-compress.html · 本文为 Markdown 镜像,[HTML 原版](skill-compress.html)含交互组件。
+
+---
+
+## Video-to-1f6s Skill
+
+Given a video, use **ffmpeg** to convert it into an output matching one of the "1f6s" 8-level compression standards. Given a video path and level (default L4), it **probes the source first, shows the command that will run, and only executes after confirmation**; the output defaults to `<basename>_1f6s.mp4` and **never overwrites the original**.
+
+What it is
+
+A shareable toolkit for any agent and humans (`skill/1f6s-compress/`): a playbook for agents (`SKILL.md`) plus a shell wrapper for direct execution (`1f6s.sh`). It encodes the initiative's 8-level parameters into a machine-readable `levels.json` shared by the script and the agent, keeping parameters from drifting.
+
+## 8-Level Parameter Quick Reference
+
+Full parameters and ffmpeg commands are on the [8-level standard page](levels.html). This skill treats `levels.json` as the single source of truth:
+
+| Level | Name | Sampling | Resolution | Color | Video | Audio | Tuning | Size for 99 min |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| L1 | Standard | 1 f/6 s | 480p | Color | CRF 32 | 20k/22050 | — | ≈30–35 MB |
+| L2 | Grayscale | 1 f/6 s | 480p | B&W | CRF 32 | 20k/22050 | — | ≈24–28 MB |
+| L3 | High compression | 1 f/6 s | 480p | B&W | CRF 34 | 20k/22050 | — | ≈18–22 MB |
+| **L4** | **Smart tuning ★default** | 1 f/6 s | 480p | B&W | CRF 34 | 20k/22050 | stillimage | ≈16–19 MB |
+| L5 | Audio extreme | 1 f/6 s | 480p | B&W | CRF 34 | 8k/8000 | stillimage | ≈14–17 MB |
+| L6 | Long interval | 1 f/10 s | 360p | B&W | CRF 36 | 8k/8000 | stillimage | ≈10–12 MB |
+| L7 | 2-Pass | 1 f/10 s | 360p | B&W | 2-Pass | 8k/8000 | stillimage | Locked to target |
+| L8 | H.265 extreme | 1 f/10 s | 360p | B&W | CRF 38 | 8k/8000 | keyint=1 | ≈6–8 MB |
+
+## How to Use
+
+### Script path (humans or agents executing directly)
+
+bash · 1f6s.sh
+
+```
+# default L4 compression (shows the command first, runs after confirmation)
+./skill/1f6s-compress/1f6s.sh lecture.mp4
+
+# specify a level + skip confirmation
+./skill/1f6s-compress/1f6s.sh lecture.mp4 L4 -y
+
+# L7 locks the target size (8MB)
+./skill/1f6s-compress/1f6s.sh lecture.mp4 L7 --target 8 -y
+
+# show the command that would run, without actually compressing
+./skill/1f6s-compress/1f6s.sh lecture.mp4 L6 --dry-run
+
+# print the 8-level quick reference
+./skill/1f6s-compress/1f6s.sh --list
+```
+
+### Agent path (read the playbook)
+
+An agent reads `skill/1f6s-compress/SKILL.md` and executes per the `arguments` convention:
+
+call examples
+
+```
+# default L4
+run_skill 1f6s-compress "video: lecture.mp4"
+
+# L7 locking 8MB
+run_skill 1f6s-compress "video: lecture.mp4; level: L7; target: 8MB; yes"
+
+# generate the command only, don't execute
+run_skill 1f6s-compress "video: lecture.mp4; level: L6; dry-run"
+```
+
+### Command-line options
+
+| Option | Description |
+| --- | --- |
+| `-o, --output <path>` | Custom output filename/path |
+| `-y, --yes` | Skip confirmation and execute directly |
+| `-n, --dry-run` | Only print the command that would run, don't execute |
+| `-l, --list` | Print the 8-level parameter table and exit |
+| `--target <MB>` | L7 target size (MB); the video bitrate is computed automatically |
+| `--force` | Allow overwriting an existing output file |
+| `-h, --help` | Show help |
+
+## Core Features
+
+- **Show first, then execute**: ffprobe probes the source (duration/resolution/codec/size) → prints the selected level's parameters + the full command + expected output → runs after the user confirms `y` (`-y` skips)
+- **Never overwrites the original by default**: output named `<basename>_1f6s.mp4` in the source's directory; refuses if the output already exists (needs `--force`); refuses whenever the output path equals the source video
+- **Full 8-level coverage**: all L1–L8 parameters come from `levels.json` (matching <levels.html>); L4 is the default recommendation
+- **L7 two-pass**: computes the video bitrate automatically via `target size × 8192 / duration − audio bitrate`, runs both passes, and cleans up `ffmpeg2pass-*.log*` automatically
+- **L8 H.265**: includes `keyint=1:min-keyint=1`; warns about compatibility risk before running
+- **Platform adaptation**: `/dev/null` → `NUL` detected automatically (Windows)
+- **Dependency fallback**: parses JSON with `python3` when `jq` is missing; only errors out when neither is available
+
+## Execution Flow
+
+1. **Validate input**: confirm the video file exists and ffmpeg + ffprobe are available
+2. **Determine level**: parse the level from arguments (default L4), target size (L7 only), and output path (optional)
+3. **Probe the source**: ffprobe fetches duration, resolution, codec, and size
+4. **Fetch parameters**: read all parameters for the level from `levels.json`
+5. **Build the command**: assemble the ffmpeg command; for L7 compute the video bitrate from the formula and generate both pass commands
+6. **Show**: print source info + level parameters + full command + expected output filename
+7. **Execute after confirmation**: waits for the user by default; runs directly when `yes` is passed
+8. **Verify and report**: ffprobe confirms the output is recognizable; print the output size and compare to the level's expectation
+
+## File List
+
+| File | Purpose |
+| --- | --- |
+| `skill/1f6s-compress/SKILL.md` | Agent playbook: guidelines summary + parameter table + execution flow + call convention + mandatory constraints + self-test samples |
+| `skill/1f6s-compress/1f6s.sh` | Companion wrapper script: the execution entry point shared by humans and agents (executable) |
+| `skill/1f6s-compress/levels.json` | Machine-readable 8-level parameter table (single source of truth for script and agent) |
+| `skill/1f6s-compress/README.md` | Human-oriented quick start: dependencies/examples/quick reference/FAQ |
+
+## Frequently Asked Questions
+
+**Q:Why L4 by default?**
+
+It strikes the best balance between size (~16–19 MB for 99 minutes) and viewing experience: -tune stillimage keeps static slide text sharper, and 20k/22050 audio keeps the voice clean. Unless you have a special need (color → L1, locked size → L7, extreme size → L8), just use L4.
+
+**Q:Why convert to B&W by default?**
+
+Color in lecture videos adds almost no understanding value; converting to B&W ( format=gray ) cuts size by roughly another 20%. If color must be preserved (chart palettes, UI distinctions), use L1.
+
+**Q:Why 6 seconds?**
+
+It's the standard sampling rate of the "1f6s" initiative — lecture footage changes slowly; one frame every 6 seconds is enough to keep pace with page turns while massively cutting bitrate. For slower speech and even less change, use L6/L7/L8's 1 frame/10 s. See Why 6 seconds .
+
+**Q:How does L7 lock the size?**
+
+2-Pass encoding. Formula: total bitrate = target size (MB) × 8192 / duration (seconds) , video bitrate = total bitrate − audio bitrate (8) . Pass 1 analyzes ( -pass 1 -an -f mp4 /dev/null , NUL on Windows), pass 2 outputs ( -pass 2 ). The script computes the bitrate, runs both passes, and cleans up the logs automatically.
+
+**Q:Will it overwrite my original video?**
+
+No. Output defaults to \_1f6s.mp4 in the same directory as the source. Even if an output with the same name exists, the script refuses and suggests --force to overwrite or -o to rename.
+
+## Getting It
+
+This Skill is a toolkit folder — an agent playbook plus an executable shell script; grab it and go.
+
+| Way | How |
+| --- | --- |
+| Clone the repo | `git clone https://github.com/brnme/1f6s.git`; files live in `skill/1f6s-compress/` |
+| Use the script directly | After cloning, `chmod +x skill/1f6s-compress/1f6s.sh`, then `./skill/1f6s-compress/1f6s.sh video.mp4 L4` compresses in one line |
+| Feed an agent | Hand `skill/1f6s-compress/SKILL.md` to any agent; the agent executes per the call convention, or directly invokes `1f6s.sh` |
+
+Files & dependencies
+
+Repo `skill/1f6s-compress/` (contains `SKILL.md` / `1f6s.sh` / `levels.json` / `README.md`). Running the script needs ffmpeg + ffprobe; parsing `levels.json` needs jq or python3 (either works; the script degrades automatically when one is missing).
+
+## Summary
+
+The Video-to-1f6s Skill is the initiative's **executable landing**: give a video path and level, get an 8-level-compliant compressed output. It complements the [PPT Generation Skill](skill-ppt.html) — the former compresses finished video to standard size, the latter makes source slides survive compression. Together they close the loop from source to finished piece.
+
+Core principle
+
+levels.json as the single parameter source; show first, execute after confirmation; never overwrite the original — making the initiative's 8-level standard usable by everyone and executable by agents.
+
+---
+
+[← Previous: PPT generation skill](skill-ppt.html)
+[Next: OBS setup →](obs.html)
+
+
+---
+
+# Copyright & License · 1f6s
+
+> 1帧6秒倡议 · https://brnme.github.io/1f6s/en/license.html · 本文为 Markdown 镜像,[HTML 原版](license.html)含交互组件。
+
+---
+
+## Copyright & License
+
+The content of this site (all pages — the standard, scenarios, red lines, PPT design, OBS setup, Skills — and companion files) is released under the **Creative Commons Attribution 4.0 International license** (**CC BY 4.0**).
+
+In one sentence
+
+You are free to **share** (copy, distribute, transmit) and **adapt** (remix, transform, build upon) any content on this site for any purpose — including commercial use — **with the only condition of crediting the authors and linking the license**.
+
+## License
+
+| Item | Content |
+| --- | --- |
+| License name | Creative Commons Attribution 4.0 International |
+| Abbreviation | CC BY 4.0 |
+| License icon | 🌐 ✍️ 📌 — Attribution |
+| Full text | [creativecommons.org/licenses/by/4.0/legalcode](https://creativecommons.org/licenses/by/4.0/legalcode) |
+| Human-readable deed | [creativecommons.org/licenses/by/4.0/deed.en](https://creativecommons.org/licenses/by/4.0/deed.en) |
+
+## What You Can Do
+
+Provided you follow the attribution condition, the license grants you these rights:
+
+- **Share** — copy, distribute, and transmit this site's content in any medium
+- **Adapt** — remix, transform, or build new works on top of this site's content
+- **Use commercially** — for commercial purposes, without asking for further permission
+- **No extra permission needed** — the license pre-grants these rights; just honor the attribution condition
+
+Attribution condition (the only requirement)
+
+You must:
+
+- **Credit the authors** — attribute this site's authors: `Han Lie, GLM, DeepSeek, Kimi, Hermes Agent & Reasonix`
+- **Provide the license link** — point to [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.en), and indicate whether changes were made
+- **Indicate changes** — if you modified, transformed, or built upon the original, note that the original work has been changed
+
+Attribution should be reasonable and must not imply that the author or the licensor endorses you or your use.
+
+## Authors
+
+| Role | Credit | Notes |
+| --- | --- | --- |
+| Author | **Han Lie** | Originator and principal writer of the "1f6s" video compression initiative |
+| Collaborator | **GLM, DeepSeek, Kimi, Hermes Agent & Reasonix** | AI collaboration partners (GLM, DeepSeek, Kimi, Hermes Agent, Reasonix); contributed to writing, code, and site building |
+
+When citing this site, the recommended attribution format is:
+
+recommended attribution format
+
+```
+Han Lie, GLM, DeepSeek, Kimi, Hermes Agent & Reasonix, the "1f6s" video compression initiative,
+CC BY 4.0, https://github.com/brnme/1f6s
+```
+
+About attribution
+
+This site's content was produced jointly by the human author **Han Lie** and the AI collaboration partners **GLM, DeepSeek, Kimi, Hermes Agent & Reasonix**. When attributing, list them all to reflect the human–AI collaborative creation process. The AI-generated portions were integrated into the whole under the human author's direction and review.
+
+## Scope & Exceptions
+
+- **Coverage**: this license covers the text and design of all site pages (`index` / `levels` / `scenarios` / `redlines` / `design` / `obs` / `skill-ppt` / `skill-compress` / `license`) and their companion files (SKILL.md, 1f6s.sh, levels.json, README.md under `skill/`)
+- **Trademark**: "1帧6秒" is used as the initiative's name; CC BY 4.0 does not license trademark rights. Referring to the initiative's name is fair reference and not trademark infringement; but please do not publish content contrary to the initiative's intent under the "1帧6秒" name
+- **Third-party content**: where pages reference third-party content (e.g. OBS Studio links, platform names), its copyright belongs to the original owners and is outside this license
+- **Public domain**: any content already in the public domain before publication on this site remains in the public domain and is not bound by this license
+
+## Frequently Asked Questions
+
+**Q:May I move this site's content to my own website / blog / course?**
+
+Yes. Just credit "Authors: Han Lie, GLM, DeepSeek, Kimi, Hermes Agent & Reasonix, License: CC BY 4.0", provide the license link, and note whether changes were made. Commercial use (paid courses, corporate training) is also allowed.
+
+**Q:I modified the content — how should I attribute?**
+
+Credit the original authors "Han Lie, GLM, DeepSeek, Kimi, Hermes Agent & Reasonix" + the CC BY 4.0 link, and add "adapted from the original work". For example: Han Lie, GLM, DeepSeek, Kimi, Hermes Agent & Reasonix, CC BY 4.0, adapted .
+
+**Q:Why CC BY instead of CC BY-NC (non-commercial)?**
+
+The initiative's goal is to be adopted as widely as possible — teams, companies, and platforms can use it directly. A "non-commercial" restriction would make corporate training and paid courses non-compliant, which hurts adoption. CC BY only requires attribution, maximizing spread.
+
+**Q:Are the Skill scripts (1f6s.sh etc.) also under CC BY?**
+
+Yes. SKILL.md, 1f6s.sh, levels.json, and README.md under skill/ are all licensed under CC BY 4.0. You may freely use, modify, and distribute them, as long as you credit the authors and the license. Scripts are literary works, so CC BY applies.
+
+**Q:How should the AI models' output be credited?**
+
+This site is a collaboration between a human author (Han Lie) and AI models (GLM, DeepSeek, Kimi, Hermes Agent, Reasonix). Credit "Han Lie, GLM, DeepSeek, Kimi, Hermes Agent & Reasonix" and you're done. The AI-generated content was integrated into the whole under the human author's direction and review; copyright is uniformly licensed by the authors under CC BY 4.0.
+
+## Summary
+
+"1f6s" is an open initiative — **take it and use it; just credit who made it**. CC BY 4.0 lets the standard, code, and design be freely transmitted and re-created; the only requirement is attributing "Han Lie, GLM, DeepSeek, Kimi, Hermes Agent & Reasonix" and keeping the license link. We hope this standard leaves the repo and enters more teams' workflows.
+
+Core principle
+
+Open, attributed, commercially usable — so the standard gets adopted as widely as possible.
+
+---
+
+[← Previous: video compression skill](skill-compress.html)
+[Back to home →](index.html)

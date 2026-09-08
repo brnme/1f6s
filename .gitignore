@@ -11,5 +11,8 @@ slides/**/*.png
 slides/voiceover/per-slide/
 slides/voiceover/gen.log
 
+# Markdown 镜像构建用的虚拟环境
+.venv-md/
+
 # 系统杂物
 .DS_Store

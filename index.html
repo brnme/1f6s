@@ -5,8 +5,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>1帧6秒 · 讲解类视频压缩标准倡议</title>
 <meta name="description" content="确立「1帧6秒」为讲解类视频压缩的标准抽帧频率——8级压缩规范、9大工作场景适配、禁用红线与PPT抗压缩设计规范。">
-<link rel="alternate" hreflang="en" href="en/index.html">
 <link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="canonical" href="https://brnme.github.io/1f6s/index.html">
+<link rel="alternate" hreflang="zh-CN" href="https://brnme.github.io/1f6s/index.html">
+<link rel="alternate" hreflang="en" href="https://brnme.github.io/1f6s/en/index.html">
+<link rel="alternate" hreflang="x-default" href="https://brnme.github.io/1f6s/index.html">
+<link rel="alternate" type="text/markdown" href="index.md" title="Markdown version for AI agents">
+<meta property="og:title" content="1帧6秒 · 讲解类视频压缩标准倡议">
+<meta property="og:description" content="确立「1帧6秒」为讲解类视频压缩的标准抽帧频率——8级压缩规范、9大工作场景适配、禁用红线与PPT抗压缩设计规范。">
+<meta property="og:url" content="https://brnme.github.io/1f6s/index.html">
+<meta property="og:image" content="https://brnme.github.io/1f6s/assets/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:site_name" content="1帧6秒 · 1 Frame / 6 Seconds">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="1帧6秒 · 讲解类视频压缩标准倡议">
+<meta name="twitter:description" content="确立「1帧6秒」为讲解类视频压缩的标准抽帧频率——8级压缩规范、9大工作场景适配、禁用红线与PPT抗压缩设计规范。">
+<meta name="twitter:image" content="https://brnme.github.io/1f6s/assets/og-card.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"1帧6秒","alternateName":"1f6s video compression initiative","url":"https://brnme.github.io/1f6s/index.html","description":"确立「1帧6秒」为讲解类视频压缩的标准抽帧频率——8级压缩规范、9大工作场景适配、禁用红线与PPT抗压缩设计规范。","inLanguage":"zh-CN"}</script>
 </head>
 <body>
 
@@ -193,7 +213,7 @@
     <!-- ========== 工具箱 / Skills ========== -->
     <section id="toolbox">
       <h2>工具箱 · Skills</h2>
-      <p>倡议的三个可执行落地工具：从源头幻灯片到成品视频，再到直播推流，全程标准化。</p>
+      <p>倡议的可执行落地工具:从源头幻灯片到成品视频全程标准化,并附直播推流的配置指引。</p>
       <div class="entry-grid">
         <a class="entry-card" href="skill-ppt.html">
           <div class="ec-num">Skill · 01</div>
@@ -208,10 +228,34 @@
           <div class="ec-arrow"><code>./1f6s.sh lecture.mp4 L4</code> →</div>
         </a>
         <a class="entry-card" href="obs.html">
-          <div class="ec-num">Skill · 03</div>
+          <div class="ec-num">关联分页 · 05</div>
           <div class="ec-title">📺 OBS 直播推流与录像配置</div>
-          <div class="ec-desc">讲解类直播的 OBS 推流参数、本地录像设置，含 GUI 步骤与高级参数，附录像后 1f6s 转码指引。</div>
+          <div class="ec-desc">讲解类直播的 OBS 推流参数、本地录像设置，含 GUI 步骤与高级参数，附录像后 1f6s 转码指引。与「深入各专题 · 05」为同一页面。</div>
           <div class="ec-arrow">推流 1200kbps + 录像 CRF18 →</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ========== 生态 ========== -->
+    <section id="ecosystem">
+      <h2>生态 · 官方实现</h2>
+      <p>本倡议不止于文档——围绕规范正在构建配套的官方服务与工具链,全部消费 <code>spec/levels.json</code> 这一份参数真相源。</p>
+      <div class="entry-grid">
+        <div class="entry-card">
+          <div class="ec-num">在线服务 · 建设中</div>
+          <div class="ec-title">⚙️ 1f6s 在线转码服务</div>
+          <div class="ec-desc">上传视频,服务器按八级规范压缩,完成后通过邮件发送限时下载链接。免注册即用,面向低带宽地区用户;多机 worker 调度、按点数计费、支持组织共享点数池。</div>
+        </div>
+        <div class="entry-card">
+          <div class="ec-num">发布平台 · 建设中</div>
+          <div class="ec-title">📺 1f6s 讲解视频托管站</div>
+          <div class="ec-desc">按规范压好的视频的发布与分发平台:浏览器端预检 + 服务端复检 + 人工审核,服务器零转码负载,小 VPS 即可运转。中英双语,面向海外推广。</div>
+        </div>
+        <a class="entry-card" href="https://github.com/brnme/1f6s">
+          <div class="ec-num">开源仓库</div>
+          <div class="ec-title">🧩 GitHub · brnme/1f6s</div>
+          <div class="ec-desc">本站源码与全部规范资产:levels.json 参数真相源、1f6s.sh 压缩脚本、SKILL.md agent 手册。</div>
+          <div class="ec-arrow">一行安装:<code>curl -fsSL -o 1f6s.sh https://raw.githubusercontent.com/brnme/1f6s/main/skill/1f6s-compress/1f6s.sh</code> →</div>
         </a>
       </div>
     </section>
@@ -280,7 +324,7 @@
       <li><a href="skill-compress.html">压缩 Skill</a></li>
       <li><a href="license.html">版权</a></li>
     </ul>
-    <div class="footer-copy">本倡议内容按 <a href="license.html">CC BY 4.0</a> 授权，作者：韩烈 及 AI 协作伙伴。FFmpeg 命令均基于 H.264/AAC，经实测可直接投入生产使用。</div>
+    <div class="footer-copy">本倡议内容按 <a href="license.html">CC BY 4.0</a> 授权，作者：韩烈 及 AI 协作伙伴。FFmpeg 命令均基于 H.264/AAC，经实测可直接投入生产使用。· <a href="llms.txt">Agent 入口 llms.txt</a> · <a href="spec/levels.json">机器可读参数 levels.json</a></div>
   </div>
 </footer>
 

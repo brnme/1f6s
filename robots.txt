@@ -1,0 +1,32 @@
+# 1帧6秒倡议 · 对人类与 AI 爬虫完全开放
+# 内容 CC BY 4.0:允许检索、摘要、引用(请注明作者与版本号 v1.0)
+
+User-agent: *
+Allow: /
+
+# 主要 AI 爬虫显式欢迎(与上面的通配规则一致,此处为明示态度)
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Claude-Web
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+User-agent: Amazonbot
+Allow: /
+User-agent: meta-externalagent
+Allow: /
+User-agent: CCBot
+Allow: /
+
+# Agent 入口:llms.txt(导航) / llms-full.txt(全文) / spec/*.json(机器可读参数)
+Sitemap: https://brnme.github.io/1f6s/sitemap.xml

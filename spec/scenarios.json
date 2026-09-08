@@ -1,0 +1,32 @@
+{
+  "comment": "Three-question level selector from the 1f6s spec (index.html selector + scenarios.html quick table). Rules evaluated in order; first match wins.",
+  "channels": [
+    {"id": "email", "icon": "✉️"},
+    {"id": "im", "icon": "💬"},
+    {"id": "archive", "icon": "🏢"},
+    {"id": "mooc", "icon": "🌐"},
+    {"id": "sales", "icon": "💼"},
+    {"id": "offline", "icon": "📵"}
+  ],
+  "bands": [
+    {"id": "good", "icon": "🖥️"},
+    {"id": "mobile", "icon": "📱"},
+    {"id": "poor", "icon": "🐢"}
+  ],
+  "rules": [
+    {"when": {"channel": "sales"}, "level": "L1"},
+    {"when": {"color": "yes"}, "level": "L1"},
+    {"when": {"channel": "archive"}, "level": "L4"},
+    {"when": {"channel": "email", "band": "good"}, "level": "L4"},
+    {"when": {"channel": "email"}, "level": "L6"},
+    {"when": {"channel": "im", "band": "poor"}, "level": "L6"},
+    {"when": {"channel": "im"}, "level": "L5"},
+    {"when": {"channel": "mooc"}, "level": "L5"},
+    {"when": {"channel": "offline"}, "level": "L6"}
+  ],
+  "fallback": "L4",
+  "extras": {
+    "hard_size_cap": "L7",
+    "h265_ok": "L8"
+  }
+}

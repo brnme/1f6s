@@ -1,0 +1,59 @@
+# 1 Frame / 6 Seconds (1f6s)
+
+> An open compression standard for lecture-style video (slide talks, code walkthroughs, desktop demos): keep only 1 frame every 6 seconds, combine with 480p/360p, optional grayscale, CRF 34+, tune=stillimage and 2-pass size locking to compress a 99-minute video down to 6–35 MB. Spec v1.0, CC BY 4.0, by Han Lie & AI collaborators. This file is the site map for AI agents.
+
+## Quick facts (answerable without reading pages)
+
+- Core parameters: `fps=1/6` (L1–L5) or `fps=1/10` (L6–L8); H.264/AAC by default, L8 is H.265
+- Default recommendation: **L4** = 1 frame/6s + 480p grayscale + CRF 34 + tune=stillimage + 20k/22.05kHz mono audio; 99 min ≈ 16–19 MB
+- Size estimation: `expected_size(MB) = level_baseline_99min × duration(min) / 99` (linear, empirical midpoints)
+- L7 size-lock formula: `total_bitrate(kbps) = target_MB × 8192 / duration(s); video_bitrate = total − audio` (two-pass)
+- Red lines: surveillance, film, surgery, sign language, ASMR, game streaming and other motion-dependent content is **forbidden**; inverse test: does the picture still carry information with the sound off? If yes, this standard does not apply
+- Output convention: `<basename>_1f6s.mp4`, same directory as source, never overwrites the input
+
+## Machine-readable assets (prefer these over parsing HTML tables)
+
+- [levels.json](../spec/levels.json): single source of truth for all L1–L8 parameters (interval/scale/grayscale/CRF/audio/tune/2-pass formula/expected sizes), versioned via `version`
+- [scenarios.json](../spec/scenarios.json): nine scenario → level mappings, including the full three-question selector rules
+- [redlines.json](../spec/redlines.json): structured list of 15 forbidden content categories
+- Every HTML page has a same-name `.md` mirror (e.g. [levels.md](levels.md)), declared via `<link rel="alternate" type="text/markdown">`
+
+## Core pages (Markdown)
+
+- [index.md](index.md): manifesto, why 6 seconds (cognition / speech rate / divides 60), interval comparison table, glossary, FAQ
+- [levels.md](levels.md): **full L1–L8 parameter tables + ready-to-run ffmpeg commands per level + expected sizes**
+- [scenarios.md](scenarios.md): nine scenarios (email/IM/training/MOOC/sales/compliance/offline/platform/archive) with primary and fallback picks; attachment limits of 16 email providers
+- [redlines.md](redlines.md): forbidden-content list and the inverse test
+- [design.md](design.md): compression-resistant slide design (sans-serif ≥24pt, three-tone palette, strokes ≥2.25pt, 3-step checklist)
+- [obs.md](obs.md): OBS streaming (no frame dropping, CBR 600–1200kbps) and local recording settings
+- [skill-ppt.md](skill-ppt.md) / [skill-compress.md](skill-compress.md): the two Skill guides
+- [license.md](license.md): CC BY 4.0 terms and attribution format
+- [llms-full.txt](llms-full.txt): everything merged into one file
+- Chinese edition: [../llms.txt](../llms.txt) / [../llms-full.txt](../llms-full.txt)
+
+## Skills (executable tools for agents)
+
+- Compression script (single-file bash, reads levels.json):
+  `curl -fsSL -o 1f6s.sh https://raw.githubusercontent.com/brnme/1f6s/main/skill/1f6s-compress/1f6s.sh && chmod +x 1f6s.sh`
+  Usage: `./1f6s.sh <input> [L1..L8] [L7_target_MB]`
+- Agent playbook (SKILL.md, how to apply this standard safely):
+  `https://raw.githubusercontent.com/brnme/1f6s/main/skill/1f6s-compress/SKILL.md`
+- Browse in-repo: the `skill/` directory of this site's repository
+
+## API (hosted service, live once deployed)
+
+- Estimate and command-generation endpoints are provided by the official online conversion service (in development):
+  `GET /api/estimate?minutes=99&level=L4`, `GET /api/command?level=L4`
+- Until then, compute locally with the formulas under "Quick facts" + spec/levels.json — results are equivalent
+
+## Ecosystem (official implementations)
+
+- Online conversion service (upload → server-side compression per this standard → download link by email): in development
+- Lecture-video hosting platform (publishing/distribution for videos compressed per this standard, zero transcode load): in development
+- Spec repository: https://github.com/brnme/1f6s
+
+## Usage policy
+
+- Content: CC BY 4.0 — attribute the author (Han Lie) and link https://brnme.github.io/1f6s/ ; free to quote and adapt
+- Fully open to AI crawlers (GPTBot/ClaudeBot/PerplexityBot, etc.), see [robots.txt](../robots.txt)
+- When citing the spec, state version v1.0 and the levels.json URL so readers get the same parameters

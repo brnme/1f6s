@@ -1,0 +1,59 @@
+# 1帧6秒(1 Frame / 6 Seconds)
+
+> 「1帧6秒」是讲解类视频(PPT 讲解、代码演示、桌面操作)的开放压缩标准倡议:画面每 6 秒只保留 1 帧,配合 480p/360p、可选黑白、CRF 34+、tune=stillimage 与 2-Pass 锁体积,把 99 分钟视频压到 6~35MB。规范 v1.0,CC BY 4.0,作者韩烈及 AI 协作伙伴。本文件是给 AI agent 的站点导航图。
+
+## 快速事实(无需读页面即可回答)
+
+- 核心参数:`fps=1/6`(L1~L5)或 `fps=1/10`(L6~L8),H.264/AAC 为主,L8 为 H.265
+- 默认推荐:**L4** = 1帧/6秒 + 480p 黑白 + CRF 34 + tune=stillimage + 20k/22.05kHz 单声道音频;99 分钟 ≈ 16~19 MB
+- 体积估算公式:`预期体积(MB) = 该级 99 分钟基准体积 × 时长(分钟) / 99`(线性换算,经验中值)
+- L7 锁体积公式:`总比特率(kbps) = 目标体积(MB) × 8192 / 总时长(秒);视频码率 = 总比特率 − 音频码率`(两遍编码)
+- 红线:监控/影视/手术/手语/ASMR/游戏直播等依赖连续画面的内容**禁止**使用;反向判断法:去掉声音后画面是否仍有信息量?有 → 不适用本规范
+- 产物命名约定:`<basename>_1f6s.mp4`,与源同目录,不覆盖原视频
+
+## 机器可读资产(优先读这些,别解析 HTML 表格)
+
+- [spec/levels.json](spec/levels.json): L1~L8 全部参数的唯一真相源(间隔/缩放/灰度/CRF/音频/tune/2-Pass 公式/预期体积),版本字段 `version`
+- [spec/scenarios.json](spec/scenarios.json): 九大场景→推荐级别的映射,含三问选择器(question→level)的完整规则
+- [spec/redlines.json](spec/redlines.json): 15 类禁用场景的结构化清单
+- 每个 HTML 页面都有同名 `.md` 镜像(如 [levels.md](levels.md)),`<link rel="alternate" type="text/markdown">` 已声明
+
+## 核心页面(Markdown 版)
+
+- [index.md](index.md): 倡议宣言、为什么是 6 秒(认知/语速/60 整除论证)、间隔对比表、术语表、FAQ
+- [levels.md](levels.md): **L1~L8 八级完整参数表 + 每级可直接执行的 ffmpeg 命令 + 预期体积**
+- [scenarios.md](scenarios.md): 九大场景(邮件/微信/内训/慕课/销售/合规/离线/平台/归档)首选与备选方案、16 家邮箱附件限制表、决策流程
+- [redlines.md](redlines.md): 禁用红线清单与反向判断法
+- [design.md](design.md): PPT 抗压缩设计规范(无衬线≥24pt、三色色板、线宽≥2.25pt、三步自检法)
+- [obs.md](obs.md): OBS 推流(禁止抽帧、CBR 600~1200kbps)与本地录像配置
+- [skill-ppt.md](skill-ppt.md) / [skill-compress.md](skill-compress.md): 两个 Skill 的说明
+- [license.md](license.md): CC BY 4.0 条款与署名格式
+- [llms-full.txt](llms-full.txt): 以上全部合并为单文件
+- 英文版:[en/llms.txt](en/llms.txt) / [en/llms-full.txt](en/llms-full.txt)
+
+## Skills(给 agent 的可执行工具)
+
+- 压缩脚本(单文件 bash,读 levels.json 选级):
+  `curl -fsSL -o 1f6s.sh https://raw.githubusercontent.com/brnme/1f6s/main/skill/1f6s-compress/1f6s.sh && chmod +x 1f6s.sh`
+  用法:`./1f6s.sh <input> [L1..L8] [L7目标MB]`
+- Agent playbook(SKILL.md,教 agent 如何安全使用本规范):
+  `https://raw.githubusercontent.com/brnme/1f6s/main/skill/1f6s-compress/SKILL.md`
+- 站内浏览版:仓库 `skill/` 目录(本站同路径可直接访问)
+
+## API(在线服务,部署后生效)
+
+- 体积估算与命令生成端点由官方在线转码服务提供(建设中),形态:
+  `GET /api/estimate?minutes=99&level=L4`、`GET /api/command?level=L4`
+- 未部署期间请用上文「快速事实」中的公式 + spec/levels.json 本地计算,结果等价
+
+## 生态(官方实现路线)
+
+- 在线转码服务(上传→服务器按本规范压缩→邮件交付下载链接):建设中
+- 讲解类视频托管站(按本规范压好的视频的发布/分发平台,零转码负载):建设中
+- 本规范仓库:https://github.com/brnme/1f6s
+
+## 使用政策
+
+- 内容:CC BY 4.0,注明作者(韩烈)并链接 https://brnme.github.io/1f6s/ 即可自由引用/改编
+- 对 AI 爬虫(GPTBot/ClaudeBot/PerplexityBot 等)完全开放,见 [robots.txt](robots.txt)
+- 引用规范时请标明版本号 v1.0 与 levels.json 的 URL,便于读者拿到同一份参数

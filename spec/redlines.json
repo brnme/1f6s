@@ -1,0 +1,20 @@
+{
+  "comment": "The 15 red-line categories from the 1f6s spec (redlines.html). Stable ids rl01..rl15; display strings resolved via i18n keys spec.redline.<id>.title/desc.",
+  "items": [
+    {"id": "rl01", "spec_key": "spec.redline.rl01"},
+    {"id": "rl02", "spec_key": "spec.redline.rl02"},
+    {"id": "rl03", "spec_key": "spec.redline.rl03"},
+    {"id": "rl04", "spec_key": "spec.redline.rl04"},
+    {"id": "rl05", "spec_key": "spec.redline.rl05"},
+    {"id": "rl06", "spec_key": "spec.redline.rl06"},
+    {"id": "rl07", "spec_key": "spec.redline.rl07"},
+    {"id": "rl08", "spec_key": "spec.redline.rl08"},
+    {"id": "rl09", "spec_key": "spec.redline.rl09"},
+    {"id": "rl10", "spec_key": "spec.redline.rl10"},
+    {"id": "rl11", "spec_key": "spec.redline.rl11"},
+    {"id": "rl12", "spec_key": "spec.redline.rl12"},
+    {"id": "rl13", "spec_key": "spec.redline.rl13"},
+    {"id": "rl14", "spec_key": "spec.redline.rl14"},
+    {"id": "rl15", "spec_key": "spec.redline.rl15"}
+  ]
+}
