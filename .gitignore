@@ -1,0 +1,15 @@
+# AI 任务工作区（本地编排状态，不属于站点内容）
+.reasonix/
+
+# 幻灯片产物的二进制（deck HTML 等源文件保留，媒体产物可由源重新构建）
+slides/**/*.mp4
+slides/**/*.mkv
+slides/**/*.m4a
+slides/**/*.mp3
+slides/**/*.wav
+slides/**/*.png
+slides/voiceover/per-slide/
+slides/voiceover/gen.log
+
+# 系统杂物
+.DS_Store

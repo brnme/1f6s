@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OBS Live Streaming &amp; Local Recording Setup · 1f6s</title>
+<meta name="description" content="OBS setup guide for the 1f6s initiative: streaming parameters and local recording settings for lecture-style live streams (PPT + voiceover), with GUI steps and advanced settings, plus a post-recording 1f6s transcoding guide.">
+<link rel="alternate" hreflang="zh-CN" href="../obs.html">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">1帧6秒<span class="brand-tag">Video Compression Initiative</span></a>
+    <div class="lang-switch">
+      <a href="../obs.html" lang="zh-CN" aria-label="切换到中文">中</a><span class="sep">/</span><a href="obs.html" class="active" lang="en" aria-label="Switch to English">EN</a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="levels.html">Levels</a></li>
+      <li><a href="scenarios.html">Scenarios</a></li>
+      <li><a href="redlines.html">Red Lines</a></li>
+      <li><a href="design.html">PPT Design</a></li>
+      <li><a href="obs.html">OBS Setup</a></li>
+      <li><a href="skill-ppt.html">PPT Skill</a></li>
+      <li><a href="skill-compress.html">Compress Skill</a></li>
+      <li><a href="license.html">License</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ========== Top ========== -->
+    <section id="top">
+      <h1>OBS Live Streaming &amp; Local Recording Setup</h1>
+      <p class="lead">This page applies the "1f6s" philosophy to two OBS Studio scenarios: <strong>live streaming</strong> and <strong>local recording</strong>. It covers only <strong>"PPT + voiceover / screen-share" style lecture streams and screen recordings</strong> — exactly the content the 1f6s initiative considers suitable.</p>
+      <div class="callout">
+        <div class="callout-title">How to use</div>
+        <p>First use the "suitability check" below to confirm your content is lecture-style; then pick one of the two paths: go live → see <strong>streaming setup</strong>; keep a recording → see <strong>local recording setup</strong>. The parameters are very different — don't mix them.</p>
+      </div>
+    </section>
+
+    <!-- ========== Suitability ========== -->
+    <section id="scope">
+      <h2>Suitability Check: which type is your stream/recording?</h2>
+      <p>The essence of 1f6s is "trade time for space" — it only fits content with low information density and slowly changing pictures. Before going live or recording, use the reverse-judgment test to sort yourself quickly:</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Your content's characteristics</th><th>Type</th><th>Applicable here?</th><th>What to do</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>PPT walkthroughs, desktop operation demos, screen-share lectures, code walkthroughs — picture mostly static/page-turning, core information carried by <strong>speech</strong></td>
+              <td>Lecture-style</td>
+              <td><strong>Yes</strong></td>
+              <td>Keep reading this page</td>
+            </tr>
+            <tr>
+              <td>Real-time bullet comments, host facial close-ups, live physical demos, gesture/body-language-rich streams</td>
+              <td>Interactive demo</td>
+              <td><strong>No</strong></td>
+              <td>Use OBS's normal high frame rate; 1f6s destroys visual continuity — see <a href="redlines.html">Red Lines</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout danger">
+        <div class="callout-title">Red-line reminder</div>
+        <p>If your stream includes <strong>live demonstration moves, host facial expressions, or body language while answering comments</strong>, picture continuity is itself part of the value. Forcing 1 frame/6 seconds turns the stream into a "PPT pager" — <strong class="danger-text">drop this standard</strong> and use OBS's default 30fps streaming.</p>
+      </div>
+    </section>
+
+    <!-- ========== Streaming setup ========== -->
+    <section id="streaming">
+      <h2>I. Live Streaming Setup</h2>
+      <p class="lead">Streaming is <strong>real-time</strong>: bounded by upload bandwidth, and platforms re-transcode your stream. A key insight here: <strong>you cannot simply apply 1f6s frame sampling to a live stream</strong>.</p>
+
+      <div class="callout ok">
+        <div class="callout-title">Core principle: stream at regular low bitrate; keep extreme compression for post-recording transcoding</div>
+        <p>Streaming protocols (RTMP/SRT/WebRTC) require <strong>keyframe intervals and frame rates that match platform specs</strong>. If you push the frame rate down to 1 frame/6 seconds and set a 6-second keyframe interval, viewers get severe buffering and artifacts — some platforms even refuse the stream. The right approach: <strong>stream with OBS's regular low-bitrate settings (600–1200kbps is plenty clear for lecture-style content), and leave 1f6s's extreme compression to "post-recording transcoding" or "local recording at low bitrate"</strong> (see section II).</p>
+      </div>
+
+      <h3>Scenario characteristics</h3>
+      <div class="scene-block"><ul>
+        <li>Real-time transport, bounded by upload bandwidth (home uploads are often only 1/5–1/10 of download)</li>
+        <li>Platforms (Bilibili/Douyin/YouTube) <strong>re-transcode</strong> the stream; a poor source gets further degraded</li>
+        <li>Lecture footage changes slowly — naturally suited to low bitrate, but not to low frame rate (streams require continuous frames)</li>
+      </ul></div>
+
+      <h3>GUI steps (OBS Studio, Settings → Output)</h3>
+      <p>Fill in via OBS "Settings → Output → Output Mode: Advanced". Recommended lecture-style streaming parameters:</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Setting</th><th>Recommended value</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Output mode</td><td>Advanced</td><td>Exposes full parameter control</td></tr>
+            <tr><td>Encoder (video)</td><td>x264 (no discrete GPU) / NVIDIA NVENC H.264 (NVIDIA GPU)</td><td>Prefer NVENC with a discrete GPU to save CPU; use x264 (software encoding) otherwise</td></tr>
+            <tr><td>Rate control</td><td>CBR</td><td>Streaming requires CBR (constant bitrate); platforms schedule on stable bitrate, VBR tends to stutter</td></tr>
+            <tr><td>Bitrate</td><td>600–1200 kbps</td><td>Lecture footage is mostly static — far below platform caps (Bilibili ≤6000, Douyin ≤4000); 2Mbps upload pushes 1200kbps steadily</td></tr>
+            <tr><td>Keyframe interval</td><td>2 seconds</td><td><strong>Universal platform requirement</strong>; must match the platform (see notes below)</td></tr>
+            <tr><td>Preset (x264)</td><td>veryfast or fast</td><td>Streaming favors real-time; fast presets cut encode latency; NVENC: pick "Quality" or "Low Latency"</td></tr>
+            <tr><td>Resolution (Video → Output (Scaled) Resolution)</td><td>1280×720 (720p) or 854×480 (480p)</td><td>Lecture 480p text is legible; drop to 480p when upload is tight; keep base resolution native</td></tr>
+            <tr><td>FPS (Video)</td><td>30 FPS</td><td>Standard streaming frame rate — don't lower (streams cannot be frame-sampled)</td></tr>
+            <tr><td>Audio bitrate (Output → Audio)</td><td>96–128 kbps</td><td>AAC; 96kbps keeps lecture voice clean</td></tr>
+            <tr><td>Audio sample rate</td><td>48 kHz</td><td>Streaming standard; don't lower</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Settings → Stream (service and stream key)</h4>
+      <div class="scene-block"><ul>
+        <li><strong>Service</strong>: pick the matching platform (Bilibili/Douyin/YouTube etc.) or "Custom"</li>
+        <li><strong>Server</strong>: enter the platform's ingest URL (e.g. <code>rtmp://live-push.example.com/app</code>)</li>
+        <li><strong>Stream key</strong>: your room's stream code (never leak it)</li>
+      </ul></div>
+
+      <details class="faq-item">
+        <summary>Advanced parameters (x264 tuning, bitrate math, why streaming can't be frame-sampled)</summary>
+        <h4>x264 advanced options (Settings → Output → Streaming → Advanced)</h4>
+        <p>Paste the following into the "x264 Options" box (lecture-stream tuning):</p>
+        <div class="code-block">
+          <div class="code-head"><span class="lang">x264 options string</span></div>
+          <pre><code>keyint=60:min-keyint=60:scenecut=0:tune=zerolatency:profile=main</code></pre>
+        </div>
+        <ul>
+          <li><code>keyint=60:min-keyint=60</code>: at 30fps, 2 seconds = 60 frames, aligned with the 2s keyframe interval; <code>scenecut=0</code> disables scene-cut adaptive keyframes so keyframes stay strictly equidistant</li>
+          <li><code>tune=zerolatency</code>: low-latency tuning for streaming (note: this differs from recording's <code>tune=stillimage</code> — streaming prioritizes latency, recording prioritizes quality)</li>
+          <li><code>profile=main</code>: best compatibility — baseline lacks quality, high strains old-device decoding</li>
+          <li>NVENC users: after selecting NVENC as encoder, independent "Preset", "Rate Control", and "Keyframe Interval" options appear below — no x264 string needed</li>
+        </ul>
+        <h4>Bitrate and upload bandwidth math</h4>
+        <p>Stream bitrate + audio bitrate + protocol overhead ≈ actual upload usage. Rule of thumb: keep <strong>30% headroom</strong> for network fluctuation.</p>
+        <ul>
+          <li>1200kbps video + 96kbps audio ≈ 1.3Mbps; recommend upload ≥ 1.7Mbps</li>
+          <li>600kbps video + 96kbps audio ≈ 0.7Mbps; recommend upload ≥ 0.9Mbps (works on a 4G hotspot)</li>
+          <li>Test upload: check <code>speedtest.net</code>; 1MB/s = 8Mbps, plenty for 1200kbps streaming</li>
+        </ul>
+        <h4>Why a stream cannot be frame-sampled (technical explanation)</h4>
+        <p>Platform transcoding servers assume the stream is <strong>continuous-frame-rate</strong> (usually 30/60fps). They slice HLS segments at a fixed keyframe interval (usually 2 seconds) and generate multiple bitrate ladders. If you push 1 frame/6 s:</p>
+        <ul>
+          <li>A 6s keyframe interval → the slicer, cutting at 2s, hits P-frames constantly → segment artifacts</li>
+          <li>Frame rate 0.17fps → viewer players decode at 30fps and repeat each frame ~180 times, while buffers may judge the stream dead from the long frame gap and reconnect</li>
+          <li>Some platforms outright refuse streams below 10fps</li>
+        </ul>
+        <p>Conclusion: <strong>keep 30fps + 2s keyframes + low bitrate on the stream side; hand the extreme compression to post-processing.</strong></p>
+      </details>
+    </section>
+
+    <!-- ========== Local recording setup ========== -->
+    <section id="recording">
+      <h2>II. Local Recording Setup</h2>
+      <p class="lead">Recording has no real-time bandwidth pressure and can be transcoded offline — <strong>this is where 1f6s's extreme compression is directly usable</strong>. Two paths, choose by your workflow:</p>
+
+      <h3>Path comparison</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Path</th><th>Approach</th><th>Pros</th><th>Cons</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Path A (recommended)</strong><br>Record high-quality source → transcode with 1f6s</td>
+              <td>OBS records a high-bitrate source; afterwards use ffmpeg/skill to transcode to L4 etc.</td>
+              <td>Source is reusable (editing/re-encoding/archiving); transcode parameters controllable; fully aligned with the initiative; supports 2-Pass size locking</td>
+              <td>One extra transcoding step; needs temporary disk space for the source</td>
+            </tr>
+            <tr>
+              <td>Path B<br>OBS records straight to low bitrate</td>
+              <td>In OBS Output → Recording, set low bitrate/reduced resolution directly while recording</td>
+              <td>Saves a step; compressed result right after recording</td>
+              <td>Parameters less flexible than ffmpeg; no 2-Pass size locking; a botched recording can't be recovered from a source</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Path A: record a high-quality source (OBS settings)</h3>
+      <p>Goal: record a high-quality source file for later 1f6s transcoding. Settings → Output → Output Mode: Advanced → <strong>Recording</strong> tab:</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Setting</th><th>Recommended value</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Recording format</td><td>MKV</td><td>Fault-tolerant (an interrupted recording doesn't lose the whole file); can tick "Automatically remux to MP4" under Settings → Advanced → Recording afterwards</td></tr>
+            <tr><td>Video encoder</td><td>x264 or NVENC H.264</td><td>Use H.264 for the source so later ffmpeg transcoding is smooth</td></tr>
+            <tr><td>Rate control</td><td>CRF (recommend CRF 18–23) or VBR</td><td>The source should be "near-lossless" with headroom: CRF 18 is nearly lossless, 23 visually lossless; if CBR, set 2500–4000kbps</td></tr>
+            <tr><td>Bitrate (if CBR)</td><td>2500–4000 kbps</td><td>Leaves ample source quality for transcoding; 4000kbps is already very clear for lecture content</td></tr>
+            <tr><td>Keyframe interval</td><td>2 seconds</td><td>Keep default, convenient for later editing</td></tr>
+            <tr><td>Preset (x264)</td><td>medium or slow</td><td>Recording is not real-time; slower presets trade time for quality</td></tr>
+            <tr><td>Resolution</td><td>Native (e.g. 1920×1080)</td><td>Keep full resolution in the source; scale to 480p/360p during transcoding</td></tr>
+            <tr><td>FPS</td><td>30 FPS</td><td>Standard; keep normal frame rate in the source, sample it down during transcoding</td></tr>
+            <tr><td>Audio bitrate</td><td>128–160 kbps / 48kHz</td><td>Keep audio headroom in the source; compress to 20k/8k during transcoding</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>After recording, transcode with 1f6s (see <a href="#transcode">post-recording transcoding guide</a>).</p>
+
+      <h3>Path B: OBS records directly at low bitrate (compress while recording)</h3>
+      <p>Goal: compress while recording — the result is already in 1f6s style. Settings → Output → Output Mode: Advanced → <strong>Recording</strong> tab:</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Setting</th><th>Recommended value</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Recording format</td><td>MP4 or MKV</td><td>MP4 for direct delivery; MKV if you fear interruptions (then remux)</td></tr>
+            <tr><td>Video encoder</td><td>x264</td><td>So you can directly apply <code>tune=stillimage</code></td></tr>
+            <tr><td>Rate control</td><td>CRF 34</td><td>Matches 1f6s L4/L5's CRF value; or CBR 300–500kbps (extreme low bitrate for lectures)</td></tr>
+            <tr><td>Bitrate (if CBR)</td><td>300–500 kbps</td><td>At 480p B&amp;W, 300kbps still keeps text legible for lectures</td></tr>
+            <tr><td>Keyframe interval</td><td>2 seconds</td><td>Keep default</td></tr>
+            <tr><td>Preset (x264)</td><td>medium</td><td>Balance quality vs. encoding load</td></tr>
+            <tr><td>Resolution (Scaled Resolution)</td><td>854×480 (480p)</td><td>Matches 1f6s L1–L5 resolution; drop to 640×360 (360p) on extremely low bandwidth</td></tr>
+            <tr><td>FPS</td><td>30 FPS</td><td>OBS cannot frame-sample to 1 frame/6 s while recording (that's ffmpeg post-processing); keep 30fps and reduce size via CRF/bitrate + resolution</td></tr>
+            <tr><td>Audio bitrate</td><td>48–96 kbps / 48kHz</td><td>OBS can't easily set 8kHz; 48kbps is a safe floor; leave extreme compression to post-processing</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <div class="callout-title">Path B's limits</div>
+        <p>OBS recording <strong>cannot do 1 frame/6 s sampling while recording</strong> (fps=1/6 is an ffmpeg filter; OBS has no equivalent option), nor can it 2-Pass lock a size. Path B can only approach 1f6s on the "bitrate/resolution/CRF" axes — <strong>true extreme compression still requires Path A's post-recording transcode</strong>. If you want the initiative's full parameter set (sampling + 8k audio + 2-Pass), go with Path A.</p>
+      </div>
+
+      <details class="faq-item">
+        <summary>Advanced parameters (custom FFmpeg output, MKV remux, grayscale filter)</summary>
+        <h4>OBS custom FFmpeg output (Settings → Output → Output Mode: Advanced → Recording format: "Custom FFmpeg output")</h4>
+        <p>To apply <code>tune=stillimage</code> or a grayscale filter while recording, configure the "Custom FFmpeg Output":</p>
+        <ul>
+          <li><strong>Video encoder</strong>: <code>libx264</code></li>
+          <li><strong>Video parameters (FFmpeg options box)</strong>: <code>-preset slow -tune stillimage -crf 34 -pix_fmt yuv420p</code></li>
+          <li><strong>Video filter (optional, to B&amp;W)</strong>: <code>format=gray</code> (can be added for lectures to shrink size further)</li>
+          <li><strong>Audio encoder</strong>: <code>aac</code>, parameters: <code>-ac 1 -ar 22050 -b:a 20k</code> (aligns with L4 audio)</li>
+        </ul>
+        <p>Note: OBS custom FFmpeg output still cannot set <code>fps=1/6</code> sampling (the recording source is a real-time stream) — sampling can only happen in post-processing.</p>
+        <h4>Remuxing an MKV recording to MP4</h4>
+        <p>Path A records MKV for safety; before delivery you can remux losslessly (no re-encode, completes in seconds):</p>
+        <div class="code-block">
+          <div class="code-head"><span class="lang">bash · ffmpeg lossless remux</span></div>
+          <pre><code>ffmpeg -i recording.mkv -c copy -movflags +faststart recording.mp4</code></pre>
+        </div>
+        <h4>Grayscale filter (Path B advanced)</h4>
+        <p>In OBS's normal recording mode (non-custom FFmpeg), right-click the video/display capture in "Sources" → Filters → Add "Video Processing Filter" → pick "Grayscale" to get B&amp;W, equivalent to <code>format=gray</code>.</p>
+      </details>
+    </section>
+
+    <!-- ========== Quick reference ========== -->
+    <section id="quick-table">
+      <h2>Streaming vs. Recording Parameter Quick Reference</h2>
+      <p>See the differences at a glance and avoid mixing them up:</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Parameter</th><th>Streaming (live)</th><th>Recording Path A (high-quality source)</th><th>Recording Path B (compress while recording)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>FPS</td><td>30 FPS (can't lower)</td><td>30 FPS</td><td>30 FPS (OBS can't sample frames)</td></tr>
+            <tr><td>Keyframe interval</td><td>2 s (platform requirement)</td><td>2 s</td><td>2 s</td></tr>
+            <tr><td>Rate control</td><td>CBR</td><td>CRF 18–23</td><td>CRF 34 or CBR 300–500k</td></tr>
+            <tr><td>Video bitrate</td><td>600–1200 kbps</td><td>2500–4000 kbps</td><td>300–500 kbps</td></tr>
+            <tr><td>Resolution</td><td>720p / 480p</td><td>Native</td><td>480p / 360p</td></tr>
+            <tr><td>Sampling (fps=1/6)</td><td><strong>No</strong></td><td>During transcoding</td><td><strong>No</strong> (requires post-processing)</td></tr>
+            <tr><td>tune</td><td>zerolatency</td><td>—</td><td>stillimage</td></tr>
+            <tr><td>Audio bitrate</td><td>96–128 kbps / 48kHz</td><td>128–160 kbps / 48kHz</td><td>48–96 kbps / 48kHz</td></tr>
+            <tr><td>2-Pass size lock</td><td>No</td><td>During transcoding (L7)</td><td>No</td></tr>
+            <tr><td>Format</td><td>Platform ingest</td><td>MKV (source)</td><td>MP4 / MKV</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== Post-recording transcoding ========== -->
+    <section id="transcode">
+      <h2>Post-Recording Transcoding Guide (1f6s in practice)</h2>
+      <p class="lead">After recording the source with Path A, transcode it with the 1f6s tool to get standard initiative output. Two ways:</p>
+
+      <h3>Way 1: the 1f6s script (recommended)</h3>
+      <p>The repo ships <code>skill/1f6s-compress/1f6s.sh</code> — one command probes and transcodes:</p>
+      <div class="code-block">
+        <div class="code-head"><span class="lang">bash · default L4 compression</span></div>
+        <pre><code># default: L4 (1 frame/6 s + 480p B&W + CRF 34 + stillimage)
+./skill/1f6s-compress/1f6s.sh recording.mp4
+
+# specify a level
+./skill/1f6s-compress/1f6s.sh recording.mp4 L4 -y
+
+# L7 locks the target size (e.g. 8MB)
+./skill/1f6s-compress/1f6s.sh recording.mp4 L7 --target 8 -y</code></pre>
+      </div>
+      <p>The output defaults to <code>recording_1f6s.mp4</code> and never overwrites the source. See the <a href="../skill/1f6s-compress/README.md">1f6s tool README</a>.</p>
+
+      <h3>Way 2: direct ffmpeg commands</h3>
+      <p>The complete commands from the <a href="levels.html">8-level standard</a>; the most-used L4:</p>
+      <div class="code-block">
+        <div class="code-head"><span class="lang">bash · ffmpeg L4</span></div>
+        <pre><code>ffmpeg -i recording.mp4 -vf "fps=1/6,scale=-2:480,format=gray" -c:v libx264 -preset slow -tune stillimage -crf 34 -c:a aac -ac 1 -ar 22050 -b:a 20k -pix_fmt yuv420p recording_1f6s.mp4</code></pre>
+      </div>
+
+      <div class="callout ok">
+        <div class="callout-title">Recommended workflow</div>
+        <p><strong>Stream live (low bitrate ~1200kbps) while recording locally (Path A, CRF 18 high-quality source)</strong> — one live event yields three outputs: ① the stream viewers watch in real time; ② the finished source; ③ the source transcoded with 1f6s for archiving/distribution. The three parameter sets don't interfere — this is the optimal workflow for lecture-style live streaming.</p>
+      </div>
+    </section>
+
+    <!-- ========== FAQ ========== -->
+    <section id="faq-obs">
+      <h2>Frequently Asked Questions</h2>
+      <details class="faq-item" open>
+        <summary>Why can't a stream be sampled directly to 1 frame/6 s?</summary>
+        <p>Streaming protocols (RTMP/SRT) and platform transcoders assume continuous frame rates (30/60fps) and slice at fixed keyframe intervals (usually 2s). 1 frame/6 s makes the slicer hit non-keyframes constantly, causing artifacts; player buffers may also declare the stream dead from overlong frame gaps and reconnect; some platforms outright reject very low frame rates. <strong>Keep 30fps on the stream; do the sampling in post-processing</strong>.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Why is the keyframe interval 2 seconds instead of 6?</summary>
+        <p>2 seconds is a universal platform requirement (Bilibili, Douyin, YouTube all use it) — platforms slice HLS segments on it. A 6s keyframe interval makes segments too long: higher first-frame latency for viewers and sluggish seeking. 1f6s's "6 seconds" is the <strong>sampling interval</strong> (picture update frequency); a streaming <strong>keyframe interval</strong> is a different concept — don't mix them.</p>
+      </details>
+      <details class="faq-item">
+        <summary>MKV or MP4 for recording?</summary>
+        <p>Prefer <strong>MKV</strong> while recording — if OBS crashes or power dies, the MKV is still recoverable; an MP4 damaged by a non-clean close loses the whole file. OBS can auto-remux to MP4 after recording (Settings → Advanced → Recording → tick "Automatically remux", format MP4). Use MP4 for delivery/distribution (best compatibility).</p>
+      </details>
+      <details class="faq-item">
+        <summary>NVENC or x264?</summary>
+        <p>With an NVIDIA GPU use <strong>NVENC</strong> (hardware encoding) — saves CPU and keeps games/apps smooth while streaming; without one, or for maximum quality, use <strong>x264</strong> (software encoding), which is slightly better at equal bitrate. For lecture streams the two are comparable — pick whichever lightens your system load. Note: when transcoding with 1f6s/ffmpeg, always use <code>libx264</code>, regardless of the OBS choice.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does the recorded source still need compressing?</summary>
+        <p>Depends on the use. <strong>Archive / distribute / send</strong> → transcode with 1f6s to L4/L7 (16–19MB / 8MB); <strong>later editing</strong> → keep the source untouched; <strong>platform upload</strong> → use the L1 color version (platforms re-transcode; don't start too low). Keep one source copy in cold storage and distribute the compressed version daily.</p>
+      </details>
+    </section>
+
+    <!-- ========== Getting it ========== -->
+    <section id="get">
+      <h2>Getting it</h2>
+      <p class="lead">This page is an OBS setup guide — follow the GUI steps in OBS Studio directly, no extra files needed. The 1f6s tool used for post-recording transcoding comes from the repo:</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Way</th><th>How</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Clone the repo</td>
+              <td><code>git clone https://github.com/brnme/1f6s.git</code>; the transcoding tool lives in <code>skill/1f6s-compress/</code></td>
+            </tr>
+            <tr>
+              <td>Use the script directly</td>
+              <td>After cloning, <code>chmod +x skill/1f6s-compress/1f6s.sh</code>, then <code>./skill/1f6s-compress/1f6s.sh recording.mp4 L4</code> compresses the recording to standard size</td>
+            </tr>
+            <tr>
+              <td>OBS itself</td>
+              <td>Download OBS Studio (free, open source) from <a href="https://obsproject.com" target="_blank" rel="noopener">obsproject.com</a>; the steps here are based on OBS 30.x</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout ok">
+        <div class="callout-title">Dependencies</div>
+        <p>OBS Studio (free) + ffmpeg/ffprobe (needed for transcoding, ships with ffmpeg). The GUI steps here need no command line; only post-recording transcoding uses <code>skill/1f6s-compress/1f6s.sh</code>.</p>
+      </div>
+    </section>
+
+    <!-- ========== Summary ========== -->
+    <section id="summary">
+      <h2>Summary</h2>
+      <p>OBS setup for lecture streams and screen recordings boils down to <strong>knowing the real-time vs. offline boundary</strong>: streaming wants stable continuity (30fps + low bitrate + 2s keyframes); extreme compression goes to post-recording transcoding (1f6s sampling + grayscale + stillimage). The parameter sets don't interfere — one live event can simultaneously produce a stream and an archivable source.</p>
+      <div class="callout ok">
+        <div class="callout-title">Core principle</div>
+        <p>No sampling on the stream; keep the source for recordings; transcode with 1f6s — real-time stays continuous, offline stays extreme.</p>
+      </div>
+    </section>
+
+    <hr>
+    <nav style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:24px 0">
+      <a href="scenarios.html">← Previous: nine work scenarios</a>
+      <a href="redlines.html">Next: prohibited red lines →</a>
+    </nav>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">1帧6秒 · Video Compression Initiative</div>
+      <div>Standard sampling rate for lecture-style videos · v1.0</div>
+    </div>
+    <ul class="footer-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="levels.html">Levels</a></li>
+      <li><a href="scenarios.html">Scenarios</a></li>
+      <li><a href="redlines.html">Red Lines</a></li>
+      <li><a href="design.html">PPT Design</a></li>
+      <li><a href="obs.html">OBS Setup</a></li>
+      <li><a href="skill-ppt.html">PPT Skill</a></li>
+      <li><a href="skill-compress.html">Compress Skill</a></li>
+      <li><a href="license.html">License</a></li>
+    </ul>
+    <div class="footer-copy">This initiative is licensed under <a href="license.html">CC BY 4.0</a>, by Han Lie and AI collaboration partners. All FFmpeg commands are H.264/AAC based and have been tested and verified for production use.</div>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

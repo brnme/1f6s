@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1帧6秒 · 视频压缩倡议 Deck</title>
+<style>
+  /* ===== 抗压缩幻灯片样式（仅三色 / 无衬线 / ≥24pt / ≥3px边框 / 零阴影零渐变）===== */
+  :root{
+    --black:#000000; --gray:#808080; --white:#FFFFFF;
+    --line:3px solid var(--black);
+    --sans:"Source Han Sans SC","Microsoft YaHei","微软雅黑",Arial,Helvetica,sans-serif;
+    --mono:"Cascadia Code","Consolas","Courier New",monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:var(--sans); background:var(--white); color:var(--black);
+    overflow:hidden;
+  }
+  .deck{width:100vw; height:100vh; position:relative;}
+  .slide{
+    width:100vw; height:100vh; padding:64px 80px;
+    display:none; flex-direction:column; justify-content:center;
+    background:var(--white); color:var(--black); overflow:hidden;
+  }
+  .slide.active{display:flex;}
+  .slide-dark{background:var(--black); color:var(--white);}
+  .slide-dark .deck-h2, .slide-dark .deck-h3{color:var(--white);}
+  .deck-h2-light{color:var(--white) !important;}
+  .slide-cover{align-items:center; text-align:center;}
+
+  .deck-title{font-size:56px; font-weight:700; line-height:1.2;}
+  .deck-h2{font-size:48px; font-weight:700; line-height:1.25; margin-bottom:32px;}
+  .deck-h3{font-size:40px; font-weight:700; line-height:1.3; margin-bottom:20px;}
+  .deck-body{font-size:32px; font-weight:700; line-height:1.5;}
+  .deck-muted{font-size:37px; color:var(--gray); font-weight:700; line-height:1.4;}
+  .slide-dark .deck-muted{color:var(--gray);}
+
+  .deck-list{list-style:none; padding:0;}
+  .deck-list li{
+    font-size:32px; font-weight:700; line-height:1.45; padding:6px 0;
+    border-bottom:var(--line);
+  }
+  .deck-list li:last-child{border-bottom:none;}
+  ol.deck-list{counter-reset:deck;}
+  ol.deck-list li{counter-increment:deck; padding-left:56px; position:relative;}
+  ol.deck-list li::before{content:counter(deck)". "; position:absolute; left:0; font-weight:700;}
+
+  .deck-tbl-wrap{overflow-x:auto;}
+  .deck-tbl{width:100%; border-collapse:collapse; font-size:28px; font-weight:700; line-height:1.35;}
+  .deck-tbl th,.deck-tbl td{border:var(--line); padding:10px 18px; text-align:left;}
+  .deck-tbl thead th{background:var(--black); color:var(--white);}
+  .deck-tbl tbody tr:nth-child(even){background:var(--white);}
+  .deck-tbl tbody tr:nth-child(odd){background:var(--white);}
+  .row-key{background:var(--black) !important; color:var(--white);}
+
+  .deck-callout{
+    border:var(--line); padding:24px 28px; margin-top:24px; background:var(--white);
+  }
+  .deck-callout-title{font-size:36px; font-weight:700; margin-bottom:12px;}
+  .deck-callout p{font-size:32px; font-weight:700; line-height:1.5;}
+  .deck-callout-warn{border-width:5px;}
+  .deck-callout-warn .deck-callout-title::before{content:"⚠ ";}
+
+  .deck-badge{
+    display:inline-block; border:var(--line); padding:4px 14px;
+    font-size:28px; font-weight:700; margin-right:12px; background:var(--white);
+  }
+
+  .deck-checklist{list-style:none; padding:0;}
+  .deck-checklist li{font-size:32px; font-weight:700; line-height:1.5; padding:6px 0;}
+
+  .deck-code{
+    background:var(--black); color:var(--white); font-family:var(--mono);
+    font-size:30px; line-height:1.5; padding:28px 32px; overflow-x:auto;
+    white-space:pre; border:var(--line);
+  }
+
+  .deck-chart{display:flex; align-items:flex-end; gap:32px; height:320px; border-bottom:var(--line); padding-bottom:0;}
+  .bar{width:96px; background:var(--white); border:var(--line); height:var(--h);}
+  .bar-solid{background:var(--black);}
+  .bar-outline{background:var(--white);}
+  .bar-hatch{background:repeating-linear-gradient(45deg,var(--black) 0 8px,var(--white) 8px 16px);}
+  .deck-legend{list-style:none; display:flex; gap:28px; margin-top:20px; padding:0;}
+  .deck-legend li{font-size:28px; font-weight:700; display:flex; align-items:center; gap:10px;}
+  .sw{display:inline-block; width:24px; height:24px; border:3px solid var(--black);}
+  .sw-solid{background:var(--black);}
+  .sw-outline{background:var(--white);}
+  .sw-hatch{background:repeating-linear-gradient(45deg,var(--black) 0 4px,var(--white) 4px 8px);}
+
+  .deck-two{display:flex; gap:0; margin-top:16px;}
+  .deck-two>div{flex:1; padding:0 32px;}
+  .deck-two>div+div{border-left:var(--line);}
+
+  .pager{
+    position:fixed; right:32px; bottom:24px; font-size:28px; font-weight:700;
+    color:var(--gray); background:var(--white); padding:4px 12px; border:var(--line);
+  }
+  /* 短视口降级：只缩留白，字号/线宽/颜色不动 */
+  @media (max-height:640px){
+    .slide{padding:32px 64px;}
+    .deck-h2{margin-bottom:20px;}
+    .deck-h3{margin-bottom:12px;}
+  }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- 1 封面 -->
+  <section class="slide slide-cover active">
+    <h1 class="deck-title">确立「1帧6秒」<br>为讲解类视频压缩的标准抽帧频率</h1>
+    <p class="deck-muted">在画面更新频率与压缩效率之间找到黄金平衡点：<br>再长则音画巨大落差，再短则无法大幅压缩。<br>6 秒，是认知、语速与计时便利性的最优交集。</p>
+    <p style="margin-top:40px;">
+      <span class="deck-badge">倡议版本 v1.0</span>
+      <span class="deck-badge">基于 H.264 / AAC</span>
+      <span class="deck-badge">8 级压缩方案</span>
+      <span class="deck-badge">9 大工作场景</span>
+    </p>
+  </section>
+
+  <!-- 2 目录 -->
+  <section class="slide">
+    <h2 class="deck-h2">目录</h2>
+    <ol class="deck-list">
+      <li>倡议宣言 · 为什么是 6 秒</li>
+      <li>压缩效率对比 · 体积估算器</li>
+      <li>方案选择器（推荐逻辑速查）</li>
+      <li>深入各专题 · 工具箱 Skills</li>
+      <li>术语速查</li>
+      <li>常见疑问</li>
+    </ol>
+  </section>
+
+  <!-- 3 宣言：核心主张 -->
+  <section class="slide">
+    <h2 class="deck-h2">倡议宣言 · 核心主张</h2>
+    <ul class="deck-list">
+      <li>讲解类视频的核心价值在「内容」而非「画面流畅度」——30fps 让成千上万几乎相同的帧重复编码，把带宽消耗在无信息增量的像素上。</li>
+      <li>核心主张：以 6 秒为抽帧间隔，让画面只在「信息发生变化」时更新——让编码资源精确匹配内容的真实信息密度。</li>
+    </ul>
+    <p class="deck-muted">配套八级压缩规范、九大场景适配与 PPT 抗压缩设计规范：可落地、可复现、可团队统一执行。</p>
+  </section>
+
+  <!-- 4 宣言：边界 -->
+  <section class="slide">
+    <h2 class="deck-h2">倡议宣言 · 适用边界</h2>
+    <div class="deck-callout deck-callout-warn" style="margin-top:0;">
+      <div class="deck-callout-title">一句话概括</div>
+      <p>用时间换空间——只对「静态为主、信息靠讲」的内容生效。</p>
+    </div>
+    <div class="deck-callout deck-callout-warn">
+      <div class="deck-callout-title">立即放弃本规范</div>
+      <p>一旦内容依赖连续运动、情绪传递或精确时序。</p>
+    </div>
+  </section>
+
+  <!-- 5 为什么是6秒：认知与语速 -->
+  <section class="slide">
+    <h2 class="deck-h2">为什么是 6 秒 · 认知与语速</h2>
+    <ul class="deck-list">
+      <li>人类对静态画面的视觉记忆约维持 4～8 秒，6 秒恰在其中位：更短则听众尚未消化就被迫翻页，更长则音画落差急剧放大。</li>
+      <li>中文正常语速约 150～180 字/分钟，6 秒恰好等于 15～18 个字——读完一张幻灯片核心标题或一组关键数据所需的时间。</li>
+    </ul>
+    <p class="deck-muted">间隔太短增加认知负担，间隔太长放大音画错位。</p>
+  </section>
+
+  <!-- 6 为什么是6秒：数学优势 -->
+  <section class="slide">
+    <h2 class="deck-h2">为什么是 6 秒 · 数学优势</h2>
+    <ul class="deck-list">
+      <li>对比 5 秒：每分钟由 12 帧降到 10 帧，一小时少 120 帧，视频数据量再减约 16.7%。</li>
+      <li>对比 8 秒及以上：每多 1 秒收益边际递减，音画不同步投诉率显著上升——6 秒是「能接受的最长间隔」。</li>
+      <li>6 整除 60：只看时间戳秒位即可推算当前画面是第几张（第 6、12、18……秒），整点对齐，无需心算。</li>
+    </ul>
+    <p class="deck-muted">压缩效率与观看体验的黄金平衡点。</p>
+  </section>
+
+  <!-- 7 压缩效率对比表 -->
+  <section class="slide">
+    <h2 class="deck-h2">压缩效率实证对比</h2>
+    <p class="deck-muted">以 1 小时视频为基准：</p>
+    <div class="deck-tbl-wrap">
+      <table class="deck-tbl">
+        <thead>
+          <tr><th>抽帧间隔</th><th>帧数/小时</th><th>压缩增益</th><th>主观体验</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>2 秒</td><td>1800 帧</td><td>基准（最流畅）</td><td>体积大，失去压缩意义</td></tr>
+          <tr><td>5 秒</td><td>720 帧</td><td>减少约 16.7%</td><td>体验良好，但计算不便</td></tr>
+          <tr class="row-key"><td>6 秒</td><td>600 帧</td><td>基准（推荐）</td><td>体验与压缩的最佳平衡</td></tr>
+          <tr><td>8 秒</td><td>450 帧</td><td>再减少 25%</td><td>音画落差明显，不推荐</td></tr>
+          <tr><td>10 秒</td><td>360 帧</td><td>再减少 40%</td><td>仅适用极慢语速/纯静态 PPT</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 8 体积估算器（上）：1帧/6秒 -->
+  <section class="slide">
+    <h2 class="deck-h2">体积估算器 · 1帧/6秒档</h2>
+    <p class="deck-muted">时长 99 分钟（5940 秒）→ 每级 990 帧，预估值取经验区间中值：</p>
+    <div class="deck-tbl-wrap">
+      <table class="deck-tbl">
+        <thead>
+          <tr><th>级别</th><th>名称</th><th>总帧数</th><th>预估体积</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>L1</td><td>标准级</td><td>990 帧</td><td>≈ 32.5 MB</td><td>彩色 CRF32</td></tr>
+          <tr><td>L2</td><td>黑白级</td><td>990 帧</td><td>≈ 26.0 MB</td><td>黑白 CRF32</td></tr>
+          <tr><td>L3</td><td>高压缩级</td><td>990 帧</td><td>≈ 20.0 MB</td><td>黑白 CRF34</td></tr>
+          <tr class="row-key"><td>L4 ★</td><td>智能调优级</td><td>990 帧</td><td>≈ 17.5 MB</td><td>+stillimage 推荐</td></tr>
+          <tr><td>L5</td><td>音频极限级</td><td>990 帧</td><td>≈ 15.5 MB</td><td>8k 音频</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 9 体积估算器（下）：1帧/10秒 -->
+  <section class="slide">
+    <h2 class="deck-h2">体积估算器 · 1帧/10秒档</h2>
+    <p class="deck-muted">时长 99 分钟（5940 秒）→ 每级 594 帧：</p>
+    <div class="deck-tbl-wrap">
+      <table class="deck-tbl">
+        <thead>
+          <tr><th>级别</th><th>名称</th><th>总帧数</th><th>预估体积</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>L6</td><td>长间隔级</td><td>594 帧</td><td>≈ 11.0 MB</td><td>10秒 / 360p</td></tr>
+          <tr><td>L7</td><td>2-Pass 级</td><td>594 帧</td><td>按目标体积锁定</td><td>二次编码精确控量</td></tr>
+          <tr><td>L8</td><td>H.265 极限级</td><td>594 帧</td><td>≈ 7.0 MB</td><td>需确认 H.265 支持</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="deck-callout">
+      <div class="deck-callout-title">换算方法</div>
+      <p>体积为经验区间中值按分钟线性换算，实际受内容复杂度与编码器版本影响；任选时长后各级等比例缩放。L7 用 2-Pass 锁死目标体积。</p>
+    </div>
+  </section>
+
+  <!-- 10 方案选择器 -->
+  <section class="slide">
+    <h2 class="deck-h2">方案选择器 · 推荐逻辑速查</h2>
+    <p class="deck-muted">回答三问定级别：主要渠道 → 是否必彩色 → 带宽条件：</p>
+    <div class="deck-tbl-wrap">
+      <table class="deck-tbl">
+        <thead>
+          <tr><th>你的情况</th><th>推荐级别</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>销售演示 / 必须保留彩色</td><td>L1 标准级（480p 彩色）</td></tr>
+          <tr><td>企业内训 / 知识库存档</td><td>L4 智能调优级（存量批量可降 L5）</td></tr>
+          <tr><td>电子邮件附件</td><td>宽带好：L4；限 10MB 内：L6</td></tr>
+          <tr><td>微信 / IM / 公益慕课</td><td>L5 音频极限级；极低带宽用 L6</td></tr>
+          <tr><td>移动端离线观看</td><td>L6 长间隔级；支持 H.265 可选 L8</td></tr>
+          <tr class="row-key"><td>综合 / 无明确约束</td><td>L4 智能调优级 ★</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 11 深入各专题 -->
+  <section class="slide">
+    <h2 class="deck-h2">深入各专题</h2>
+    <ol class="deck-list">
+      <li>八级压缩规范 —— L1～L8 参数、ffmpeg 命令与 2-Pass 体积控制</li>
+      <li>九大工作场景适配 —— 邮件/微信/内训/慕课/销售/合规/离线/上传/归档</li>
+      <li>禁用红线清单 —— 监控、影视、手术、手语、ASMR 严禁使用，附反向判断法</li>
+      <li>PPT 抗压缩设计规范 —— 从源头让幻灯片扛住黑白 + 低分辨率 + 高 CRF</li>
+      <li>OBS 推流与录像配置 —— GUI 步骤 + 高级参数 + 录像后 1f6s 转码</li>
+    </ol>
+  </section>
+
+  <!-- 12 工具箱 -->
+  <section class="slide">
+    <h2 class="deck-h2">工具箱 · Skills</h2>
+    <ul class="deck-list">
+      <li>PPT 生成 Skill —— 从主题/大纲生成或从本站页面转换出抗压缩 HTML 幻灯片 deck</li>
+      <li>视频转 1f6s Skill —— ffmpeg 转成符合八级规范的输出；先探测源、展示命令、确认后执行、不覆盖原视频</li>
+      <li>OBS 推流与录像配置 —— 推流 1200kbps + 录像 CRF18，录像后再走 1f6s 转码</li>
+    </ul>
+    <pre class="deck-code"><code>run_skill ppt "主题: 团队周报规范"
+./1f6s.sh lecture.mp4 L4</code></pre>
+  </section>
+
+  <!-- 13 术语速查（上） -->
+  <section class="slide">
+    <h2 class="deck-h2">术语速查 · 编码与调优</h2>
+    <div class="deck-tbl-wrap">
+      <table class="deck-tbl">
+        <thead>
+          <tr><th>术语</th><th>含义</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>fps=1/6</td><td>FFmpeg 滤镜参数：每 6 秒输出 1 帧，即「1帧6秒」的技术写法</td></tr>
+          <tr><td>CRF</td><td>恒定质量因子：数值越大画质越低、体积越小；28 为视觉无损基准，34 以上属高压缩</td></tr>
+          <tr><td>tune=stillimage</td><td>x264 静态图像专用调优：强化单帧细节保留，适合抽帧后的视频</td></tr>
+          <tr><td>2-Pass</td><td>二次编码：先分析全片码率分布，再精确分配，用于锁死目标体积</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 14 术语速查（下） -->
+  <section class="slide">
+    <h2 class="deck-h2">术语速查 · 格式与兼容</h2>
+    <div class="deck-tbl-wrap">
+      <table class="deck-tbl">
+        <thead>
+          <tr><th>术语</th><th>含义</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>HEVC / H.265</td><td>同等画质体积约为 H.264 一半，但兼容性较差，需确认播放器支持</td></tr>
+          <tr><td>480p / 360p</td><td>纵向像素数（854×480 / 640×360）；讲解类在手机小屏差别不大</td></tr>
+          <tr><td>yuv420p</td><td>像素格式，确保最大播放兼容（旧设备/浏览器均支持），交付必备</td></tr>
+          <tr><td>scale=-2:480</td><td>按高度等比缩放至 480px，宽度自动计算且保证取偶（编码器要求）</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 15 常见疑问（上） -->
+  <section class="slide">
+    <h2 class="deck-h2">常见疑问 · 画质与媒介</h2>
+    <ul class="deck-checklist">
+      <li>为什么默认 H.264 而不是 H.265？—— 兼容性优先，「发出去就能打开」；H.265（L8）仅在明确确认播放器支持时启用。</li>
+      <li>8kHz 音频真能听清吗？—— 能。相当于电话音质，人声频段（300Hz～3.4kHz）基本保留；涉及音乐、语气细节或外语听力教学，退回 22.05kHz（L1～L4）。</li>
+      <li>为什么不直接发 GIF 或纯图片？—— GIF 无音频且调色板有限，纯图片丢失「边讲边看」的时间同步。本规范的本质：保留音频的时间流，只压缩画面的时间流。</li>
+    </ul>
+  </section>
+
+  <!-- 16 常见疑问（下） -->
+  <section class="slide">
+    <h2 class="deck-h2">常见疑问 · 边界与环境</h2>
+    <ul class="deck-checklist">
+      <li>抽帧后画面跳，突兀吗？—— 讲解类不会，「看一页、听一段、再翻页」本就是观众预期；真正要防的是音画错位，这正是选 6 秒而非 8/10 秒的依据。</li>
+      <li>适合直播录像吗？—— 「PPT＋口播」式讲座适合（按 L4 处理）；含弹幕互动、主播表情、现场演示的不建议，见禁用红线「反向判断法」。</li>
+      <li>Mac 与 Windows 混用要改参数吗？—— 不用，FFmpeg 命令完全一致（建议 4.x+）；仅 Windows 上把 /dev/null 换成 NUL（L7 两遍 pass 第一遍用）。</li>
+    </ul>
+  </section>
+
+  <!-- 17 末页 -->
+  <section class="slide slide-cover">
+    <h1 class="deck-title">谢谢</h1>
+    <p class="deck-muted">1帧6秒 · 讲解类视频的标准抽帧频率<br>v1.0 · CC BY 4.0 · 韩烈 及 AI 协作伙伴</p>
+  </section>
+
+</div>
+
+<div class="pager"><span id="cur">1</span> / <span id="total">16</span></div>
+
+<script>
+  /* ===== 极简翻页（←/→/Space/Home/End/F全屏），零依赖 ===== */
+  (function(){
+    var slides=document.querySelectorAll('.slide');
+    var total=slides.length;
+    document.getElementById('total').textContent=total;
+    var cur=0;
+    function show(i){
+      cur=(i+total)%total;
+      slides.forEach(function(s,idx){s.classList.toggle('active',idx===cur);});
+      document.getElementById('cur').textContent=cur+1;
+    }
+    document.addEventListener('keydown',function(e){
+      var k=e.key;
+      if(k==='ArrowRight'||k===' '||k==='PageDown'){show(cur+1);e.preventDefault();}
+      else if(k==='ArrowLeft'||k==='PageUp'){show(cur-1);e.preventDefault();}
+      else if(k==='Home'){show(0);e.preventDefault();}
+      else if(k==='End'){show(total-1);e.preventDefault();}
+      else if(k==='f'||k==='F'){
+        if(!document.fullscreenElement){document.documentElement.requestFullscreen();}
+        else{document.exitFullscreen();}
+      }
+    });
+    show(0);
+    /* 支持 ?s=N 直接打开第 N 页（供无头截图/视频合成用） */
+    var q=parseInt(new URLSearchParams(location.search).get('s'),10);
+    if(q>=1&&q<=total){show(q-1);}
+  })();
+</script>
+</body>
+</html>

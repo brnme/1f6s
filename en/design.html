@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compression-Resistant PPT Design · 1f6s</title>
+<meta name="description" content="PPT design guidelines to pair with the B&W + low-resolution (480p/360p) + high-compression (CRF 34+) plans: fonts and sizes, a 3-level grayscale palette, layout whitespace, line weights, and a 3-step self-check.">
+<link rel="alternate" hreflang="zh-CN" href="../design.html">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">1帧6秒<span class="brand-tag">Video Compression Initiative</span></a>
+    <div class="lang-switch">
+      <a href="../design.html" lang="zh-CN" aria-label="切换到中文">中</a><span class="sep">/</span><a href="design.html" class="active" lang="en" aria-label="Switch to English">EN</a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="levels.html">Levels</a></li>
+      <li><a href="scenarios.html">Scenarios</a></li>
+      <li><a href="redlines.html">Red Lines</a></li>
+      <li><a href="design.html">PPT Design</a></li>
+      <li><a href="obs.html">OBS Setup</a></li>
+      <li><a href="skill-ppt.html">PPT Skill</a></li>
+      <li><a href="skill-compress.html">Compress Skill</a></li>
+      <li><a href="license.html">License</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <section id="top">
+      <h1>Compression-Resistant PPT Design</h1>
+      <p class="lead">To pair with the extreme "B&amp;W + low resolution (480p/360p) + high compression (CRF 34+)" plans, we design presentations (PPT/Keynote) to be "compression-resistant" at the source.</p>
+      <div class="callout">
+        <div class="callout-title">Core principle</div>
+        <p>At low bitrates, encoders prioritize high-contrast edges and large color patches, sacrificing gradients, thin lines, and similar hues. The core principle is therefore: <strong>"Black is black, white is white: no grayscale gradients, no reliance on thin lines."</strong></p>
+      </div>
+    </section>
+
+    <!-- ========== I. Fonts and sizes ========== -->
+    <section id="fonts">
+      <h2>I. Font &amp; Size Guidelines <span class="subtitle">(fighting blur)</span></h2>
+      <p>At low resolutions, complex-stroke fonts blur into mush and small sizes simply disappear.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Design element</th><th>Mandatory rule</th><th>Reason &amp; notes</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Font family</strong></td>
+              <td>Mandatory <strong>sans-serif</strong> (e.g. Source Han Sans, Microsoft YaHei, Arial, Helvetica). <span class="danger-text">Strictly forbidden</span>: serif or script fonts like SimSun, KaiTi, Times New Roman.</td>
+              <td>Sans-serif strokes are uniform and evenly weighted; after pixelated compression the outline stays crisp. The "flared mouths" and "triangular serifs" of serif faces become mosaic noise at 360p.</td>
+            </tr>
+            <tr>
+              <td><strong>Minimum size (body)</strong></td>
+              <td>≥ <strong>24pt</strong> (titles recommended ≥ 36pt).</td>
+              <td>Field-tested: 24pt at 480p scaling (854×480) reads comfortably in landscape on a small phone; text below 20pt loses its strokes entirely at 360p.</td>
+            </tr>
+            <tr>
+              <td><strong>Font color (B&amp;W)</strong></td>
+              <td>Pure black (<code>#000000</code>) for body text, pure white (<code>#FFFFFF</code>) for reversed-out text (dark backgrounds). <span class="danger-text">Strictly forbidden</span> to substitute dark gray (e.g. <code>#333333</code>) for black.</td>
+              <td>The x264 encoder detects pure-black edges most reliably and preferentially preserves sharp edges when compressing; dark gray gets mistaken for "noise" or "shadow" and blurred away, making text look soft.</td>
+            </tr>
+            <tr>
+              <td><strong>Font weight</strong></td>
+              <td>Use <strong>Bold or Heavy</strong> for regular display. Light/Thin only for oversized titles (&gt;48pt).</td>
+              <td>Bold strokes have greater pixel coverage and resist H.264 detail smearing at CRF 34.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== II. Color and grayscale ========== -->
+    <section id="grayscale">
+      <h2>II. Color &amp; Grayscale Contrast <span class="subtitle">(working in black, white, gray)</span></h2>
+      <p>Once compressed to B&amp;W, visual hierarchy relies entirely on "luminance differences". We use only <strong>3 grayscale levels</strong>.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Grayscale level</th><th>Hex value</th><th>RGB</th><th>Use for</th><th>Compression performance</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="gray-swatch" style="background:#000000"></span> <strong>Pure black (foreground)</strong></td>
+              <td><code>#000000</code></td>
+              <td>(0,0,0)</td>
+              <td>Body text, primary lines, chart borders, titles on dark backgrounds.</td>
+              <td><span class="ok-text">Excellent</span>. Sharp edges, lowest bitrate.</td>
+            </tr>
+            <tr>
+              <td><span class="gray-swatch" style="background:#808080"></span> <strong>Mid gray (emphasis)</strong></td>
+              <td><code>#808080</code></td>
+              <td>(128,128,128)</td>
+              <td>Supplementary text, minor table cells, helper arrows, watermarks.</td>
+              <td><span class="ok-text">Usable</span>. Requires ≥ 28pt or gray areas may compress to "blank".</td>
+            </tr>
+            <tr>
+              <td><span class="gray-swatch" style="background:#FFFFFF"></span> <strong>Pure white (background)</strong></td>
+              <td><code>#FFFFFF</code></td>
+              <td>(255,255,255)</td>
+              <td>Page background, text on light backgrounds (reversed), highlight areas.</td>
+              <td><span class="ok-text">Excellent</span>. More whitespace → the encoder more easily classifies the area as "static" → smaller files.</td>
+            </tr>
+            <tr>
+              <td><span class="gray-swatch" style="background:#CCCCCC"></span> <strong>❌ Light gray forbidden</strong></td>
+              <td><code>#CCCCCC</code> and lighter</td>
+              <td>(200+)</td>
+              <td><span class="danger-text">Strictly forbidden for text or chart lines.</span></td>
+              <td><span class="danger-text">Very poor</span>. Nearly invisible after compression, or appears as "dirty" blotches.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout danger">
+        <div class="callout-title">🔴 Red-line rule</div>
+        <p><strong>Eliminate all color</strong> (red, green, blue, yellow, purple) from the final deliverable. If the source has color, select all with <span class="kbd">Ctrl+A</span> in PPT before export, force font color to "Automatic (black)", and replace colored shape fills with the grayscale values above.</p>
+        <p>To express "distinction" without gray levels, use <strong>italics</strong> or <strong>underlines</strong> instead of relying on gray shades.</p>
+      </div>
+    </section>
+
+    <!-- ========== III. Layout and whitespace ========== -->
+    <section id="layout">
+      <h2>III. Layout &amp; Whitespace <span class="subtitle">(lightening the encoder's load)</span></h2>
+      <p>At high compression, complex textures (grids, shadows, gradients) are "size killers" — they bloat files and dirty the picture.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Design element</th><th>Mandatory rule</th><th>Reason</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Background</strong></td>
+              <td>Pure white (<code>#FFFFFF</code>) or pure black (<code>#000000</code>) only. <span class="danger-text">Strictly forbidden</span>: PPT's built-in "gradient backgrounds", "texture fills", or "image watermarks".</td>
+              <td>Solid backgrounds have near-zero DCT (discrete cosine transform) coefficients — the encoder restores them with almost no bits, leaving bitrate for the text.</td>
+            </tr>
+            <tr>
+              <td><strong>Shadows / 3D effects</strong></td>
+              <td>Completely disabled: text shadows, shape shadows, reflections, glows, 3D rotation, bevel effects.</td>
+              <td>Shadows become ugly "ghost" mosaics at low bitrates, eating into the sharpness of text edges.</td>
+            </tr>
+            <tr>
+              <td><strong>Charts (bars/pies)</strong></td>
+              <td>Alternate <strong>solid black fills</strong> with <strong>hollow white outlines (strokes)</strong>. Distinguish legends with <strong>patterns (hatching/dots)</strong> instead of colors.</td>
+              <td>Adjacent pie slices (gray vs black) need contrast above 50% (e.g. black–white–gray alternation), or they become indistinguishable after compression.</td>
+            </tr>
+            <tr>
+              <td><strong>Line weight</strong></td>
+              <td>Strokes/lines ≥ <strong>2.25pt</strong> (~3px). Lines under 1pt break at 360p.</td>
+              <td>Keeps divider and table borders continuous under extreme compression.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== IV. Special elements ========== -->
+    <section id="special">
+      <h2>IV. Special Element Adaptation</h2>
+
+      <h3>Embedding screenshots (code / UI)</h3>
+      <ul>
+        <li><span class="danger-text">Strictly forbidden</span> to paste full-screen screenshots directly (they carry tons of irrelevant pixels).</li>
+        <li>Procedure: crop away the extra UI frame in PPT, keep only the core code/operation area; set the screenshot to "grayscale mode" and raise contrast ~+30%.</li>
+        <li>Size: ensure code inside the screenshot is ≥ 14pt (physical size), otherwise enlarge the screenshot to a full page.</li>
+      </ul>
+
+      <h3>Formulas / math symbols</h3>
+      <ul>
+        <li>Use PPT's built-in equation editor for <strong>vector formulas</strong>; <span class="danger-text">strictly forbidden</span> to use image-format formulas.</li>
+        <li>Thicken fraction bars and radical strokes in formulas so they don't fracture under compression.</li>
+      </ul>
+    </section>
+
+    <!-- ========== V. Three-step self-check ========== -->
+    <section id="checklist">
+      <h2>V. Final Self-Check (3-Step Method)</h2>
+      <p>Before exporting the MP4, run this "3-step self-check" on the last slide (<span class="muted">click to check off; state is saved locally</span>):</p>
+      <div class="card">
+        <ul class="checklist" id="design-checklist">
+          <li data-key="cl-shrink"><strong>Shrink test:</strong> zoom the PPT to 50% and view from 1 meter away. If the title is unreadable, the size is too small — enlarge it.</li>
+          <li data-key="cl-decolor"><strong>Decolor test:</strong> switch the page to "grayscale/B&amp;W" preview in PPT. If two adjacent elements blend together, contrast is insufficient — change them to pure black/white.</li>
+          <li data-key="cl-thinline"><strong>Thin-line scan:</strong> check all table and chart borders. Anything that shows "a single dot" instead of "a wide line" when you click it (i.e. thin lines) must be set to ≥ 2.25pt.</li>
+        </ul>
+        <p style="margin-top:14px"><button class="btn-primary" id="reset-checklist">Reset checks</button></p>
+      </div>
+    </section>
+
+    <!-- ========== Bonus ========== -->
+    <section id="bonus">
+      <h2>Additional Advice</h2>
+      <div class="callout ok">
+        <div class="callout-title">The compound effect of source adaptation</div>
+        <p>If your deck follows the rules above, its sharpness at <span class="lvl-badge l4"><span class="dot"></span>L4</span>/<span class="lvl-badge l5"><span class="dot"></span>L5</span> (CRF 34 + stillimage) equals what an ordinary deck gets at CRF 28. That means you can <strong>cut video size by another 40%</strong> without <strong>sacrificing reading experience</strong>.</p>
+        <p>That's the compound effect of "source adaptation" — compression is not a post-production fixup; it's a collaboration that starts at the design stage.</p>
+      </div>
+    </section>
+
+    <hr>
+    <nav style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:24px 0">
+      <a href="redlines.html">← Previous: red lines</a>
+      <a href="index.html">Back to home →</a>
+    </nav>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">1帧6秒 · Video Compression Initiative</div>
+      <div>Standard sampling rate for lecture-style videos · v1.0</div>
+    </div>
+    <ul class="footer-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="levels.html">Levels</a></li>
+      <li><a href="scenarios.html">Scenarios</a></li>
+      <li><a href="redlines.html">Red Lines</a></li>
+      <li><a href="design.html">PPT Design</a></li>
+      <li><a href="obs.html">OBS Setup</a></li>
+      <li><a href="skill-ppt.html">PPT Skill</a></li>
+      <li><a href="skill-compress.html">Compress Skill</a></li>
+      <li><a href="license.html">License</a></li>
+    </ul>
+    <div class="footer-copy">This initiative is licensed under <a href="license.html">CC BY 4.0</a>, by Han Lie and AI collaboration partners. All FFmpeg commands are H.264/AAC based and have been tested and verified for production use.</div>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

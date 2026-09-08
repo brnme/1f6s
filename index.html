@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>1帧6秒 · 讲解类视频压缩标准倡议</title>
 <meta name="description" content="确立「1帧6秒」为讲解类视频压缩的标准抽帧频率——8级压缩规范、9大工作场景适配、禁用红线与PPT抗压缩设计规范。">
+<link rel="alternate" hreflang="en" href="en/index.html">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -12,6 +13,9 @@
 <header class="site-header">
   <div class="nav-inner">
     <a href="index.html" class="brand">1帧6秒<span class="brand-tag">视频压缩倡议</span></a>
+    <div class="lang-switch">
+      <a href="index.html" class="active" lang="zh-CN" aria-label="切换到中文">中</a><span class="sep">/</span><a href="en/index.html" lang="en" aria-label="Switch to English">EN</a>
+    </div>
     <ul class="nav-links">
       <li><a href="index.html">首页</a></li>
       <li><a href="levels.html">八级规范</a></li>
@@ -31,13 +35,21 @@
 
     <!-- ========== Hero ========== -->
     <section class="hero" id="top">
-      <h1>确立「1帧6秒」<br>为讲解类视频压缩的标准抽帧频率</h1>
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+      <p class="hero-kicker">FRAME EXTRACTION STANDARD · FPS 1/6</p>
+      <h1>确立<span class="hl">「1帧6秒」</span><br>为讲解类视频压缩的标准抽帧频率</h1>
       <p class="lead">在画面更新频率与压缩效率之间找到黄金平衡点：间隔再长，画面与音频产生巨大落差；间隔再短，则无法大幅度压缩。6 秒，是认知、语速与计时便利性的最优交集。</p>
       <div class="hero-meta">
-        <span class="pill">倡议版本 v1.0</span>
-        <span class="pill">基于 H.264 / AAC</span>
+        <span class="pill">v1.0 · 倡议版本</span>
+        <span class="pill">H.264 / AAC</span>
         <span class="pill">8 级压缩方案</span>
-        <span class="pill">9 大工作场景</span>
+        <span class="pill lime">9 大工作场景</span>
+      </div>
+      <div class="hero-stats">
+        <div class="hs-item"><div class="hs-v">600<em>帧</em></div><div class="hs-k">每小时总帧数</div></div>
+        <div class="hs-item"><div class="hs-v">≈17.5<em>MB</em></div><div class="hs-k">99 分钟体积 · L4 推荐级</div></div>
+        <div class="hs-item"><div class="hs-v">8<em>级</em></div><div class="hs-k">压缩方案 L1 → L8</div></div>
+        <div class="hs-item"><div class="hs-v">9<em>类</em></div><div class="hs-k">工作场景全覆盖</div></div>
       </div>
     </section>
 
@@ -268,7 +280,7 @@
       <li><a href="skill-compress.html">压缩 Skill</a></li>
       <li><a href="license.html">版权</a></li>
     </ul>
-    <div class="footer-copy">本倡议内容按 <a href="license.html">CC BY 4.0</a> 授权，作者：韩烈 及 GLM-5.2。FFmpeg 命令均基于 H.264/AAC，经实测可直接投入生产使用。</div>
+    <div class="footer-copy">本倡议内容按 <a href="license.html">CC BY 4.0</a> 授权，作者：韩烈 及 AI 协作伙伴。FFmpeg 命令均基于 H.264/AAC，经实测可直接投入生产使用。</div>
   </div>
 </footer>
 

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1 Frame / 6 Seconds · Video Compression Initiative for Lectures</title>
+<meta name="description" content="Establishing 1 frame every 6 seconds as the standard sampling rate for compressing lecture-style videos — 8 compression levels, 9 work scenarios, prohibited red lines, and compression-resistant PPT design guidelines.">
+<link rel="alternate" hreflang="zh-CN" href="../index.html">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">1帧6秒<span class="brand-tag">Video Compression Initiative</span></a>
+    <div class="lang-switch">
+      <a href="../index.html" lang="zh-CN" aria-label="切换到中文">中</a><span class="sep">/</span><a href="index.html" class="active" lang="en" aria-label="Switch to English">EN</a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="levels.html">Levels</a></li>
+      <li><a href="scenarios.html">Scenarios</a></li>
+      <li><a href="redlines.html">Red Lines</a></li>
+      <li><a href="design.html">PPT Design</a></li>
+      <li><a href="obs.html">OBS Setup</a></li>
+      <li><a href="skill-ppt.html">PPT Skill</a></li>
+      <li><a href="skill-compress.html">Compress Skill</a></li>
+      <li><a href="license.html">License</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ========== Hero ========== -->
+    <section class="hero" id="top">
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+      <p class="hero-kicker">FRAME EXTRACTION STANDARD · FPS 1/6</p>
+      <h1><span class="hl">1 Frame Every 6 Seconds</span><br>as the Standard Sampling Rate for Compressing Lecture Videos</h1>
+      <p class="lead">Finding the golden balance between how often the picture updates and how much you compress: stretch the interval further and the picture drifts far from the audio; shorten it and you can no longer compress aggressively. 6 seconds is the sweet spot of perception, speech pace, and time-keeping convenience.</p>
+      <div class="hero-meta">
+        <span class="pill">v1.0 · Initiative</span>
+        <span class="pill">H.264 / AAC</span>
+        <span class="pill">8 compression levels</span>
+        <span class="pill lime">9 work scenarios</span>
+      </div>
+      <div class="hero-stats">
+        <div class="hs-item"><div class="hs-v">600<em>fr</em></div><div class="hs-k">Total frames per hour</div></div>
+        <div class="hs-item"><div class="hs-v">≈17.5<em>MB</em></div><div class="hs-k">99-min size · L4 recommended</div></div>
+        <div class="hs-item"><div class="hs-v">8<em>lvl</em></div><div class="hs-k">Compression levels L1 → L8</div></div>
+        <div class="hs-item"><div class="hs-v">9<em>scn</em></div><div class="hs-k">Work scenarios covered</div></div>
+      </div>
+    </section>
+
+    <!-- ========== Manifesto ========== -->
+    <section id="manifesto">
+      <h2>Manifesto</h2>
+      <p>The core value of lecture-style videos (PPT walkthroughs, code demos, desktop operations) lies in the <strong>content</strong>, not <strong>visual fluidity</strong>. When viewers only need to "see what's on this page and hear what's being said", the traditional 30fps high frame rate is pure waste — it re-encodes thousands of nearly identical frames, spending precious bandwidth and storage on pixels with <em>zero information gain</em>.</p>
+      <p>The core claim of the "1 frame / 6 seconds" initiative: <strong>sample one frame every 6 seconds, so the picture only updates when the information actually changes</strong>. This is not cutting corners — it is making encoding resources match the real information density of the content. The companion 8-level compression standard, scenario recommendations, and compression-resistant PPT design guidelines make this idea implementable, reproducible, and consistently executable across a team.</p>
+      <div class="callout">
+        <div class="callout-title">In one sentence</div>
+        <p>Trade time for space — it only works on content that is "mostly static, delivered by speech"; the moment content depends on continuous motion, emotional delivery, or precise timing, drop this guideline immediately.</p>
+      </div>
+    </section>
+
+    <!-- ========== Why 6 seconds ========== -->
+    <section id="why-6s">
+      <h2>Why 6 Seconds?</h2>
+      <p class="lead">While exploring the ultimate compression for lecture videos, we hit a core contradiction: the trade-off between picture update frequency and compression efficiency. After rounds of testing and reasoning, "1 frame / 6 seconds" is the optimal solution.</p>
+
+      <h3>1. Matches human perception</h3>
+      <p>Visual memory of a static picture lasts roughly <strong>4–8 seconds</strong>, and 6 seconds lands right in the middle of that range. Any shorter (e.g. 3–5 s) and the audience is forced to update before they have finished digesting the current slide, adding needless cognitive load; any longer (e.g. 8–10 s), and when the narration has moved to the next point, the picture still shows the previous slide, sharply amplifying the audio-visual mismatch.</p>
+      <p>6 seconds also matches the natural rhythm of speech. At a normal Mandarin pace (about 150–180 characters/minute), 6 seconds equals roughly <strong>15–18 characters</strong> — just the amount of time needed to read a slide's core title or a key set of figures.</p>
+
+      <h3>2. Advantage over 5 seconds</h3>
+      <p><strong>Bigger compression gain:</strong> 5 s/frame means 12 frames per minute; 6 s/frame means only 10 — 2 fewer frames per minute, 120 fewer per hour. For a 1-hour video, that reduces the video data by another ~<strong>16.7%</strong>.</p>
+      <p><strong>Time-keeping convenience:</strong> 6 is a divisor of both 60 (seconds per minute) and 3600 (seconds per hour). While watching, you only need the seconds digits of the timestamp to quickly figure out which frame you're on — second 6, 12, 18… aligned to the whole second, no mental math. 5 also divides 60, but being odd, 5 is less intuitive in minute–second conversions than the even 6.</p>
+
+      <h3>3. Advantage over 8 seconds and beyond</h3>
+      <p>Past 6 seconds, each extra second brings <strong>diminishing returns</strong> (from 6 s to 8 s, the frame rate only drops from 10 to 7.5 frames/minute — a 25% reduction — yet complaints about audio-video desync rise sharply). 6 seconds is "the longest interval that is still acceptable" — the golden balance between compression efficiency and viewing experience.</p>
+
+      <h3>4. A divisor of 60: low-effort time positioning</h3>
+      <p>Because 6 divides 60, every 10 frames correspond to exactly 1 minute and every 600 frames to 100 minutes. Viewers and editors <strong>only need to look at the seconds digits</strong> to tell "which frame we should be on" — no division required. This is the hidden advantage of 6 over non-divisible intervals like 7 or 9 seconds: in your mental model, time progress is an integer multiple relationship, not decimal arithmetic.</p>
+    </section>
+
+    <!-- ========== Compression comparison table ========== -->
+    <section id="compare-table">
+      <h2>Measured Compression Comparison</h2>
+      <p>Frame counts and subjective experience at different sampling intervals (based on a 1-hour video):</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Sampling interval</th><th>Frames / hour</th><th>Compression vs. 6 s</th><th>Subjective experience</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>2 s</td><td>1800</td><td>Baseline (smoothest)</td><td>Large files; compression pointless</td></tr>
+            <tr><td>5 s</td><td>720</td><td>~16.7% smaller</td><td>Good experience, awkward arithmetic</td></tr>
+            <tr><td><strong>6 s</strong></td><td><strong>600</strong></td><td><strong>Baseline (recommended)</strong></td><td><strong>Best balance of experience and compression</strong></td></tr>
+            <tr><td>8 s</td><td>450</td><td>25% smaller still</td><td>Noticeable audio-visual gap; not recommended</td></tr>
+            <tr><td>10 s</td><td>360</td><td>40% smaller still</td><td>Only for very slow speech / purely static PPTs</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== Interactive: size estimator ========== -->
+    <section id="calculator">
+      <h2>Size Estimator</h2>
+      <p>Enter the video duration (minutes); it is scaled linearly from the 99-minute baseline to estimate size and total frame count for each level. <span class="muted">Figures are midpoints of empirical ranges; actual results depend on content complexity.</span></p>
+      <div class="tool-panel">
+        <div class="tool-row">
+          <label for="duration">Video duration (minutes)</label>
+          <input type="number" id="duration" value="99" min="1" max="600" step="1">
+          <button class="btn-primary" id="calc-btn">Estimate</button>
+        </div>
+        <div id="calc-result"></div>
+      </div>
+    </section>
+
+    <!-- ========== Interactive: plan selector ========== -->
+    <section id="selector">
+      <h2>Plan Selector</h2>
+      <p>Answer three questions to get a recommended level instantly. The mapping logic follows the scenario quick-reference table.</p>
+      <div class="tool-panel" id="selector-panel">
+        <div id="selector-step1">
+          <h4>① What is the main delivery/playback channel?</h4>
+          <div class="selector-options">
+            <label><input type="radio" name="q1" value="email"> Email attachment</label>
+            <label><input type="radio" name="q1" value="im"> WeChat / WeCom / DingTalk</label>
+            <label><input type="radio" name="q1" value="archive"> Corporate training / knowledge base</label>
+            <label><input type="radio" name="q1" value="mooc"> Public course / MOOC</label>
+            <label><input type="radio" name="q1" value="sales"> Sales demo / pre-sales proposal</label>
+            <label><input type="radio" name="q1" value="offline"> Offline viewing on mobile</label>
+          </div>
+        </div>
+        <div id="selector-step2" style="display:none">
+          <h4>② Must color be preserved?</h4>
+          <div class="selector-options">
+            <label><input type="radio" name="q2" value="color"> Yes — color required (brand/palette)</label>
+            <label><input type="radio" name="q2" value="bw"> Black and white is fine</label>
+          </div>
+        </div>
+        <div id="selector-step3" style="display:none">
+          <h4>③ Receiver bandwidth / device conditions?</h4>
+          <div class="selector-options">
+            <label><input type="radio" name="q3" value="good"> Good broadband / desktop large screen</label>
+            <label><input type="radio" name="q3" value="mobile"> Mobile 4G/5G / small screen</label>
+            <label><input type="radio" name="q3" value="poor"> Very low bandwidth / 2G-3G</label>
+          </div>
+        </div>
+        <div id="selector-result"></div>
+      </div>
+    </section>
+
+    <!-- ========== Section entries ========== -->
+    <section id="entries">
+      <h2>Dive Into Each Topic</h2>
+      <div class="entry-grid">
+        <a class="entry-card" href="levels.html">
+          <div class="ec-num">Page · 01</div>
+          <div class="ec-title">8-Level Compression Standard</div>
+          <div class="ec-desc">From the standard level to the extreme H.265 level: L1–L8 parameters, complete ffmpeg commands, expected sizes, and the 2-Pass formula for exact size control.</div>
+          <div class="ec-arrow">View the 8 levels →</div>
+        </a>
+        <a class="entry-card" href="scenarios.html">
+          <div class="ec-num">Page · 02</div>
+          <div class="ec-title">Nine Work Scenarios</div>
+          <div class="ec-desc">Email, WeChat, corporate training, public MOOCs, sales demos, compliance audits, offline viewing, platform uploads, batch archiving — a primary and an alternative plan for each.</div>
+          <div class="ec-arrow">View scenario matching →</div>
+        </a>
+        <a class="entry-card" href="redlines.html">
+          <div class="ec-num">Page · 03</div>
+          <div class="ec-title">Prohibited Red Lines</div>
+          <div class="ec-desc">Surveillance, film &amp; TV, surgery, sign language, ASMR… explicitly what content must never use 1f6s, plus a one-question "reverse judgment" test.</div>
+          <div class="ec-arrow">View the red lines →</div>
+        </a>
+        <a class="entry-card" href="design.html">
+          <div class="ec-num">Page · 04</div>
+          <div class="ec-title">Compression-Resistant PPT Design</div>
+          <div class="ec-desc">Making slides "survive" black-and-white + low resolution + high CRF at the source: fonts and sizes, a 3-level grayscale palette, layout whitespace, line weights, and a 3-step self-check.</div>
+          <div class="ec-arrow">View the PPT guidelines →</div>
+        </a>
+        <a class="entry-card" href="obs.html">
+          <div class="ec-num">Page · 05</div>
+          <div class="ec-title">OBS Live Streaming &amp; Local Recording Setup</div>
+          <div class="ec-desc">OBS streaming parameters and local recording settings for lecture-style live streams (PPT + voiceover), with GUI steps and advanced settings, plus a post-recording 1f6s transcoding guide.</div>
+          <div class="ec-arrow">View the OBS setup →</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ========== Toolbox / Skills ========== -->
+    <section id="toolbox">
+      <h2>Toolbox · Skills</h2>
+      <p>Three executable tools shipped with the initiative — from source slides to finished video to live streaming, fully standardized.</p>
+      <div class="entry-grid">
+        <a class="entry-card" href="skill-ppt.html">
+          <div class="ec-num">Skill · 01</div>
+          <div class="ec-title">🎬 PPT Generation Skill</div>
+          <div class="ec-desc">Generate slides from a topic/outline from scratch, or convert any site page into a compression-compliant HTML slide deck. Self-contained single file, keyboard paging, zero external dependencies.</div>
+          <div class="ec-arrow"><code>run_skill ppt "topic: weekly report"</code> →</div>
+        </a>
+        <a class="entry-card" href="skill-compress.html">
+          <div class="ec-num">Skill · 02</div>
+          <div class="ec-title">🎞️ Video-to-1f6s Skill</div>
+          <div class="ec-desc">Uses ffmpeg to convert a given video into an 8-level-compliant output. Probes the source first, shows the command, executes after confirmation, and never overwrites the original by default.</div>
+          <div class="ec-arrow"><code>./1f6s.sh lecture.mp4 L4</code> →</div>
+        </a>
+        <a class="entry-card" href="obs.html">
+          <div class="ec-num">Skill · 03</div>
+          <div class="ec-title">📺 OBS Streaming &amp; Recording Setup</div>
+          <div class="ec-desc">OBS streaming parameters and local recording settings for lecture-style streams, with GUI steps and advanced settings, plus a post-recording 1f6s transcoding guide.</div>
+          <div class="ec-arrow">Stream 1200kbps + record CRF 18 →</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ========== Glossary ========== -->
+    <section id="glossary">
+      <h2>Terminology Quick Reference</h2>
+      <dl class="glossary">
+        <div class="glossary-item"><dt>fps=1/6</dt><dd>The FFmpeg filter parameter that outputs 1 frame every 6 seconds — i.e. the technical spelling of "1 frame / 6 seconds".</dd></div>
+        <div class="glossary-item"><dt>CRF</dt><dd>Constant Rate Factor. Higher values mean lower quality and smaller files; 28 is the visually-lossless baseline, anything above 34 counts as heavy compression.</dd></div>
+        <div class="glossary-item"><dt>tune=stillimage</dt><dd>x264's dedicated tuning for still images/slides: lowers inter-frame prediction weight and strengthens per-frame detail retention — ideal for post-sampling video.</dd></div>
+        <div class="glossary-item"><dt>2-Pass</dt><dd>Two-pass encoding: the first pass analyzes the whole file's bitrate distribution, the second allocates bits precisely to hit a target — used to "lock in" an exact file size.</dd></div>
+        <div class="glossary-item"><dt>HEVC / H.265</dt><dd>The next-generation codec: roughly half the size of H.264 at equal quality, but with worse compatibility — confirm player support first.</dd></div>
+        <div class="glossary-item"><dt>480p / 360p</dt><dd>Vertical pixel count. 480p ≈ 854×480, 360p ≈ 640×360; for lecture content the two are barely distinguishable on a phone screen.</dd></div>
+        <div class="glossary-item"><dt>yuv420p</dt><dd>Pixel format that guarantees maximum playback compatibility (supported by old devices/browsers) — a required parameter for delivered files.</dd></div>
+        <div class="glossary-item"><dt>scale=-2:480</dt><dd>Scales proportionally to 480px height; width is computed automatically and forced to an even number (a codec requirement). -2 means "automatic and even".</dd></div>
+      </dl>
+    </section>
+
+    <!-- ========== FAQ ========== -->
+    <section id="faq">
+      <h2>Frequently Asked Questions</h2>
+      <details class="faq-item" open>
+        <summary>Why recommend H.264 by default instead of H.265?</summary>
+        <p>Compatibility. H.264 plays directly on virtually every device, browser, and player, while H.265 may fail to decode on older Android phones, corporate audit systems, and some web players. The default plan L4 prioritizes "opens wherever it's sent"; H.265 (L8) is only an extreme option once player support is explicitly confirmed.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can 8kHz audio really be understood?</summary>
+        <p>You can clearly hear "what is being said", with a slight metallic tint. 8kHz sampling is telephone-grade: the speech band (300Hz–3.4kHz) is largely preserved, which is enough for phone speakers and noisy environments. If content involves music, tonal nuance, or foreign-language listening practice, fall back to 22.05kHz (L1–L4).</p>
+      </details>
+      <details class="faq-item">
+        <summary>Why not just send a GIF or plain images?</summary>
+        <p>GIFs have no audio and a limited palette, so they cannot carry the narration; plain images lose the "watch while listening" time synchronization. The essence of 1f6s is <strong>keeping audio's time stream while compressing the picture's time stream</strong> — extremely low frame rate for size, while preserving the sense that "when you hear this sentence, you should be looking at that frame".</p>
+      </details>
+      <details class="faq-item">
+        <summary>Won't the "jumping" picture after sampling be jarring?</summary>
+        <p>Not for lecture content. Adjacent frames are usually different parts of the same PPT page, or page turns — the audience already expects "look at a page, listen for a while, turn the page". What really feels jarring is <strong>audio-video misalignment</strong> (picture lagging behind the narration), which is exactly why 6 seconds was chosen over 8 or 10.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does this standard suit live-stream recordings?</summary>
+        <p>Depends on the content. For "PPT + voiceover" style live lectures, yes (just process with L4). For live streams with real-time bullet comments, host facial expressions, or live demonstrations, visual continuity matters — don't. See the "reverse judgment" test on the <a href="redlines.html">Red Lines</a> page.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Some teammates use Mac, some Windows — do parameters change?</summary>
+        <p>No. The FFmpeg commands are identical on both platforms as long as the FFmpeg versions are close (4.x+ recommended). The only difference is path syntax (Windows replaces <code>/dev/null</code> with <code>NUL</code>), which matters in L7's 2-Pass first pass.</p>
+      </details>
+    </section>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">1帧6秒 · Video Compression Initiative</div>
+      <div>Standard sampling rate for lecture-style videos · v1.0</div>
+    </div>
+    <ul class="footer-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="levels.html">Levels</a></li>
+      <li><a href="scenarios.html">Scenarios</a></li>
+      <li><a href="redlines.html">Red Lines</a></li>
+      <li><a href="design.html">PPT Design</a></li>
+      <li><a href="obs.html">OBS Setup</a></li>
+      <li><a href="skill-ppt.html">PPT Skill</a></li>
+      <li><a href="skill-compress.html">Compress Skill</a></li>
+      <li><a href="license.html">License</a></li>
+    </ul>
+    <div class="footer-copy">This initiative is licensed under <a href="license.html">CC BY 4.0</a>, by Han Lie and AI collaboration partners. All FFmpeg commands are H.264/AAC based and have been tested and verified for production use.</div>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>8-Level Compression Standard · 1f6s</title>
+<meta name="description" content="The 8-level compression standard of the 1f6s initiative: from L1 standard to L8 H.265 extreme, with full ffmpeg commands, parameter tables, expected sizes, and the 2-Pass formula for exact size control.">
+<link rel="alternate" hreflang="zh-CN" href="../levels.html">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">1帧6秒<span class="brand-tag">Video Compression Initiative</span></a>
+    <div class="lang-switch">
+      <a href="../levels.html" lang="zh-CN" aria-label="切换到中文">中</a><span class="sep">/</span><a href="levels.html" class="active" lang="en" aria-label="Switch to English">EN</a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="levels.html">Levels</a></li>
+      <li><a href="scenarios.html">Scenarios</a></li>
+      <li><a href="redlines.html">Red Lines</a></li>
+      <li><a href="design.html">PPT Design</a></li>
+      <li><a href="obs.html">OBS Setup</a></li>
+      <li><a href="skill-ppt.html">PPT Skill</a></li>
+      <li><a href="skill-compress.html">Compress Skill</a></li>
+      <li><a href="license.html">License</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <section id="top">
+      <h1>The 8-Level Compression Standard</h1>
+      <p class="lead">The plans below are ordered from least to most aggressive compression, suited to different scenarios (WeChat sending, email attachments, ultra-low-bandwidth transfer, archival backup, etc.). All plans use <strong>H.264 (libx264)</strong> encoding + <strong>AAC audio</strong> for maximum compatibility — except L8 (H.265).</p>
+
+      <div class="callout ok">
+        <div class="callout-title">Default recommendation</div>
+        <p>We recommend <strong>L4</strong> (1 frame/6 s + 480p B&amp;W + CRF 34 + stillimage + 20k audio) as the default standard plan: it strikes the best balance between size (~16–19 MB for 99 minutes) and viewing experience.</p>
+      </div>
+    </section>
+
+    <!-- ========== Overview table ========== -->
+    <section id="overview">
+      <h2>8-Level Parameter Overview</h2>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Level</th><th>Sampling interval</th><th>Resolution</th><th>Color</th><th>Video quality</th><th>Audio</th><th>Extra tuning</th><th>Size for 99 min</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="lvl-badge l1"><span class="dot"></span>L1 Standard</span></td><td>1 f / 6 s</td><td>480p</td><td>Color</td><td>CRF 32</td><td>20k / 22.05kHz</td><td>—</td><td>≈30–35 MB</td></tr>
+            <tr><td><span class="lvl-badge l2"><span class="dot"></span>L2 Grayscale</span></td><td>1 f / 6 s</td><td>480p</td><td>B&amp;W</td><td>CRF 32</td><td>20k / 22.05kHz</td><td>—</td><td>≈24–28 MB</td></tr>
+            <tr><td><span class="lvl-badge l3"><span class="dot"></span>L3 High compression</span></td><td>1 f / 6 s</td><td>480p</td><td>B&amp;W</td><td>CRF 34</td><td>20k / 22.05kHz</td><td>—</td><td>≈18–22 MB</td></tr>
+            <tr><td><span class="lvl-badge l4"><span class="dot"></span>L4 Smart tuning</span></td><td>1 f / 6 s</td><td>480p</td><td>B&amp;W</td><td>CRF 34</td><td>20k / 22.05kHz</td><td>tune=stillimage</td><td>≈16–19 MB</td></tr>
+            <tr><td><span class="lvl-badge l5"><span class="dot"></span>L5 Audio extreme</span></td><td>1 f / 6 s</td><td>480p</td><td>B&amp;W</td><td>CRF 34</td><td>8k / 8kHz</td><td>tune=stillimage</td><td>≈14–17 MB</td></tr>
+            <tr><td><span class="lvl-badge l6"><span class="dot"></span>L6 Long interval</span></td><td>1 f / 10 s</td><td>360p</td><td>B&amp;W</td><td>CRF 36</td><td>8k / 8kHz</td><td>tune=stillimage</td><td>≈10–12 MB</td></tr>
+            <tr><td><span class="lvl-badge l7"><span class="dot"></span>L7 2-Pass</span></td><td>1 f / 10 s</td><td>360p</td><td>B&amp;W</td><td>2-Pass dynamic</td><td>8k / 8kHz</td><td>tune=stillimage</td><td>Locked to target</td></tr>
+            <tr><td><span class="lvl-badge l8"><span class="dot"></span>L8 H.265 extreme</span></td><td>1 f / 10 s</td><td>360p</td><td>B&amp;W</td><td>CRF 38 (x265)</td><td>8k / 8kHz</td><td>keyint=1</td><td>≈6–8 MB</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== L1 ========== -->
+    <section id="l1" class="lvl-section l1">
+      <div class="lvl-head">
+        <span class="lvl-badge l1"><span class="dot"></span>🟢 L1 Standard</span>
+        <h3>Quick compression, keeping quality and color</h3>
+        <div class="lvl-tags"><span class="tag">Color</span><span class="tag">Best compatibility</span></div>
+      </div>
+      <div class="lvl-body">
+        <p><strong>Use when:</strong> the client has basic quality requirements and color must be preserved (e.g. chart palettes, UI distinctions).</p>
+        <div class="tbl-wrap">
+          <table class="tbl-compact">
+            <tbody>
+              <tr><th>Picture refresh interval</th><td>1 frame / 6 seconds</td></tr>
+              <tr><th>Resolution</th><td>480p (scale=-2:480)</td></tr>
+              <tr><th>Color</th><td>Color</td></tr>
+              <tr><th>Video quality</th><td>CRF 32 (H.264)</td></tr>
+              <tr><th>Audio bitrate / sample rate</th><td>20 kbps / 22.05 kHz / mono</td></tr>
+              <tr><th>Extra tuning</th><td>None</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="code-block">
+          <div class="code-head"><span class="lang">bash · ffmpeg</span><button class="copy-btn" data-copy="l1-cmd">Copy</button></div>
+          <pre><code id="l1-cmd">ffmpeg -i input.mp4 -vf "fps=1/6,scale=-2:480" -c:v libx264 -preset slow -crf 32 -c:a aac -ac 1 -ar 22050 -b:a 20k -pix_fmt yuv420p output_L1.mp4</code></pre>
+        </div>
+        <div class="callout"><strong>Expected result:</strong> a 99-minute video ≈ 30–35 MB. Crisp text, complete color, clean voice.</div>
+      </div>
+    </section>
+
+    <!-- ========== L2 ========== -->
+    <section id="l2" class="lvl-section l2">
+      <div class="lvl-head">
+        <span class="lvl-badge l2"><span class="dot"></span>⚫ L2 Grayscale</span>
+        <h3>Give up color to gain size</h3>
+        <div class="lvl-tags"><span class="tag">B&amp;W</span><span class="tag">20% smaller</span></div>
+      </div>
+      <div class="lvl-body">
+        <p><strong>Use when:</strong> the picture is mostly B&amp;W PPTs, code, and text, where color carries no meaning.</p>
+        <div class="tbl-wrap">
+          <table class="tbl-compact">
+            <tbody>
+              <tr><th>Picture refresh interval</th><td>1 frame / 6 seconds</td></tr>
+              <tr><th>Resolution</th><td>480p (scale=-2:480)</td></tr>
+              <tr><th>Color</th><td>B&amp;W (format=gray)</td></tr>
+              <tr><th>Video quality</th><td>CRF 32</td></tr>
+              <tr><th>Audio bitrate / sample rate</th><td>20 kbps / 22.05 kHz / mono</td></tr>
+              <tr><th>Extra tuning</th><td>None</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="code-block">
+          <div class="code-head"><span class="lang">bash · ffmpeg</span><button class="copy-btn" data-copy="l2-cmd">Copy</button></div>
+          <pre><code id="l2-cmd">ffmpeg -i input.mp4 -vf "fps=1/6,scale=-2:480,format=gray" -c:v libx264 -preset slow -crf 32 -c:a aac -ac 1 -ar 22050 -b:a 20k -pix_fmt yuv420p output_L2.mp4</code></pre>
+        </div>
+        <div class="callout"><strong>Expected result:</strong> a 99-minute video ≈ 24–28 MB. Text sharpness unchanged; size drops another ~20%.</div>
+      </div>
+    </section>
+
+    <!-- ========== L3 ========== -->
+    <section id="l3" class="lvl-section l3">
+      <div class="lvl-head">
+        <span class="lvl-badge l3"><span class="dot"></span>🟠 L3 High compression</span>
+        <h3>CRF 34 + B&amp;W</h3>
+        <div class="lvl-tags"><span class="tag">CRF 34</span><span class="tag">Slight grain</span></div>
+      </div>
+      <div class="lvl-body">
+        <p><strong>Use when:</strong> you need to compress further and the client accepts some grain in the picture.</p>
+        <div class="tbl-wrap">
+          <table class="tbl-compact">
+            <tbody>
+              <tr><th>Picture refresh interval</th><td>1 frame / 6 seconds</td></tr>
+              <tr><th>Resolution</th><td>480p</td></tr>
+              <tr><th>Color</th><td>B&amp;W</td></tr>
+              <tr><th>Video quality</th><td>CRF 34</td></tr>
+              <tr><th>Audio bitrate / sample rate</th><td>20 kbps / 22.05 kHz / mono</td></tr>
+              <tr><th>Extra tuning</th><td>None</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="code-block">
+          <div class="code-head"><span class="lang">bash · ffmpeg</span><button class="copy-btn" data-copy="l3-cmd">Copy</button></div>
+          <pre><code id="l3-cmd">ffmpeg -i input.mp4 -vf "fps=1/6,scale=-2:480,format=gray" -c:v libx264 -preset slow -crf 34 -c:a aac -ac 1 -ar 22050 -b:a 20k -pix_fmt yuv420p output_L3.mp4</code></pre>
+        </div>
+        <div class="callout"><strong>Expected result:</strong> a 99-minute video ≈ 18–22 MB. Large text stays readable; small font edges get slightly blurry.</div>
+      </div>
+    </section>
+
+    <!-- ========== L4 ========== -->
+    <section id="l4" class="lvl-section l4">
+      <div class="lvl-head">
+        <span class="lvl-badge l4"><span class="dot"></span>🔵 L4 Smart tuning</span>
+        <h3>CRF 34 + B&amp;W + tune=stillimage <span class="tag" style="background:var(--L4-bg);color:var(--L4);margin-left:8px">★ Default recommended</span></h3>
+        <div class="lvl-tags"><span class="tag">stillimage</span><span class="tag">Best sharpness</span></div>
+      </div>
+      <div class="lvl-body">
+        <p><strong>Use when:</strong> the picture is mostly slides/static charts and you need maximum sharpness at minimum size.</p>
+        <div class="tbl-wrap">
+          <table class="tbl-compact">
+            <tbody>
+              <tr><th>Picture refresh interval</th><td>1 frame / 6 seconds</td></tr>
+              <tr><th>Resolution</th><td>480p</td></tr>
+              <tr><th>Color</th><td>B&amp;W</td></tr>
+              <tr><th>Video quality</th><td>CRF 34</td></tr>
+              <tr><th>Audio bitrate / sample rate</th><td>20 kbps / 22.05 kHz / mono</td></tr>
+              <tr><th>Extra tuning</th><td>-tune stillimage (slide-specific optimization)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="code-block">
+          <div class="code-head"><span class="lang">bash · ffmpeg</span><button class="copy-btn" data-copy="l4-cmd">Copy</button></div>
+          <pre><code id="l4-cmd">ffmpeg -i input.mp4 -vf "fps=1/6,scale=-2:480,format=gray" -c:v libx264 -preset slow -tune stillimage -crf 34 -c:a aac -ac 1 -ar 22050 -b:a 20k -pix_fmt yuv420p output_L4.mp4</code></pre>
+        </div>
+        <div class="callout ok"><strong>Expected result:</strong> a 99-minute video ≈ 16–19 MB. Sharper text than L3 at the same size.</div>
+      </div>
+    </section>
+
+    <!-- ========== L5 ========== -->
+    <section id="l5" class="lvl-section l5">
+      <div class="lvl-head">
+        <span class="lvl-badge l5"><span class="dot"></span>🟣 L5 Audio extreme</span>
+        <h3>CRF 34 + B&amp;W + stillimage + 8kHz audio</h3>
+        <div class="lvl-tags"><span class="tag">8k audio</span><span class="tag">Phone-grade sound</span></div>
+      </div>
+      <div class="lvl-body">
+        <p><strong>Use when:</strong> bandwidth is extremely low (e.g. 2G/3G networks) and you only need "to hear clearly what is being said".</p>
+        <div class="tbl-wrap">
+          <table class="tbl-compact">
+            <tbody>
+              <tr><th>Picture refresh interval</th><td>1 frame / 6 seconds</td></tr>
+              <tr><th>Resolution</th><td>480p</td></tr>
+              <tr><th>Color</th><td>B&amp;W</td></tr>
+              <tr><th>Video quality</th><td>CRF 34</td></tr>
+              <tr><th>Audio bitrate / sample rate</th><td>8 kbps / 8 kHz / mono (phone-grade)</td></tr>
+              <tr><th>Extra tuning</th><td>-tune stillimage</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="code-block">
+          <div class="code-head"><span class="lang">bash · ffmpeg</span><button class="copy-btn" data-copy="l5-cmd">Copy</button></div>
+          <pre><code id="l5-cmd">ffmpeg -i input.mp4 -vf "fps=1/6,scale=-2:480,format=gray" -c:v libx264 -preset slow -tune stillimage -crf 34 -c:a aac -ac 1 -ar 8000 -b:a 8k -pix_fmt yuv420p output_L5.mp4</code></pre>
+        </div>
+        <div class="callout"><strong>Expected result:</strong> a 99-minute video ≈ 14–17 MB. Audio has a slight metallic tint but speech stays intelligible.</div>
+      </div>
+    </section>
+
+    <!-- ========== L6 ========== -->
+    <section id="l6" class="lvl-section l6">
+      <div class="lvl-head">
+        <span class="lvl-badge l6"><span class="dot"></span>🔴 L6 Long interval</span>
+        <h3>10 s/frame + 360p + 8kHz</h3>
+        <div class="lvl-tags"><span class="tag">10 s interval</span><span class="tag">360p</span></div>
+      </div>
+      <div class="lvl-body">
+        <p><strong>Use when:</strong> you need extreme compression, speech is slow, and the client accepts visible picture jumps.</p>
+        <div class="tbl-wrap">
+          <table class="tbl-compact">
+            <tbody>
+              <tr><th>Picture refresh interval</th><td>1 frame / 10 seconds</td></tr>
+              <tr><th>Resolution</th><td>360p (scale=-2:360)</td></tr>
+              <tr><th>Color</th><td>B&amp;W</td></tr>
+              <tr><th>Video quality</th><td>CRF 36</td></tr>
+              <tr><th>Audio bitrate / sample rate</th><td>8 kbps / 8 kHz</td></tr>
+              <tr><th>Extra tuning</th><td>-tune stillimage</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="code-block">
+          <div class="code-head"><span class="lang">bash · ffmpeg</span><button class="copy-btn" data-copy="l6-cmd">Copy</button></div>
+          <pre><code id="l6-cmd">ffmpeg -i input.mp4 -vf "fps=1/10,scale=-2:360,format=gray" -c:v libx264 -preset slow -tune stillimage -crf 36 -c:a aac -ac 1 -ar 8000 -b:a 8k -pix_fmt yuv420p output_L6.mp4</code></pre>
+        </div>
+        <div class="callout"><strong>Expected result:</strong> a 99-minute video ≈ 10–12 MB. Only suitable for small phone screens; large headings remain legible.</div>
+      </div>
+    </section>
+
+    <!-- ========== L7 ========== -->
+    <section id="l7" class="lvl-section l7">
+      <div class="lvl-head">
+        <span class="lvl-badge l7"><span class="dot"></span>⚪ L7 2-Pass precise control</span>
+        <h3>Lock in the exact target size</h3>
+        <div class="lvl-tags"><span class="tag">2-Pass</span><span class="tag">Exact size</span></div>
+      </div>
+      <div class="lvl-body">
+        <p><strong>Use when:</strong> the client explicitly demands "the file must be under XX MB" and you need precise output-size control.</p>
+        <div class="tbl-wrap">
+          <table class="tbl-compact">
+            <tbody>
+              <tr><th>Picture refresh interval</th><td>1 frame / 10 seconds</td></tr>
+              <tr><th>Resolution</th><td>360p</td></tr>
+              <tr><th>Color</th><td>B&amp;W</td></tr>
+              <tr><th>Encoding mode</th><td>2-Pass (two-pass encoding)</td></tr>
+              <tr><th>Video bitrate</th><td>Computed from the target size</td></tr>
+              <tr><th>Audio bitrate / sample rate</th><td>8 kbps / 8 kHz</td></tr>
+              <tr><th>Extra tuning</th><td>-tune stillimage</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>How to compute it</h4>
+        <ol>
+          <li>Target size (MB) → total bitrate (kbps) = target (MB) × 8192 / duration (seconds)</li>
+          <li>Video bitrate = total bitrate − audio bitrate (8 kbps)</li>
+          <li>Pass 1 analyzes, Pass 2 outputs</li>
+        </ol>
+        <p class="muted">Example below: 99 minutes into 8MB (video bitrate ≈ 3k):</p>
+        <div class="code-block">
+          <div class="code-head"><span class="lang">bash · pass 1 analyze</span><button class="copy-btn" data-copy="l7-pass1">Copy</button></div>
+          <pre><code id="l7-pass1"># pass 1
+ffmpeg -i input.mp4 -vf "fps=1/10,scale=-2:360,format=gray" -c:v libx264 -preset slow -tune stillimage -b:v 3k -pass 1 -f mp4 /dev/null</code></pre>
+        </div>
+        <div class="code-block">
+          <div class="code-head"><span class="lang">bash · pass 2 output</span><button class="copy-btn" data-copy="l7-pass2">Copy</button></div>
+          <pre><code id="l7-pass2"># pass 2
+ffmpeg -i input.mp4 -vf "fps=1/10,scale=-2:360,format=gray" -c:v libx264 -preset slow -tune stillimage -b:v 3k -pass 2 -c:a aac -ac 1 -ar 8000 -b:a 8k -pix_fmt yuv420p output_L7.mp4</code></pre>
+        </div>
+        <div class="callout danger">
+          <div class="callout-title">Windows note</div>
+          <p>In pass 1, replace <code>/dev/null</code> with <code>NUL</code> on Windows.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== L8 ========== -->
+    <section id="l8" class="lvl-section l8">
+      <div class="lvl-head">
+        <span class="lvl-badge l8"><span class="dot"></span>⚫ L8 H.265 extreme</span>
+        <h3>Trading compatibility for extreme size</h3>
+        <div class="lvl-tags"><span class="tag">libx265</span><span class="tag">Confirm support</span></div>
+      </div>
+      <div class="lvl-body">
+        <p><strong>Use when:</strong> the client uses modern players (VLC, PotPlayer, etc.) and does not rely on the OS's native decoding.</p>
+        <div class="tbl-wrap">
+          <table class="tbl-compact">
+            <tbody>
+              <tr><th>Encoder</th><td>libx265 (H.265/HEVC)</td></tr>
+              <tr><th>Picture refresh interval</th><td>1 frame / 10 seconds</td></tr>
+              <tr><th>Resolution</th><td>360p</td></tr>
+              <tr><th>Color</th><td>B&amp;W</td></tr>
+              <tr><th>Video quality</th><td>CRF 38</td></tr>
+              <tr><th>Audio bitrate / sample rate</th><td>8 kbps / 8 kHz</td></tr>
+              <tr><th>Extra tuning</th><td>keyint=1 (every frame is a keyframe)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="code-block">
+          <div class="code-head"><span class="lang">bash · ffmpeg</span><button class="copy-btn" data-copy="l8-cmd">Copy</button></div>
+          <pre><code id="l8-cmd">ffmpeg -i input.mp4 -vf "fps=1/10,scale=-2:360,format=gray" -c:v libx265 -preset slow -crf 38 -x265-params "keyint=1:min-keyint=1" -c:a aac -ac 1 -ar 8000 -b:a 8k -pix_fmt yuv420p output_L8.mp4</code></pre>
+        </div>
+        <div class="callout danger">
+          <div class="callout-title">Compatibility warning</div>
+          <p>Expected result: a 99-minute video ≈ 6–8 MB, quality close to L6 at half the size. <strong>You must confirm the client player supports H.265</strong>, otherwise they won't be able to play it.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Conclusion ========== -->
+    <section id="conclusion">
+      <h2>Closing Words</h2>
+      <p>The value of this standard is <strong>standardization</strong> — a consistent team-wide baseline so parameters are not renegotiated every time, and any member can quickly produce outputs with consistent quality and controlled size.</p>
+      <div class="callout ok">
+        <div class="callout-title">Final advice</div>
+        <p>Adopt this initiative as a team operating standard, train new hires on it, and keep video output consistent. As new scenarios arise, extend with additional levels built on this foundation.</p>
+      </div>
+      <p class="muted">All plans above have been tested and verified; they are ready for production use.</p>
+    </section>
+
+    <!-- Inter-page navigation -->
+    <hr>
+    <nav style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:24px 0">
+      <a href="index.html">← Back to home</a>
+      <a href="scenarios.html">Next: nine work scenarios →</a>
+    </nav>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">1帧6秒 · Video Compression Initiative</div>
+      <div>Standard sampling rate for lecture-style videos · v1.0</div>
+    </div>
+    <ul class="footer-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="levels.html">Levels</a></li>
+      <li><a href="scenarios.html">Scenarios</a></li>
+      <li><a href="redlines.html">Red Lines</a></li>
+      <li><a href="design.html">PPT Design</a></li>
+      <li><a href="obs.html">OBS Setup</a></li>
+      <li><a href="skill-ppt.html">PPT Skill</a></li>
+      <li><a href="skill-compress.html">Compress Skill</a></li>
+      <li><a href="license.html">License</a></li>
+    </ul>
+    <div class="footer-copy">This initiative is licensed under <a href="license.html">CC BY 4.0</a>, by Han Lie and AI collaboration partners. All FFmpeg commands are H.264/AAC based and have been tested and verified for production use.</div>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

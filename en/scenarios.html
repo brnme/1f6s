@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nine Work Scenarios · 1f6s</title>
+<meta name="description" content="Work-scenario matching for the 1f6s initiative: primary and alternative plans for email, WeChat, corporate training, public MOOCs, sales demos, compliance audits, offline viewing, platform uploads, and batch archiving.">
+<link rel="alternate" hreflang="zh-CN" href="../scenarios.html">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">1帧6秒<span class="brand-tag">Video Compression Initiative</span></a>
+    <div class="lang-switch">
+      <a href="../scenarios.html" lang="zh-CN" aria-label="切换到中文">中</a><span class="sep">/</span><a href="scenarios.html" class="active" lang="en" aria-label="Switch to English">EN</a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="levels.html">Levels</a></li>
+      <li><a href="scenarios.html">Scenarios</a></li>
+      <li><a href="redlines.html">Red Lines</a></li>
+      <li><a href="design.html">PPT Design</a></li>
+      <li><a href="obs.html">OBS Setup</a></li>
+      <li><a href="skill-ppt.html">PPT Skill</a></li>
+      <li><a href="skill-compress.html">Compress Skill</a></li>
+      <li><a href="license.html">License</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <section id="top">
+      <h1>Nine Work Scenarios</h1>
+      <p class="lead">Playback environment, receiving devices, network conditions, and client expectations differ wildly across scenarios. One compression plan cannot fit everything — standardization is not one-size-fits-all, but a clear decision path.</p>
+      <div class="callout">
+        <div class="callout-title">How to use</div>
+        <p>Locate your scenario, look up the "primary/alternative" plan numbers, then get the matching ffmpeg command from the <a href="levels.html">8-level standard page</a>. Each section ends with "operational advice", covering delivery wording and cautions.</p>
+      </div>
+    </section>
+
+    <!-- ========== Scenario 1 ========== -->
+    <section id="s-email" class="scene">
+      <h3><span class="scene-emoji">📧</span>Scenario 1: Email attachment delivery</h3>
+      <div class="scene-block"><strong>Characteristics:</strong>
+        <ul>
+          <li>Mainstream mail providers cap attachments around 20–25 MB (see comparison table below); some domestic basic plans go as low as 15 MB</li>
+          <li>Clients usually download and watch on a desktop with a high-resolution screen</li>
+          <li>Email transfer speed is directly affected by attachment size</li>
+        </ul>
+      </div>
+      <div class="scene-block"><strong>📊 Mainstream email attachment limits</strong> (taking each provider's smallest / basic limit, sorted from smallest to largest)
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr><th>Provider</th><th>Minimum attachment limit</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Wo Mail (China Unicom)</td><td><strong>15 MB</strong></td><td>Basic plan; premium plans reach 2 GB</td></tr>
+              <tr><td>NetEase Mail (163/126)</td><td><strong>20 MB</strong></td><td>Official help center says 20 MB; some versions allow 50 MB</td></tr>
+              <tr><td>139 Mail (China Mobile)</td><td><strong>20 MB</strong></td><td>Low-tier plan 20 MB; high-tier up to 50 MB</td></tr>
+              <tr><td>Outlook.com / Hotmail</td><td><strong>20 MB</strong></td><td>Oversized files prompt sharing via OneDrive</td></tr>
+              <tr><td>iCloud Mail</td><td><strong>20 MB</strong></td><td>Mail Drop can send temporary links up to 5 GB</td></tr>
+              <tr><td>Zoho Mail</td><td><strong>20 MB</strong></td><td>Free tier; paid plans raise the limit</td></tr>
+              <tr><td>GMX (free)</td><td><strong>20 MB</strong></td><td>Some versions allow 50 MB</td></tr>
+              <tr><td>Gmail</td><td><strong>25 MB</strong></td><td>Larger files auto-convert to Google Drive links</td></tr>
+              <tr><td>Yahoo Mail</td><td><strong>25 MB</strong></td><td>Hard limit; no automatic cloud conversion</td></tr>
+              <tr><td>Proton Mail</td><td><strong>25 MB</strong></td><td>Known for encryption and privacy</td></tr>
+              <tr><td>AOL Mail</td><td><strong>25 MB</strong></td><td>—</td></tr>
+              <tr><td>Mail.com</td><td><strong>30 MB</strong></td><td>—</td></tr>
+              <tr><td>QQ Mail</td><td><strong>50 MB</strong></td><td>Single regular attachment ≤50 MB; whole email ≤55 MB</td></tr>
+              <tr><td>Sina Mail</td><td><strong>50 MB</strong></td><td>—</td></tr>
+              <tr><td>Sohu Mail</td><td><strong>50 MB</strong></td><td>—</td></tr>
+              <tr><td>Fastmail</td><td><strong>50 MB</strong></td><td>One of the mainstream providers with a higher bar</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout ok">
+          <div class="callout-title">Key takeaway</div>
+          <p>Among 16 mainstream providers, <strong>11 have minimum attachment limits clustered at 15–25 MB</strong> (Wo Mail's 15 MB is the lowest; Outlook / iCloud / NetEase / Zoho / GMX etc. at 20 MB; Gmail / Yahoo / Proton / AOL at 25 MB), and only QQ / Sina / Sohu / Fastmail allow 50 MB. Corporate mail (Microsoft 365 / Exchange Online) defaults are also commonly 25–35 MB. Compressing your video to <strong>10–19 MB</strong> (L4's 16–19 MB or L6's &lt;10 MB) therefore ships reliably through almost any mailbox.</p>
+        </div>
+      </div>
+      <div class="scene-recommend"><strong>Recommended plan:</strong><span class="lvl-badge l4"><span class="dot"></span>L4</span> (1 frame/6 s + 480p B&amp;W + CRF 34 + stillimage + 20k audio) — a 99-minute video ≈ 16–19 MB, fitting most attachment limits; B&amp;W stays sharp on desktop screens, and 20k audio keeps the voice clean. To stay under 10 MB, step up to <span class="lvl-badge l6"><span class="dot"></span>L6</span> (10 s/frame + 360p + 8k audio), trading some quality for deliverability.</div>
+      <div class="scene-block"><strong>Operational advice:</strong>
+        <ul>
+          <li>When sending, note in the email body: "This video is heavily compressed; fullscreen is recommended on small screens"</li>
+          <li>If the video exceeds the attachment limit, upload it to cloud storage and link it — after compression this rarely happens</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== Scenario 2 ========== -->
+    <section id="s-im" class="scene">
+      <h3><span class="scene-emoji">📱</span>Scenario 2: WeChat / WeCom / DingTalk instant transfer</h3>
+      <div class="scene-block"><strong>Characteristics:</strong>
+        <ul>
+          <li>WeChat single-file limit is 1 GB (stable transfer practically suggests &lt;100 MB)</li>
+          <li>But clients usually watch on a phone — small screen, insensitive to resolution</li>
+          <li>WeChat's H.265 compatibility is poor (iPhones support it, most Androids do, older models don't)</li>
+          <li>Transfer time scales directly with file size — smaller is faster</li>
+        </ul>
+      </div>
+      <div class="scene-recommend"><strong>Recommended plan:</strong><span class="lvl-badge l5"><span class="dot"></span>L5</span> (1 frame/6 s + 480p B&amp;W + CRF 34 + stillimage + 8k audio) or <span class="lvl-badge l6"><span class="dot"></span>L6</span> (10 s/frame + 360p + 8k audio) — L5: 99 minutes ≈ 14–17 MB; 480p vs 360p barely matters on a phone screen; 8k audio is plenty clear on phone speakers; the file is small enough to send quickly over 4G/5G.</div>
+      <div class="scene-block"><strong>Operational advice:</strong>
+        <ul>
+          <li>Add a text note when sending: "Video is maximally compressed; landscape fullscreen recommended"</li>
+          <li>If the client explicitly plans to cast to a TV/projector, upgrade to <span class="lvl-badge l4"><span class="dot"></span>L4</span></li>
+          <li>Avoid H.265 (L8) — compatibility issues may leave the recipient unable to open it</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== Scenario 3 ========== -->
+    <section id="s-training" class="scene">
+      <h3><span class="scene-emoji">🏢</span>Scenario 3: Corporate training / knowledge-base recording</h3>
+      <div class="scene-block"><strong>Characteristics:</strong>
+        <ul>
+          <li>Usually archived long-term; storage cost is a real business consideration</li>
+          <li>Audience is internal staff — demanding about content, tolerant of quality (they care about substance)</li>
+          <li>Playback may happen on intranet platforms or an LMS with broad format support</li>
+          <li>Videos may be downloaded and forwarded many times; small size helps distribution speed</li>
+        </ul>
+      </div>
+      <div class="scene-recommend"><strong>Recommended plan:</strong><span class="lvl-badge l3"><span class="dot"></span>L3</span> (CRF 34 + B&amp;W) or <span class="lvl-badge l4"><span class="dot"></span>L4</span> (plus stillimage) as the standard; <span class="lvl-badge l5"><span class="dot"></span>L5</span> can further cut costs when batch-transcoding legacy archives.</div>
+      <div class="scene-block"><strong>Operational advice:</strong>
+        <ul>
+          <li>Establish an internal rule: all newly recorded training videos enter the archive using the L4 standard</li>
+          <li>Keep one original file for the archive (cold storage); distribute the compressed version daily</li>
+          <li>Pair with a batch script to automatically compress new videos and replace old versions weekly</li>
+          <li>Expected storage cost reduction: 80%–90%</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== Scenario 4 ========== -->
+    <section id="s-mooc" class="scene">
+      <h3><span class="scene-emoji">🌐</span>Scenario 4: Public courses / open lectures / MOOCs</h3>
+      <div class="scene-block"><strong>Characteristics:</strong>
+        <ul>
+          <li>Audience may come from poorly connected regions (remote areas, low-bandwidth abroad)</li>
+          <li>Videos must work across all kinds of devices (old phones, tablets, public computers)</li>
+          <li>Usually uploaded to video platforms (Bilibili, YouTube, local MOOC platforms), which re-transcode</li>
+          <li>Small size = faster upload + faster load + less platform traffic</li>
+        </ul>
+      </div>
+      <div class="scene-recommend"><strong>Recommended plan:</strong><span class="lvl-badge l5"><span class="dot"></span>L5</span> (1 frame/6 s + 480p B&amp;W + 8k audio) by default; for colorblind/weak-sighted audiences or courses explaining palettes, keep color with <span class="lvl-badge l1"><span class="dot"></span>L1</span> and accept the larger size.</div>
+      <div class="scene-block"><strong>Operational advice:</strong>
+        <ul>
+          <li>Add to the course description: "This video is an ultra-low-bandwidth optimized version, suitable for slow connections"</li>
+          <li>If the platform supports adaptive bitrate (ABR), upload multiple levels simultaneously and let the platform adapt</li>
+          <li>For pure-audio content (e.g. language courses), offer an additional MP3 version (80% smaller still) as a supplementary resource</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== Scenario 5 ========== -->
+    <section id="s-sales" class="scene">
+      <h3><span class="scene-emoji">💼</span>Scenario 5: Sales demos / pre-sales walkthroughs (for client decision-makers)</h3>
+      <div class="scene-block"><strong>Characteristics:</strong>
+        <ul>
+          <li>Audience is executives (directors, VPs, CEOs) with expectations of "professionalism"</li>
+          <li>Charts, data, and logos must be clearly legible; color is sometimes a brand requirement</li>
+          <li>Decision-makers may use any device (quick phone preview, careful desktop study)</li>
+          <li>Size can't be too big (they won't bother downloading) and quality can't be too low (it looks unprofessional)</li>
+        </ul>
+      </div>
+      <div class="scene-recommend"><strong>Recommended plan:</strong><span class="lvl-badge l1"><span class="dot"></span>L1</span> (1 frame/6 s + 480p color + CRF 32 + 20k audio) — keeps color so brand hues and chart distinctions stand out; 480p remains crisp on big screens; 99 minutes ≈ 30–35 MB — neither embarrassing nor bulky.</div>
+      <div class="scene-block"><strong>Operational advice:</strong>
+        <ul>
+          <li>If the client explicitly plans to project on a big screen, upgrade to 720p (scale=-2:720) + CRF 28 (≈60–80 MB)</li>
+          <li>Name files with the company abbreviation and date to look professional</li>
+          <li>Quickly preview the file yourself before sending to make sure compression left no obvious artifacts</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== Scenario 6 ========== -->
+    <section id="s-compliance" class="scene">
+      <h3><span class="scene-emoji">📝</span>Scenario 6: Regulatory / compliance / audit archival video</h3>
+      <div class="scene-block"><strong>Characteristics:</strong>
+        <ul>
+          <li>Core requirements: content must be tamper-proof, traceable, and preserved long-term</li>
+          <li>Original quality is usually kept as evidence, but archival storage costs are high</li>
+          <li>Playback is extremely rare (possibly once every few years)</li>
+          <li>Format stability matters greatly (H.264 is the first choice; H.265 may not be supported by audit systems)</li>
+        </ul>
+      </div>
+      <div class="scene-recommend"><strong>Recommended plan:</strong>
+        <ul style="padding-left:0;list-style:none">
+          <li>Original: keep one full high-bitrate file for legal effect</li>
+          <li>Daily review copy: <span class="lvl-badge l2"><span class="dot"></span>L2</span> (grayscale standard) or <span class="lvl-badge l3"><span class="dot"></span>L3</span> (CRF 34) for fast content retrieval</li>
+        </ul>
+      </div>
+      <div class="scene-block"><strong>Operational advice:</strong>
+        <ul>
+          <li>Store the original in compliance storage (e.g. WORM); the compressed copy for everyday review</li>
+          <li>Preserve all metadata when compressing (recording time, recorder, device info, etc.)</li>
+          <li>Consider overlaying a timestamp watermark on the video (drawtext filter) to reinforce legal effect</li>
+          <li>L6/L8 are not recommended — heavy picture jumping may invite questions about content continuity</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== Scenario 7 ========== -->
+    <section id="s-offline" class="scene">
+      <h3><span class="scene-emoji">📱</span>Scenario 7: Mobile / offline viewing (travel, commuting)</h3>
+      <div class="scene-block"><strong>Characteristics:</strong>
+        <ul>
+          <li>Users pre-download to a phone/tablet and watch with no network</li>
+          <li>Device storage is limited (especially 64GB/128GB models)</li>
+          <li>Usually many episodes are batch-downloaded at once</li>
+        </ul>
+      </div>
+      <div class="scene-recommend"><strong>Recommended plan:</strong><span class="lvl-badge l6"><span class="dot"></span>L6</span> (1 frame/10 s + 360p + 8k audio) or <span class="lvl-badge l8"><span class="dot"></span>L8</span> (H.265 extreme), provided the player supports it — 360p is plenty sharp on a phone screen; at under 10 MB per episode, 20 episodes download in less than 200 MB.</div>
+      <div class="scene-block"><strong>Operational advice:</strong>
+        <ul>
+          <li>Offer an "offline (low-bitrate)" option on the download page so users choose as needed</li>
+          <li>For Apple users (iOS natively supports H.265), prioritize the smallest L8 version</li>
+          <li>Ship a short "viewing guide" explaining that picture jumps from long sampling intervals are by design</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== Scenario 8 ========== -->
+    <section id="s-platform" class="scene">
+      <h3><span class="scene-emoji">🖥️</span>Scenario 8: Video platform upload (Bilibili / YouTube / Douyin, etc.)</h3>
+      <div class="scene-block"><strong>Characteristics:</strong>
+        <ul>
+          <li>Platforms re-transcode uploads themselves</li>
+          <li>Platforms publish recommended specs for resolution, bitrate, and codec</li>
+          <li>Video sharpness directly affects recommendation algorithms and user experience</li>
+          <li>Upload speed is affected by file size</li>
+        </ul>
+      </div>
+      <div class="scene-recommend"><strong>Recommended plan:</strong> upload <span class="lvl-badge l1"><span class="dot"></span>L1</span> (color 480p), because platform transcoding only compresses 480p further — if the source starts too low, the final result is poor. If the platform allows, upload two versions: L1 as the main one, L6 as a low-bandwidth fallback.</div>
+      <div class="scene-block"><strong>Operational advice:</strong>
+        <ul>
+          <li>Check the platform's officially recommended parameters and fine-tune from L1</li>
+          <li>E.g. Bilibili recommends H.264 at ≤6000kbps; L1 is far below that ceiling, no extra adjustment needed</li>
+          <li>Short-video platforms (Douyin/Kuaishou) recommend vertical 9:16 — change the command to <code>scale=-2:720,crop=ih*9/16:ih</code></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== Scenario 9 ========== -->
+    <section id="s-archive" class="scene">
+      <h3><span class="scene-emoji">🗂️</span>Scenario 9: Batch archiving of legacy material / storage cleanup</h3>
+      <div class="scene-block"><strong>Characteristics:</strong>
+        <ul>
+          <li>Deals with an existing library of hundreds of thousands of hours of video</li>
+          <li>Goal: free up storage while losing as little core information as possible</li>
+          <li>Long batch processing time is acceptable (runs in the background)</li>
+        </ul>
+      </div>
+      <div class="scene-recommend"><strong>Recommended plan:</strong><span class="lvl-badge l5"><span class="dot"></span>L5</span> (1 frame/6 s + 480p B&amp;W + 8k audio) — the optimal balance between compression ratio and content preservation.</div>
+      <div class="scene-block"><strong>Operational advice:</strong>
+        <ul>
+          <li>Test-compress 100 sample files first and confirm content is still recognizable</li>
+          <li>Use GNU Parallel or xargs for parallel compression and make full use of multi-core CPUs</li>
+          <li>After compression, verify all outputs with FFmpeg's <code>-f null -</code></li>
+          <li>Once the compressed versions check out, move originals to cold storage (tape or archive cloud) rather than deleting them outright, in case of surprises</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== Quick reference table ========== -->
+    <section id="quick-table">
+      <h2>Plan Selection Quick Reference</h2>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Work scenario</th><th>Primary plan</th><th>Alternative plan</th><th>Key consideration</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Email attachment</td><td><span class="lvl-badge l4"><span class="dot"></span>L4</span></td><td><span class="lvl-badge l6"><span class="dot"></span>L6</span></td><td>Attachment limits + desktop viewing</td></tr>
+            <tr><td>WeChat/DingTalk transfer</td><td><span class="lvl-badge l5"><span class="dot"></span>L5</span></td><td><span class="lvl-badge l6"><span class="dot"></span>L6</span></td><td>Phone screen + transfer speed</td></tr>
+            <tr><td>Corporate training / KB</td><td><span class="lvl-badge l4"><span class="dot"></span>L4</span></td><td><span class="lvl-badge l3"><span class="dot"></span>L3</span></td><td>Long-term archive + internal circulation</td></tr>
+            <tr><td>Public course / MOOC</td><td><span class="lvl-badge l5"><span class="dot"></span>L5</span></td><td><span class="lvl-badge l1"><span class="dot"></span>L1</span> (platform version)</td><td>Low-bandwidth audience + platform compatibility</td></tr>
+            <tr><td>Sales demo / pre-sales</td><td><span class="lvl-badge l1"><span class="dot"></span>L1</span></td><td>L1-720p</td><td>Professionalism + brand color</td></tr>
+            <tr><td>Compliance / audit archive</td><td><span class="lvl-badge l2"><span class="dot"></span>L2</span> (review copy)</td><td>Original file (archive)</td><td>Legal effect + storage cost</td></tr>
+            <tr><td>Mobile offline viewing</td><td><span class="lvl-badge l6"><span class="dot"></span>L6</span></td><td><span class="lvl-badge l8"><span class="dot"></span>L8</span> (Apple users)</td><td>Storage + batch download</td></tr>
+            <tr><td>Video platform upload</td><td><span class="lvl-badge l1"><span class="dot"></span>L1</span></td><td>Platform-native specs</td><td>Platform transcoding loss</td></tr>
+            <tr><td>Legacy batch archiving</td><td><span class="lvl-badge l5"><span class="dot"></span>L5</span></td><td><span class="lvl-badge l6"><span class="dot"></span>L6</span></td><td>Huge file volume + freeing space</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== Decision flowchart ========== -->
+    <section id="decision-flow">
+      <h2>Scenario Decision Flowchart</h2>
+      <div class="flowchart">
+        <div class="flow-node terminal">Start: you have a lecture-style video to compress</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node decision">Must color be preserved?</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-branches">
+          <div class="flow-branch">
+            <div class="branch-label">Yes · brand/palette</div>
+            <div class="flow-node">Client projecting on a big screen?</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-branches">
+              <div class="flow-branch"><div class="branch-label">Yes</div><div class="flow-node terminal">L1-720p + CRF 28</div></div>
+              <div class="flow-branch"><div class="branch-label">No</div><div class="flow-node terminal">L1 standard</div></div>
+            </div>
+          </div>
+          <div class="flow-branch">
+            <div class="branch-label">No · B&amp;W is fine</div>
+            <div class="flow-node">Channel and bandwidth?</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-branches">
+              <div class="flow-branch"><div class="branch-label">Email / training</div><div class="flow-node terminal">L4 smart tuning</div></div>
+              <div class="flow-branch"><div class="branch-label">WeChat / MOOC</div><div class="flow-node terminal">L5 audio extreme</div></div>
+              <div class="flow-branch"><div class="branch-label">Offline / ultra-low bandwidth</div><div class="flow-node terminal">L6 long interval</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node decision">Hard size ceiling?</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-branches">
+          <div class="flow-branch"><div class="branch-label">Yes</div><div class="flow-node terminal">L7 2-Pass locked size</div></div>
+          <div class="flow-branch"><div class="branch-label">No · H.265 supported</div><div class="flow-node terminal">L8 H.265 extreme</div></div>
+          <div class="flow-branch"><div class="branch-label">No · H.265 not supported</div><div class="flow-node terminal">Use the result above</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Summary ========== -->
+    <section id="summary">
+      <h2>Summary</h2>
+      <p>"1 frame / 6 seconds" is a philosophy; the 8-level compression standard is the toolbox. What actually makes the system work is choosing correctly per scenario — using L6 where it doesn't belong makes clients think "this video is too rough", and using L1 where it doesn't belong lets storage costs spiral.</p>
+      <div class="callout ok">
+        <div class="callout-title">Core principle</div>
+        <p>Use the right plan at the right time — neither waste bandwidth nor shortchange the content.</p>
+      </div>
+    </section>
+
+    <hr>
+    <nav style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:24px 0">
+      <a href="levels.html">← Previous: 8-level compression standard</a>
+      <a href="redlines.html">Next: prohibited red lines →</a>
+    </nav>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">1帧6秒 · Video Compression Initiative</div>
+      <div>Standard sampling rate for lecture-style videos · v1.0</div>
+    </div>
+    <ul class="footer-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="levels.html">Levels</a></li>
+      <li><a href="scenarios.html">Scenarios</a></li>
+      <li><a href="redlines.html">Red Lines</a></li>
+      <li><a href="design.html">PPT Design</a></li>
+      <li><a href="obs.html">OBS Setup</a></li>
+      <li><a href="skill-ppt.html">PPT Skill</a></li>
+      <li><a href="skill-compress.html">Compress Skill</a></li>
+      <li><a href="license.html">License</a></li>
+    </ul>
+    <div class="footer-copy">This initiative is licensed under <a href="license.html">CC BY 4.0</a>, by Han Lie and AI collaboration partners. All FFmpeg commands are H.264/AAC based and have been tested and verified for production use.</div>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

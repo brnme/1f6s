@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video-to-1f6s Skill · 1f6s</title>
+<meta name="description" content="The video compression Skill of the 1f6s initiative: uses ffmpeg to convert a given video into an 8-level-compliant output — probes the source first, shows the command, executes after confirmation, never overwrites the original by default.">
+<link rel="alternate" hreflang="zh-CN" href="../skill-compress.html">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">1帧6秒<span class="brand-tag">Video Compression Initiative</span></a>
+    <div class="lang-switch">
+      <a href="../skill-compress.html" lang="zh-CN" aria-label="切换到中文">中</a><span class="sep">/</span><a href="skill-compress.html" class="active" lang="en" aria-label="Switch to English">EN</a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="levels.html">Levels</a></li>
+      <li><a href="scenarios.html">Scenarios</a></li>
+      <li><a href="redlines.html">Red Lines</a></li>
+      <li><a href="design.html">PPT Design</a></li>
+      <li><a href="obs.html">OBS Setup</a></li>
+      <li><a href="skill-ppt.html">PPT Skill</a></li>
+      <li><a href="skill-compress.html">Compress Skill</a></li>
+      <li><a href="license.html">License</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ========== Top ========== -->
+    <section id="top">
+      <h1>Video-to-1f6s Skill</h1>
+      <p class="lead">Given a video, use <strong>ffmpeg</strong> to convert it into an output matching one of the "1f6s" 8-level compression standards. Given a video path and level (default L4), it <strong>probes the source first, shows the command that will run, and only executes after confirmation</strong>; the output defaults to <code>&lt;basename&gt;_1f6s.mp4</code> and <strong>never overwrites the original</strong>.</p>
+      <div class="callout">
+        <div class="callout-title">What it is</div>
+        <p>A shareable toolkit for any agent and humans (<code>skill/1f6s-compress/</code>): a playbook for agents (<code>SKILL.md</code>) plus a shell wrapper for direct execution (<code>1f6s.sh</code>). It encodes the initiative's 8-level parameters into a machine-readable <code>levels.json</code> shared by the script and the agent, keeping parameters from drifting.</p>
+      </div>
+    </section>
+
+    <!-- ========== 8-level parameter table ========== -->
+    <section id="levels">
+      <h2>8-Level Parameter Quick Reference</h2>
+      <p class="lead">Full parameters and ffmpeg commands are on the <a href="levels.html">8-level standard page</a>. This skill treats <code>levels.json</code> as the single source of truth:</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Level</th><th>Name</th><th>Sampling</th><th>Resolution</th><th>Color</th><th>Video</th><th>Audio</th><th>Tuning</th><th>Size for 99 min</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>L1</td><td>Standard</td><td>1 f/6 s</td><td>480p</td><td>Color</td><td>CRF 32</td><td>20k/22050</td><td>—</td><td>≈30–35 MB</td></tr>
+            <tr><td>L2</td><td>Grayscale</td><td>1 f/6 s</td><td>480p</td><td>B&amp;W</td><td>CRF 32</td><td>20k/22050</td><td>—</td><td>≈24–28 MB</td></tr>
+            <tr><td>L3</td><td>High compression</td><td>1 f/6 s</td><td>480p</td><td>B&amp;W</td><td>CRF 34</td><td>20k/22050</td><td>—</td><td>≈18–22 MB</td></tr>
+            <tr><td><strong>L4</strong></td><td><strong>Smart tuning ★default</strong></td><td>1 f/6 s</td><td>480p</td><td>B&amp;W</td><td>CRF 34</td><td>20k/22050</td><td>stillimage</td><td>≈16–19 MB</td></tr>
+            <tr><td>L5</td><td>Audio extreme</td><td>1 f/6 s</td><td>480p</td><td>B&amp;W</td><td>CRF 34</td><td>8k/8000</td><td>stillimage</td><td>≈14–17 MB</td></tr>
+            <tr><td>L6</td><td>Long interval</td><td>1 f/10 s</td><td>360p</td><td>B&amp;W</td><td>CRF 36</td><td>8k/8000</td><td>stillimage</td><td>≈10–12 MB</td></tr>
+            <tr><td>L7</td><td>2-Pass</td><td>1 f/10 s</td><td>360p</td><td>B&amp;W</td><td>2-Pass</td><td>8k/8000</td><td>stillimage</td><td>Locked to target</td></tr>
+            <tr><td>L8</td><td>H.265 extreme</td><td>1 f/10 s</td><td>360p</td><td>B&amp;W</td><td>CRF 38</td><td>8k/8000</td><td>keyint=1</td><td>≈6–8 MB</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== Usage ========== -->
+    <section id="usage">
+      <h2>How to Use</h2>
+
+      <h3>Script path (humans or agents executing directly)</h3>
+      <div class="code-block">
+        <div class="code-head"><span class="lang">bash · 1f6s.sh</span></div>
+        <pre><code># default L4 compression (shows the command first, runs after confirmation)
+./skill/1f6s-compress/1f6s.sh lecture.mp4
+
+# specify a level + skip confirmation
+./skill/1f6s-compress/1f6s.sh lecture.mp4 L4 -y
+
+# L7 locks the target size (8MB)
+./skill/1f6s-compress/1f6s.sh lecture.mp4 L7 --target 8 -y
+
+# show the command that would run, without actually compressing
+./skill/1f6s-compress/1f6s.sh lecture.mp4 L6 --dry-run
+
+# print the 8-level quick reference
+./skill/1f6s-compress/1f6s.sh --list</code></pre>
+      </div>
+
+      <h3>Agent path (read the playbook)</h3>
+      <p>An agent reads <code>skill/1f6s-compress/SKILL.md</code> and executes per the <code>arguments</code> convention:</p>
+      <div class="code-block">
+        <div class="code-head"><span class="lang">call examples</span></div>
+        <pre><code># default L4
+run_skill 1f6s-compress "video: lecture.mp4"
+
+# L7 locking 8MB
+run_skill 1f6s-compress "video: lecture.mp4; level: L7; target: 8MB; yes"
+
+# generate the command only, don't execute
+run_skill 1f6s-compress "video: lecture.mp4; level: L6; dry-run"</code></pre>
+      </div>
+
+      <h3>Command-line options</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Option</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>-o, --output &lt;path&gt;</code></td><td>Custom output filename/path</td></tr>
+            <tr><td><code>-y, --yes</code></td><td>Skip confirmation and execute directly</td></tr>
+            <tr><td><code>-n, --dry-run</code></td><td>Only print the command that would run, don't execute</td></tr>
+            <tr><td><code>-l, --list</code></td><td>Print the 8-level parameter table and exit</td></tr>
+            <tr><td><code>--target &lt;MB&gt;</code></td><td>L7 target size (MB); the video bitrate is computed automatically</td></tr>
+            <tr><td><code>--force</code></td><td>Allow overwriting an existing output file</td></tr>
+            <tr><td><code>-h, --help</code></td><td>Show help</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== Features ========== -->
+    <section id="features">
+      <h2>Core Features</h2>
+      <div class="scene-block"><ul>
+        <li><strong>Show first, then execute</strong>: ffprobe probes the source (duration/resolution/codec/size) → prints the selected level's parameters + the full command + expected output → runs after the user confirms <code>y</code> (<code>-y</code> skips)</li>
+        <li><strong>Never overwrites the original by default</strong>: output named <code>&lt;basename&gt;_1f6s.mp4</code> in the source's directory; refuses if the output already exists (needs <code>--force</code>); refuses whenever the output path equals the source video</li>
+        <li><strong>Full 8-level coverage</strong>: all L1–L8 parameters come from <code>levels.json</code> (matching <a href="levels.html">levels.html</a>); L4 is the default recommendation</li>
+        <li><strong>L7 two-pass</strong>: computes the video bitrate automatically via <code>target size × 8192 / duration − audio bitrate</code>, runs both passes, and cleans up <code>ffmpeg2pass-*.log*</code> automatically</li>
+        <li><strong>L8 H.265</strong>: includes <code>keyint=1:min-keyint=1</code>; warns about compatibility risk before running</li>
+        <li><strong>Platform adaptation</strong>: <code>/dev/null</code> → <code>NUL</code> detected automatically (Windows)</li>
+        <li><strong>Dependency fallback</strong>: parses JSON with <code>python3</code> when <code>jq</code> is missing; only errors out when neither is available</li>
+      </ul></div>
+    </section>
+
+    <!-- ========== Execution flow ========== -->
+    <section id="workflow">
+      <h2>Execution Flow</h2>
+      <div class="scene-block"><ol>
+        <li><strong>Validate input</strong>: confirm the video file exists and ffmpeg + ffprobe are available</li>
+        <li><strong>Determine level</strong>: parse the level from arguments (default L4), target size (L7 only), and output path (optional)</li>
+        <li><strong>Probe the source</strong>: ffprobe fetches duration, resolution, codec, and size</li>
+        <li><strong>Fetch parameters</strong>: read all parameters for the level from <code>levels.json</code></li>
+        <li><strong>Build the command</strong>: assemble the ffmpeg command; for L7 compute the video bitrate from the formula and generate both pass commands</li>
+        <li><strong>Show</strong>: print source info + level parameters + full command + expected output filename</li>
+        <li><strong>Execute after confirmation</strong>: waits for the user by default; runs directly when <code>yes</code> is passed</li>
+        <li><strong>Verify and report</strong>: ffprobe confirms the output is recognizable; print the output size and compare to the level's expectation</li>
+      </ol></div>
+    </section>
+
+    <!-- ========== Files ========== -->
+    <section id="files">
+      <h2>File List</h2>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>File</th><th>Purpose</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>skill/1f6s-compress/SKILL.md</code></td><td>Agent playbook: guidelines summary + parameter table + execution flow + call convention + mandatory constraints + self-test samples</td></tr>
+            <tr><td><code>skill/1f6s-compress/1f6s.sh</code></td><td>Companion wrapper script: the execution entry point shared by humans and agents (executable)</td></tr>
+            <tr><td><code>skill/1f6s-compress/levels.json</code></td><td>Machine-readable 8-level parameter table (single source of truth for script and agent)</td></tr>
+            <tr><td><code>skill/1f6s-compress/README.md</code></td><td>Human-oriented quick start: dependencies/examples/quick reference/FAQ</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== FAQ ========== -->
+    <section id="faq">
+      <h2>Frequently Asked Questions</h2>
+      <details class="faq-item" open>
+        <summary>Why L4 by default?</summary>
+        <p>It strikes the best balance between size (~16–19 MB for 99 minutes) and viewing experience: <code>-tune stillimage</code> keeps static slide text sharper, and 20k/22050 audio keeps the voice clean. Unless you have a special need (color → L1, locked size → L7, extreme size → L8), just use L4.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Why convert to B&amp;W by default?</summary>
+        <p>Color in lecture videos adds almost no understanding value; converting to B&amp;W (<code>format=gray</code>) cuts size by roughly another 20%. If color must be preserved (chart palettes, UI distinctions), use L1.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Why 6 seconds?</summary>
+        <p>It's the standard sampling rate of the "1f6s" initiative — lecture footage changes slowly; one frame every 6 seconds is enough to keep pace with page turns while massively cutting bitrate. For slower speech and even less change, use L6/L7/L8's 1 frame/10 s. See <a href="index.html#why-6s">Why 6 seconds</a>.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How does L7 lock the size?</summary>
+        <p>2-Pass encoding. Formula: <code>total bitrate = target size (MB) × 8192 / duration (seconds)</code>, <code>video bitrate = total bitrate − audio bitrate (8)</code>. Pass 1 analyzes (<code>-pass 1 -an -f mp4 /dev/null</code>, <code>NUL</code> on Windows), pass 2 outputs (<code>-pass 2</code>). The script computes the bitrate, runs both passes, and cleans up the logs automatically.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Will it overwrite my original video?</summary>
+        <p>No. Output defaults to <code>&lt;original name&gt;_1f6s.mp4</code> in the same directory as the source. Even if an output with the same name exists, the script refuses and suggests <code>--force</code> to overwrite or <code>-o</code> to rename.</p>
+      </details>
+    </section>
+
+    <!-- ========== Getting it ========== -->
+    <section id="get">
+      <h2>Getting It</h2>
+      <p class="lead">This Skill is a toolkit folder — an agent playbook plus an executable shell script; grab it and go.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Way</th><th>How</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Clone the repo</td>
+              <td><code>git clone https://github.com/brnme/1f6s.git</code>; files live in <code>skill/1f6s-compress/</code></td>
+            </tr>
+            <tr>
+              <td>Use the script directly</td>
+              <td>After cloning, <code>chmod +x skill/1f6s-compress/1f6s.sh</code>, then <code>./skill/1f6s-compress/1f6s.sh video.mp4 L4</code> compresses in one line</td>
+            </tr>
+            <tr>
+              <td>Feed an agent</td>
+              <td>Hand <code>skill/1f6s-compress/SKILL.md</code> to any agent; the agent executes per the call convention, or directly invokes <code>1f6s.sh</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout ok">
+        <div class="callout-title">Files &amp; dependencies</div>
+        <p>Repo <code>skill/1f6s-compress/</code> (contains <code>SKILL.md</code> / <code>1f6s.sh</code> / <code>levels.json</code> / <code>README.md</code>). Running the script needs ffmpeg + ffprobe; parsing <code>levels.json</code> needs jq or python3 (either works; the script degrades automatically when one is missing).</p>
+      </div>
+    </section>
+
+    <!-- ========== Summary ========== -->
+    <section id="summary">
+      <h2>Summary</h2>
+      <p>The Video-to-1f6s Skill is the initiative's <strong>executable landing</strong>: give a video path and level, get an 8-level-compliant compressed output. It complements the <a href="skill-ppt.html">PPT Generation Skill</a> — the former compresses finished video to standard size, the latter makes source slides survive compression. Together they close the loop from source to finished piece.</p>
+      <div class="callout ok">
+        <div class="callout-title">Core principle</div>
+        <p>levels.json as the single parameter source; show first, execute after confirmation; never overwrite the original — making the initiative's 8-level standard usable by everyone and executable by agents.</p>
+      </div>
+    </section>
+
+    <hr>
+    <nav style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:24px 0">
+      <a href="skill-ppt.html">← Previous: PPT generation skill</a>
+      <a href="obs.html">Next: OBS setup →</a>
+    </nav>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">1帧6秒 · Video Compression Initiative</div>
+      <div>Standard sampling rate for lecture-style videos · v1.0</div>
+    </div>
+    <ul class="footer-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="levels.html">Levels</a></li>
+      <li><a href="scenarios.html">Scenarios</a></li>
+      <li><a href="redlines.html">Red Lines</a></li>
+      <li><a href="design.html">PPT Design</a></li>
+      <li><a href="obs.html">OBS Setup</a></li>
+      <li><a href="skill-ppt.html">PPT Skill</a></li>
+      <li><a href="skill-compress.html">Compress Skill</a></li>
+      <li><a href="license.html">License</a></li>
+    </ul>
+    <div class="footer-copy">This initiative is licensed under <a href="license.html">CC BY 4.0</a>, by Han Lie and AI collaboration partners. All FFmpeg commands are H.264/AAC based and have been tested and verified for production use.</div>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

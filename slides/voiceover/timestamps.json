@@ -1,0 +1,93 @@
+{
+  "voice": "zh-CN-YunxiNeural",
+  "rate": "+0%",
+  "gap": 0.6,
+  "slides": [
+    {
+      "slide": "01",
+      "start": 0.0,
+      "duration": 14.04
+    },
+    {
+      "slide": "02",
+      "start": 14.639999999999999,
+      "duration": 6.288
+    },
+    {
+      "slide": "03",
+      "start": 21.528,
+      "duration": 17.256
+    },
+    {
+      "slide": "04",
+      "start": 39.384,
+      "duration": 18.84
+    },
+    {
+      "slide": "05",
+      "start": 58.824,
+      "duration": 16.32
+    },
+    {
+      "slide": "06",
+      "start": 75.744,
+      "duration": 17.424
+    },
+    {
+      "slide": "07",
+      "start": 93.768,
+      "duration": 15.336
+    },
+    {
+      "slide": "08",
+      "start": 109.70400000000001,
+      "duration": 17.568
+    },
+    {
+      "slide": "09",
+      "start": 127.87200000000001,
+      "duration": 16.824
+    },
+    {
+      "slide": "10",
+      "start": 145.29600000000002,
+      "duration": 20.448
+    },
+    {
+      "slide": "11",
+      "start": 166.34400000000002,
+      "duration": 13.08
+    },
+    {
+      "slide": "12",
+      "start": 180.02400000000003,
+      "duration": 15.384
+    },
+    {
+      "slide": "13",
+      "start": 196.00800000000004,
+      "duration": 21.984
+    },
+    {
+      "slide": "14",
+      "start": 218.59200000000004,
+      "duration": 18.96
+    },
+    {
+      "slide": "15",
+      "start": 238.15200000000004,
+      "duration": 16.728
+    },
+    {
+      "slide": "16",
+      "start": 255.48000000000005,
+      "duration": 21.72
+    },
+    {
+      "slide": "17",
+      "start": 277.80000000000007,
+      "duration": 13.968
+    }
+  ],
+  "total": 291.768
+}
