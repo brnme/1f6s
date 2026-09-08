@@ -548,6 +548,14 @@ code {
 }
 .entry-card:hover .ec-arrow { text-shadow: 0 0 12px rgba(34, 211, 238, 0.5); }
 .entry-card .ec-arrow code { border: none; background: none; padding: 0; }
+/* 长安装命令:单行横向滚动,避免"一行安装"视觉上折成多行(文本无换行,复制仍是单行) */
+.entry-card .ec-arrow code.cmd {
+  display: block;
+  white-space: nowrap;
+  overflow-x: auto;
+  max-width: 100%;
+  scrollbar-width: thin;
+}
 
 /* ---------- 提示框 ---------- */
 .callout {
