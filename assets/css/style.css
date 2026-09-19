@@ -7,7 +7,10 @@
 /* ---------- 设计令牌 ---------- */
 :root {
   --font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC",
-    "Source Han Sans SC", "Hiragino Sans GB", system-ui, sans-serif;
+    "Source Han Sans SC", "Hiragino Sans GB",
+    "Noto Sans Arabic", "Noto Sans Hebrew", "Noto Sans Devanagari",
+    "Noto Sans Bengali", "Noto Sans Thai",
+    system-ui, sans-serif;
   --font-mono: "SF Mono", "JetBrains Mono", "Fira Code", Consolas,
     "Courier New", monospace;
 
@@ -209,6 +212,94 @@ html[lang="en"] .nav-links {
   row-gap: 2px;
 }
 html[lang="en"] .lang-switch { align-self: center; }
+
+/* ---------- 语言切换下拉（details 纯 CSS,无 JS） ----------
+   融入 header 风格:面板深底、2px 边框、无阴影无渐变,
+   hover/激活用青 #22d3ee,当前语言反白高亮。 */
+.lang-switch { position: relative; }
+.lang-menu { position: relative; display: inline-block; }
+.lang-menu summary {
+  list-style: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 2px solid var(--line-bright);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  user-select: none;
+  transition: border-color 0.15s, color 0.15s;
+}
+.lang-menu summary::-webkit-details-marker { display: none; }
+.lang-menu summary::after {
+  content: "▾";
+  font-size: 11px;
+  color: var(--ink-faint);
+}
+.lang-menu summary:hover,
+.lang-menu[open] summary { color: var(--accent); border-color: var(--accent); }
+.lang-menu[open] summary::after { content: "▴"; }
+.lang-menu ul {
+  position: absolute;
+  top: calc(100% + 6px);
+  inset-inline-end: 0;      /* 右缘对齐 summary,移动端不溢出;RTL 自动翻转 */
+  z-index: 110;             /* 高于正文内容(header 自身 z-index:100) */
+  min-width: 10em;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--panel);
+  border: 2px solid var(--line-bright);
+  border-radius: var(--radius-sm);
+}
+.lang-menu li + li { margin-top: 2px; }
+.lang-menu a {
+  display: block;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  border-bottom: none;
+  white-space: nowrap;
+}
+.lang-menu a:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-bottom: none;
+}
+.lang-menu a[aria-current="true"] {
+  background: var(--accent);
+  color: #04121a;
+  font-weight: 700;
+}
+
+/* ---------- RTL 语言适配(ar / fa / he,<html dir="rtl">) ----------
+   布局为简单流式,仅修正 text-align 与水平硬编码(缩进/边框方向);
+   下拉锚点已用 inset-inline-end,RTL 自动翻转,无需额外处理。 */
+html[dir="rtl"] body { text-align: right; }
+html[dir="rtl"] table th, html[dir="rtl"] table td { text-align: right; }
+html[dir="rtl"] ul, html[dir="rtl"] ol { padding-left: 0; padding-right: 1.6em; }
+html[dir="rtl"] h2 { padding: 0 15px 0.45em 0; }
+html[dir="rtl"] h2::before { left: auto; right: 0; }
+html[dir="rtl"] h2 .anchor, html[dir="rtl"] h3 .anchor { margin-left: 0; margin-right: 6px; }
+html[dir="rtl"] .hero-stats .hs-item { border-left: none; border-right: 1px solid var(--line); }
+html[dir="rtl"] .hero-stats .hs-item:first-child { border-right: none; }
+html[dir="rtl"] .callout { border-left: none; border-right: 3px solid var(--accent); }
+html[dir="rtl"] .callout.danger { border-right-color: var(--danger); }
+html[dir="rtl"] .callout.ok { border-right-color: var(--ok); }
+html[dir="rtl"] .callout.quote { border-right-color: var(--ink-faint); }
+html[dir="rtl"] .judge-box .judge-branch {
+  padding-left: 0; padding-right: 20px;
+  border-left: none; border-right: 2px solid var(--line-bright);
+}
 
 /* ---------- 标题层级 ---------- */
 h1, h2, h3, h4 { line-height: 1.35; font-weight: 700; color: var(--ink); }

@@ -6,6 +6,11 @@
   "use strict";
 
   /* ---------- 0. 文案字典（按页面 lang 切换） ---------- */
+  // 与 tools/langs.py 保持同步（32 语言注册表）；新语言经 tools/merge_i18n.py 合并
+  const LANG_CODES = ["zh", "en", "ja", "ko", "vi", "th", "id", "ms", "hi", "bn",
+    "de", "fr", "es", "pt", "it", "ru", "nl", "pl", "tr", "cs",
+    "el", "hu", "ro", "sv", "uk", "fi", "da", "bg", "no", "ar", "fa", "he"];
+
   var I18N = {
     zh: {
       copy: "复制",
@@ -89,13 +94,19 @@
         fallback: "Overall recommendation — the best balance of size and experience."
       }
     }
+    // i18n:merge:start
+    // i18n:merge:end
   };
 
   function currentLang() {
     var htmlLang = (document.documentElement.lang || "zh-CN").toLowerCase();
-    return htmlLang.indexOf("en") === 0 ? "en" : "zh";
+    for (var i = 0; i < LANG_CODES.length; i++) {
+      if (htmlLang === LANG_CODES[i]) return LANG_CODES[i];
+    }
+    if (htmlLang.indexOf("zh") === 0) return "zh"; // zh 页面 lang="zh-CN" 等区域变体
+    return "en"; // 未合并字典的新语言回退英文文案
   }
-  var T = I18N[currentLang()];
+  var T = I18N[currentLang()] || I18N.en;
 
   /* ---------- 1. 导航当前页高亮 ---------- */
   function initNavActive() {

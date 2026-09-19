@@ -1,20 +1,27 @@
 #!/usr/bin/env python3
-"""向全站 18 页(zh 9 页 + en 9 页)注入分享/SEO/agent 元数据。
+"""向全站已存在页面(zh 9 页 + en 9 页,矩阵可扩展)注入分享/SEO/agent 元数据。
 
-注入内容:
-- favicon(SVG)链接
-- canonical + hreflang 双语互指(zh / en / x-default)
-- Open Graph(og:title/description/url/image/locale/site_name/type)
+注入内容(以 <!-- inject_meta:start --> / <!-- inject_meta:end --> 包裹,
+置于 </head> 前):
+- favicon(SVG)链接(相对前缀按语言目录)
+- canonical + hreflang 全语言矩阵(该页存在的语言 + x-default→zh 根页)
+- Open Graph(og:title/description/url/image/locale/locale:alternate/site_name/type)
 - twitter:card summary_large_image 系列
 - <link rel="alternate" type="text/markdown"> 指向同名 .md(agent 内容层)
-- 仅 index 两页:JSON-LD WebSite
+- 仅 index 两页(每语言):JSON-LD WebSite
 
-幂等:已有 og:title 的页面自动跳过;重复运行无副作用。
+强制重写:每次运行先剥离旧注入块(标记注释,或无标记历史页的逐行模式
+匹配)再重新注入——已注入页面也能随语言矩阵升级,不再是「注入即跳过」。
+手写内容(<title>、<meta name="description">、charset/viewport、stylesheet)
+永不触碰。
 用法:python3 tools/inject_meta.py(在仓库根目录执行)
 """
 import re
 import sys
 from pathlib import Path
+
+sys.dont_write_bytecode = True  # 不留 __pycache__,保持 git status 干净
+from langs import LANGS, lang_by_code, pages_with_lang
 
 ROOT = Path(__file__).resolve().parent.parent
 BASE = "https://brnme.github.io/1f6s"
@@ -24,51 +31,92 @@ PAGES = [
     "obs", "skill-ppt", "skill-compress", "license",
 ]
 
+INJECT_START = "<!-- inject_meta:start -->"
+INJECT_END = "<!-- inject_meta:end -->"
+MARKER_BLOCK_RE = re.compile(
+    re.escape(INJECT_START) + r"\n.*?" + re.escape(INJECT_END) + r"\n", re.S
+)
+
 TITLE_RE = re.compile(r"<title>(.*?)</title>", re.S)
 DESC_RE = re.compile(r'<meta\s+name="description"\s+content="(.*?)"', re.S)
-# 旧的单条 hreflang 行(改版前遗留),注入 hreflang 簇前先移除避免重复
-OLD_HREFLANG_RE = re.compile(r'\s*<link rel="alternate" hreflang="[^"]*" href="[^"]*">')
+
+# 无标记历史页的剥离模式:整行匹配才删,绝不波及 title/description/charset
+LEGACY_LINE_PREFIXES = (
+    '<link rel="icon"',
+    '<link rel="canonical"',
+    '<link rel="alternate"',  # 含 hreflang 与 text/markdown 两种
+    '<meta property="og:',
+    '<meta name="twitter:',
+)
+
+
+def strip_injected(html: str, name: str) -> str:
+    """剥离旧注入块。两层:标记注释整体删除;无标记历史块逐行模式删除。"""
+    html = MARKER_BLOCK_RE.sub("", html)
+    kept = []
+    for line in html.splitlines(keepends=True):
+        s = line.strip()
+        if s.startswith(LEGACY_LINE_PREFIXES):
+            continue
+        if (
+            name == "index"
+            and s.startswith('<script type="application/ld+json">')
+            and '"@type":"WebSite"' in s
+        ):
+            continue
+        kept.append(line)
+    return "".join(kept)
 
 
 def head_block(name: str, lang: str, title: str, desc: str) -> str:
-    is_en = lang == "en"
-    prefix = "en/" if is_en else ""
-    url = f"{BASE}/{prefix}{name}.html"
-    canonical_zh = f"{BASE}/{name}.html"
-    canonical_en = f"{BASE}/en/{name}.html"
-    canonical = canonical_en if is_en else canonical_zh
-    md_href = f"{name}.md"  # .md 与页面同目录
-    locale = "en_US" if is_en else "zh_CN"
+    me = lang_by_code(lang)
+    present = pages_with_lang(name)  # 该页已存在的语言,全矩阵互指
+    rel = "../" if me["subdir"] else ""  # 相对资源前缀
+    url = f"{BASE}/{me['subdir']}{name}.html"
     lines = [
-        f'<link rel="icon" type="image/svg+xml" href="{"" if not is_en else "../"}assets/favicon.svg">',
-        f'<link rel="canonical" href="{canonical}">',
-        f'<link rel="alternate" hreflang="zh-CN" href="{canonical_zh}">',
-        f'<link rel="alternate" hreflang="en" href="{canonical_en}">',
-        f'<link rel="alternate" hreflang="x-default" href="{canonical_zh}">',
-        f'<link rel="alternate" type="text/markdown" href="{md_href}" title="Markdown version for AI agents">',
+        f'<link rel="icon" type="image/svg+xml" href="{rel}assets/favicon.svg">',
+        f'<link rel="canonical" href="{url}">',
+    ]
+    for l in present:
+        lines.append(
+            f'<link rel="alternate" hreflang="{l["hreflang"]}"'
+            f' href="{BASE}/{l["subdir"]}{name}.html">'
+        )
+    lines.append(f'<link rel="alternate" hreflang="x-default" href="{BASE}/{name}.html">')
+    lines.append(
+        '<link rel="alternate" type="text/markdown" href="{0}.md"'
+        ' title="Markdown version for AI agents">'.format(name)
+    )
+    lines += [
         f'<meta property="og:title" content="{title}">',
         f'<meta property="og:description" content="{desc}">',
         f'<meta property="og:url" content="{url}">',
         f'<meta property="og:image" content="{OG_IMAGE}">',
         f'<meta property="og:image:width" content="1200">',
         f'<meta property="og:image:height" content="630">',
-        f'<meta property="og:locale" content="{locale}">',
-        f'<meta property="og:locale:alternate" content="{"zh_CN" if is_en else "en_US"}">',
-        f'<meta property="og:site_name" content="1帧6秒 · 1 Frame / 6 Seconds">',
+        f'<meta property="og:locale" content="{me["og_locale"]}">',
+    ]
+    for l in present:
+        if l["code"] != lang:
+            lines.append(
+                f'<meta property="og:locale:alternate" content="{l["og_locale"]}">'
+            )
+    lines += [
+        '<meta property="og:site_name" content="1帧6秒 · 1 Frame / 6 Seconds">',
         f'<meta property="og:type" content="{"website" if name == "index" else "article"}">',
-        f'<meta name="twitter:card" content="summary_large_image">',
+        '<meta name="twitter:card" content="summary_large_image">',
         f'<meta name="twitter:title" content="{title}">',
         f'<meta name="twitter:description" content="{desc}">',
         f'<meta name="twitter:image" content="{OG_IMAGE}">',
     ]
     if name == "index":
-        site_name = "1 Frame / 6 Seconds" if is_en else "1帧6秒"
+        site_name = "1 Frame / 6 Seconds" if lang == "en" else "1帧6秒"
         jsonld = (
             '{"@context":"https://schema.org","@type":"WebSite",'
             f'"name":"{site_name}",'
             f'"alternateName":"1f6s video compression initiative",'
-            f'"url":"{canonical}",'
-            f'"description":"{desc}","inLanguage":"{"en" if is_en else "zh-CN"}"}}'
+            f'"url":"{url}",'
+            f'"description":"{desc}","inLanguage":"{me["hreflang"]}"}}'
         )
         lines.append(f'<script type="application/ld+json">{jsonld}</script>')
     return "\n".join(lines)
@@ -76,26 +124,26 @@ def head_block(name: str, lang: str, title: str, desc: str) -> str:
 
 def main() -> int:
     injected = skipped = 0
-    for name in PAGES:
-        for lang, subdir in (("zh", ROOT), ("en", ROOT / "en")):
-            page = subdir / f"{name}.html"
-            html = page.read_text(encoding="utf-8")
-            if 'property="og:title"' in html:
-                skipped += 1
+    for l in LANGS:
+        sub = l["subdir"]
+        for name in PAGES:
+            page = ROOT / sub / f"{name}.html"
+            if not page.exists():
                 continue
+            html = strip_injected(page.read_text(encoding="utf-8"), name)
             m_title = TITLE_RE.search(html)
             m_desc = DESC_RE.search(html)
             if not m_title or not m_desc:
                 print(f"[skip] {page} 缺少 title/description,未注入", file=sys.stderr)
+                skipped += 1
                 continue
             title = m_title.group(1).strip()
             desc = m_desc.group(1).strip().replace('"', "&quot;")
-            html = OLD_HREFLANG_RE.sub("", html)
-            block = head_block(name, lang, title, desc)
+            block = INJECT_START + "\n" + head_block(name, l["code"], title, desc) + "\n" + INJECT_END
             html = html.replace("</head>", block + "\n</head>", 1)
             page.write_text(html, encoding="utf-8")
             injected += 1
-    print(f"注入 {injected} 页,跳过(已注入) {skipped} 页")
+    print(f"重写注入 {injected} 页,跳过(缺 title/description) {skipped} 页")
     return 0
 
 
