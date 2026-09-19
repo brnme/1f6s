@@ -1376,6 +1376,36 @@ Full parameters and ffmpeg commands are on the [8-level standard page](levels.ht
 | L7 | 2-Pass | 1 f/10 s | 360p | B&W | 2-Pass | 8k/8000 | stillimage | Locked to target |
 | L8 | H.265 extreme | 1 f/10 s | 360p | B&W | CRF 38 | 8k/8000 | keyint=1 | ≈6–8 MB |
 
+## Prerequisite: Install FFmpeg
+
+The Skill's only hard dependency is the system's **ffmpeg** and **ffprobe** (both ship in one package — no separate install). Any installation method works; the version from your distro's repository already satisfies the 8-level standard, no need to chase the latest.
+
+| Platform | Recommended approach |
+| --- | --- |
+| Windows | `winget install --id Gyan.FFmpeg` (or Chocolatey: `choco install ffmpeg`); or download the zip from [gyan.dev](https://www.gyan.dev/ffmpeg/builds/), extract it, and add the `bin` folder to PATH |
+| macOS | `brew install ffmpeg` (or `sudo port install ffmpeg`) |
+| Linux | Debian/Ubuntu: `sudo apt install ffmpeg`; Fedora: `sudo dnf install ffmpeg` (requires RPM Fusion); Arch: `sudo pacman -S ffmpeg` |
+| Servers/containers | Install via the image's package manager, as above; or grab a static build from the [official FFmpeg download page](https://ffmpeg.org/download.html) |
+
+### Verify after installing
+
+bash · verify
+
+```
+# both should print a version number (e.g. ffmpeg version 7.x)
+ffmpeg -version
+ffprobe -version
+
+# confirm the encoders: L1–L7 need libx264, L8 needs libx265; expect one line each
+ffmpeg -encoders | grep -E "libx264|libx265"
+```
+
+Common pitfalls
+
+- On Windows, **open a new terminal** after installing before ffmpeg is recognized; with the zip you must add the bin folder to PATH yourself
+- On macOS, install Homebrew first if brew is not found; on Linux an older distro version is fine — the 8-level parameters don't depend on new features
+- For the LGPL/GPL essentials of FFmpeg (commercial use, redistribution), see [the license page · FFmpeg's open-source license](license.html#ffmpeg)
+
 ## How to Use
 
 ### Script path (humans or agents executing directly)
@@ -1492,7 +1522,7 @@ This Skill is a toolkit folder — an agent playbook plus an executable shell sc
 
 Files & dependencies
 
-Repo `skill/1f6s-compress/` (contains `SKILL.md` / `1f6s.sh` / `levels.json` / `README.md`). Running the script needs ffmpeg + ffprobe; parsing `levels.json` needs jq or python3 (either works; the script degrades automatically when one is missing).
+Repo `skill/1f6s-compress/` (contains `SKILL.md` / `1f6s.sh` / `levels.json` / `README.md`). Running the script needs ffmpeg + ffprobe (installation is covered above in [Install FFmpeg](#install)); parsing `levels.json` needs jq or python3 (either works; the script degrades automatically when one is missing).
 
 ## Summary
 
@@ -1580,6 +1610,32 @@ This site's content was produced jointly by the human author **Han Lie** and the
 - **Third-party content**: where pages reference third-party content (e.g. OBS Studio links, platform names), its copyright belongs to the original owners and is outside this license
 - **Public domain**: any content already in the public domain before publication on this site remains in the public domain and is not bound by this license
 
+## FFmpeg's Open-Source License
+
+The initiative's 8-level parameters, compression commands, and both Skills are built on **FFmpeg**. FFmpeg is free and open-source software, but its licensing structure is more layered than this site's CC BY 4.0: which "build" you have determines your obligations. Luckily, nearly all "just compress videos with it" scenarios carry near-zero obligations; what needs care is "bundling it into your own product and redistributing".
+
+- **LGPL core, optional GPL components**: the FFmpeg codebase is licensed under **LGPL-2.1-or-later**; some popular components (e.g. the x264 and x265 encoders) are under **GPL-2.0-or-later** and enabled at compile time. Whether a given ffmpeg binary is an LGPL or a GPL build therefore depends on compile options, not how new the version is.
+- **Check your build with `-version`**: run `ffmpeg -version` and read the configuration line — `--enable-gpl` means a GPL build (most distro and Homebrew packages fall here because they bundle x264/x265); `--enable-nonfree` (typically with libfdk-aac enabled) means a non-free build that **may not be redistributed**.
+- **Command-line use is near-zero obligation**: invoking ffmpeg from a terminal or script — as the initiative's `1f6s.sh` does — producing only video files and never handing ffmpeg itself to anyone, does not trigger the copyleft terms. Personal study, corporate training, and commercial transcoding services can all use it with confidence; the compressed video is not a derivative work of FFmpeg.
+- **Patents are a separate matter**: an open-source license grants copyright permission, not a patent license. H.264 and AAC are patent-covered standard codecs; the pools have been reshuffled and consolidated over the years, and most early core patents have expired. Personal use, internal teaching, and distributing the compressed video files are generally fine; for large-scale commercial encoding services or hardware embedding, assess patent licensing yourself — independent of which open-source build you choose.
+
+Obligations at a glance, by how you use it:
+
+| How you use it | License obligations |
+| --- | --- |
+| Invoke only from a terminal/script; never distribute ffmpeg itself | No extra obligations; the output video is not a derivative work |
+| Distribute an LGPL build with your product (separate process or dynamic linking) | Include FFmpeg's copyright notice and the LGPL text, point to where the source can be obtained; if you modified FFmpeg's source, publish the modifications |
+| Distribute a GPL build with your product (static linking or bundling) | The derivative work must be opened under GPL as a whole — closed-source commercial products should usually avoid this |
+| Distribute a `--enable-nonfree` build | May not be redistributed, period |
+
+One red line
+
+A `--enable-nonfree` build must not be redistributed under any circumstances — if you want to bundle it into your product (even an internal system), stop and check the license first. When a closed-source commercial product needs to integrate FFmpeg, pick an LGPL build and invoke it as a separate process or via dynamic linking; that carries the lightest obligations.
+
+Further reading
+
+FFmpeg's official legal notes on licenses and builds are at [ffmpeg.org/legal](https://ffmpeg.org/legal.html); installation steps are in [the compression Skill · install FFmpeg](skill-compress.html#install). This section is general education, not legal advice; consult a qualified lawyer for major commercial decisions.
+
 ## Frequently Asked Questions
 
 **Q:May I move this site's content to my own website / blog / course?**
@@ -1601,6 +1657,10 @@ Yes. SKILL.md, 1f6s.sh, levels.json, and README.md under skill/ are all licensed
 **Q:How should the AI models' output be credited?**
 
 This site is a collaboration between a human author (Han Lie) and AI models (GLM, DeepSeek, Kimi, Hermes Agent, Reasonix). Credit "Han Lie, GLM, DeepSeek, Kimi, Hermes Agent & Reasonix" and you're done. The AI-generated content was integrated into the whole under the human author's direction and review; copyright is uniformly licensed by the authors under CC BY 4.0.
+
+**Q:I compress videos with the initiative's commands — do I need to worry about FFmpeg's GPL?**
+
+No. GPL/LGPL obligations arise only when you "distribute FFmpeg itself, or a program linked to it"; running a command and receiving a video file does not make the output a derivative work of FFmpeg. Most distro builds are indeed GPL builds, but for people who "only use, never redistribute", a GPL build can likewise be used freely for any purpose (including commercial). See FFmpeg's open-source license above for the essentials.
 
 ## Summary
 

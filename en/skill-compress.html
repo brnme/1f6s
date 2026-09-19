@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Video-to-1f6s Skill · 1f6s</title>
-<meta name="description" content="The video compression Skill of the 1f6s initiative: uses ffmpeg to convert a given video into an 8-level-compliant output — probes the source first, shows the command, executes after confirmation, never overwrites the original by default.">
+<meta name="description" content="The video compression Skill of the 1f6s initiative: uses ffmpeg to convert a given video into an 8-level-compliant output — probes the source first, shows the command, executes after confirmation, never overwrites the original by default. Also includes a per-platform FFmpeg install guide with verification steps.">
 <link rel="stylesheet" href="../assets/css/style.css">
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 <link rel="canonical" href="https://brnme.github.io/1f6s/en/skill-compress.html">
@@ -13,7 +13,7 @@
 <link rel="alternate" hreflang="x-default" href="https://brnme.github.io/1f6s/skill-compress.html">
 <link rel="alternate" type="text/markdown" href="skill-compress.md" title="Markdown version for AI agents">
 <meta property="og:title" content="Video-to-1f6s Skill · 1f6s">
-<meta property="og:description" content="The video compression Skill of the 1f6s initiative: uses ffmpeg to convert a given video into an 8-level-compliant output — probes the source first, shows the command, executes after confirmation, never overwrites the original by default.">
+<meta property="og:description" content="The video compression Skill of the 1f6s initiative: uses ffmpeg to convert a given video into an 8-level-compliant output — probes the source first, shows the command, executes after confirmation, never overwrites the original by default. Also includes a per-platform FFmpeg install guide with verification steps.">
 <meta property="og:url" content="https://brnme.github.io/1f6s/en/skill-compress.html">
 <meta property="og:image" content="https://brnme.github.io/1f6s/assets/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -24,7 +24,7 @@
 <meta property="og:type" content="article">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Video-to-1f6s Skill · 1f6s">
-<meta name="twitter:description" content="The video compression Skill of the 1f6s initiative: uses ffmpeg to convert a given video into an 8-level-compliant output — probes the source first, shows the command, executes after confirmation, never overwrites the original by default.">
+<meta name="twitter:description" content="The video compression Skill of the 1f6s initiative: uses ffmpeg to convert a given video into an 8-level-compliant output — probes the source first, shows the command, executes after confirmation, never overwrites the original by default. Also includes a per-platform FFmpeg install guide with verification steps.">
 <meta name="twitter:image" content="https://brnme.github.io/1f6s/assets/og-card.png">
 </head>
 <body>
@@ -82,6 +82,45 @@
             <tr><td>L8</td><td>H.265 extreme</td><td>1 f/10 s</td><td>360p</td><td>B&amp;W</td><td>CRF 38</td><td>8k/8000</td><td>keyint=1</td><td>≈6–8 MB</td></tr>
           </tbody>
         </table>
+      </div>
+    </section>
+
+    <!-- ========== Install FFmpeg ========== -->
+    <section id="install">
+      <h2>Prerequisite: Install FFmpeg</h2>
+      <p class="lead">The Skill's only hard dependency is the system's <strong>ffmpeg</strong> and <strong>ffprobe</strong> (both ship in one package — no separate install). Any installation method works; the version from your distro's repository already satisfies the 8-level standard, no need to chase the latest.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Platform</th><th>Recommended approach</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Windows</td><td><code>winget install --id Gyan.FFmpeg</code> (or Chocolatey: <code>choco install ffmpeg</code>); or download the zip from <a href="https://www.gyan.dev/ffmpeg/builds/" target="_blank" rel="noopener">gyan.dev</a>, extract it, and add the <code>bin</code> folder to PATH</td></tr>
+            <tr><td>macOS</td><td><code>brew install ffmpeg</code> (or <code>sudo port install ffmpeg</code>)</td></tr>
+            <tr><td>Linux</td><td>Debian/Ubuntu: <code>sudo apt install ffmpeg</code>; Fedora: <code>sudo dnf install ffmpeg</code> (requires RPM Fusion); Arch: <code>sudo pacman -S ffmpeg</code></td></tr>
+            <tr><td>Servers/containers</td><td>Install via the image's package manager, as above; or grab a static build from the <a href="https://ffmpeg.org/download.html" target="_blank" rel="noopener">official FFmpeg download page</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Verify after installing</h3>
+      <div class="code-block">
+        <div class="code-head"><span class="lang">bash · verify</span></div>
+        <pre><code># both should print a version number (e.g. ffmpeg version 7.x)
+ffmpeg -version
+ffprobe -version
+
+# confirm the encoders: L1–L7 need libx264, L8 needs libx265; expect one line each
+ffmpeg -encoders | grep -E "libx264|libx265"</code></pre>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">Common pitfalls</div>
+        <ul>
+          <li>On Windows, <strong>open a new terminal</strong> after installing before ffmpeg is recognized; with the zip you must add the bin folder to PATH yourself</li>
+          <li>On macOS, install Homebrew first if brew is not found; on Linux an older distro version is fine — the 8-level parameters don't depend on new features</li>
+          <li>For the LGPL/GPL essentials of FFmpeg (commercial use, redistribution), see <a href="license.html#ffmpeg">the license page · FFmpeg's open-source license</a></li>
+        </ul>
       </div>
     </section>
 
@@ -240,7 +279,7 @@ run_skill 1f6s-compress "video: lecture.mp4; level: L6; dry-run"</code></pre>
       </div>
       <div class="callout ok">
         <div class="callout-title">Files &amp; dependencies</div>
-        <p>Repo <code>skill/1f6s-compress/</code> (contains <code>SKILL.md</code> / <code>1f6s.sh</code> / <code>levels.json</code> / <code>README.md</code>). Running the script needs ffmpeg + ffprobe; parsing <code>levels.json</code> needs jq or python3 (either works; the script degrades automatically when one is missing).</p>
+        <p>Repo <code>skill/1f6s-compress/</code> (contains <code>SKILL.md</code> / <code>1f6s.sh</code> / <code>levels.json</code> / <code>README.md</code>). Running the script needs ffmpeg + ffprobe (installation is covered above in <a href="#install">Install FFmpeg</a>); parsing <code>levels.json</code> needs jq or python3 (either works; the script degrades automatically when one is missing).</p>
       </div>
     </section>
 

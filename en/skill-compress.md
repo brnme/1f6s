@@ -27,6 +27,36 @@ Full parameters and ffmpeg commands are on the [8-level standard page](levels.ht
 | L7 | 2-Pass | 1 f/10 s | 360p | B&W | 2-Pass | 8k/8000 | stillimage | Locked to target |
 | L8 | H.265 extreme | 1 f/10 s | 360p | B&W | CRF 38 | 8k/8000 | keyint=1 | ≈6–8 MB |
 
+## Prerequisite: Install FFmpeg
+
+The Skill's only hard dependency is the system's **ffmpeg** and **ffprobe** (both ship in one package — no separate install). Any installation method works; the version from your distro's repository already satisfies the 8-level standard, no need to chase the latest.
+
+| Platform | Recommended approach |
+| --- | --- |
+| Windows | `winget install --id Gyan.FFmpeg` (or Chocolatey: `choco install ffmpeg`); or download the zip from [gyan.dev](https://www.gyan.dev/ffmpeg/builds/), extract it, and add the `bin` folder to PATH |
+| macOS | `brew install ffmpeg` (or `sudo port install ffmpeg`) |
+| Linux | Debian/Ubuntu: `sudo apt install ffmpeg`; Fedora: `sudo dnf install ffmpeg` (requires RPM Fusion); Arch: `sudo pacman -S ffmpeg` |
+| Servers/containers | Install via the image's package manager, as above; or grab a static build from the [official FFmpeg download page](https://ffmpeg.org/download.html) |
+
+### Verify after installing
+
+bash · verify
+
+```
+# both should print a version number (e.g. ffmpeg version 7.x)
+ffmpeg -version
+ffprobe -version
+
+# confirm the encoders: L1–L7 need libx264, L8 needs libx265; expect one line each
+ffmpeg -encoders | grep -E "libx264|libx265"
+```
+
+Common pitfalls
+
+- On Windows, **open a new terminal** after installing before ffmpeg is recognized; with the zip you must add the bin folder to PATH yourself
+- On macOS, install Homebrew first if brew is not found; on Linux an older distro version is fine — the 8-level parameters don't depend on new features
+- For the LGPL/GPL essentials of FFmpeg (commercial use, redistribution), see [the license page · FFmpeg's open-source license](license.html#ffmpeg)
+
 ## How to Use
 
 ### Script path (humans or agents executing directly)
@@ -143,7 +173,7 @@ This Skill is a toolkit folder — an agent playbook plus an executable shell sc
 
 Files & dependencies
 
-Repo `skill/1f6s-compress/` (contains `SKILL.md` / `1f6s.sh` / `levels.json` / `README.md`). Running the script needs ffmpeg + ffprobe; parsing `levels.json` needs jq or python3 (either works; the script degrades automatically when one is missing).
+Repo `skill/1f6s-compress/` (contains `SKILL.md` / `1f6s.sh` / `levels.json` / `README.md`). Running the script needs ffmpeg + ffprobe (installation is covered above in [Install FFmpeg](#install)); parsing `levels.json` needs jq or python3 (either works; the script degrades automatically when one is missing).
 
 ## Summary
 

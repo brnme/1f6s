@@ -27,6 +27,36 @@
 | L7 | 2-Pass 级 | 1帧/10秒 | 360p | 黑白 | 2-Pass | 8k/8000 | stillimage | 按目标锁定 |
 | L8 | H.265 极限级 | 1帧/10秒 | 360p | 黑白 | CRF 38 | 8k/8000 | keyint=1 | ≈6~8 MB |
 
+## 前置：安装 FFmpeg
+
+本 Skill 唯一的硬依赖是系统里的 **ffmpeg** 与 **ffprobe**（两者随同一软件包安装，不用分开装）。用哪种方式装都行，发行版仓库自带的版本即可满足八级规范，不必追新。
+
+| 平台 | 推荐做法 |
+| --- | --- |
+| Windows | `winget install --id Gyan.FFmpeg`（或 Chocolatey：`choco install ffmpeg`）；也可从 [gyan.dev](https://www.gyan.dev/ffmpeg/builds/) 下载 zip 解压，把 `bin` 目录加入 PATH |
+| macOS | `brew install ffmpeg`（或 `sudo port install ffmpeg`） |
+| Linux | Debian/Ubuntu：`sudo apt install ffmpeg`；Fedora：`sudo dnf install ffmpeg`（需启用 RPM Fusion）；Arch：`sudo pacman -S ffmpeg` |
+| 服务器/容器 | 镜像内用系统包管理器装，同上；或取 [FFmpeg 官方下载页](https://ffmpeg.org/download.html)的静态构建 |
+
+### 装好后验证
+
+bash · 验证
+
+```
+# 两条都应输出版本号(如 ffmpeg version 7.x)
+ffmpeg -version
+ffprobe -version
+
+# 确认编码器可用:L1~L7 需要 libx264,L8 需要 libx265,应各看到一行
+ffmpeg -encoders | grep -E "libx264|libx265"
+```
+
+常见坑
+
+- Windows 装完后要**重开一个终端**才能识别 ffmpeg；zip 手动安装必须自己把 bin 目录加进 PATH
+- macOS 提示找不到 brew 时先装 Homebrew；Linux 发行版仓库的版本偏老也没关系，八级参数不依赖新特性
+- FFmpeg 的 LGPL/GPL 开源协议要点（能否商用、能否再分发）见 [版权页 · FFmpeg 的开源协议](license.html#ffmpeg)
+
 ## 怎么用
 
 ### 脚本路径（人类或 agent 直接执行）
@@ -143,7 +173,7 @@ run_skill 1f6s-compress "视频: lecture.mp4; 级别: L6; dry-run"
 
 文件清单与依赖
 
-仓库 `skill/1f6s-compress/`（含 `SKILL.md` / `1f6s.sh` / `levels.json` / `README.md`）。运行脚本需 ffmpeg + ffprobe；解析 `levels.json` 需 jq 或 python3（二选一即可，缺失时脚本自动降级）。
+仓库 `skill/1f6s-compress/`（含 `SKILL.md` / `1f6s.sh` / `levels.json` / `README.md`）。运行脚本需 ffmpeg + ffprobe（安装见上文[安装 FFmpeg](#install)）；解析 `levels.json` 需 jq 或 python3（二选一即可，缺失时脚本自动降级）。
 
 ## 总结
 

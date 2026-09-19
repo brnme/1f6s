@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>视频转 1f6s Skill · 1帧6秒</title>
-<meta name="description" content="1帧6秒倡议的视频压缩 Skill 介绍：用 ffmpeg 把给定视频转成符合八级压缩规范的输出，先探测源、展示命令、确认后执行，产物默认不覆盖原视频。">
+<meta name="description" content="1帧6秒倡议的视频压缩 Skill 介绍：用 ffmpeg 把给定视频转成符合八级压缩规范的输出，先探测源、展示命令、确认后执行，产物默认不覆盖原视频。另含各平台 FFmpeg 安装教学与验证步骤。">
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="canonical" href="https://brnme.github.io/1f6s/skill-compress.html">
@@ -13,7 +13,7 @@
 <link rel="alternate" hreflang="x-default" href="https://brnme.github.io/1f6s/skill-compress.html">
 <link rel="alternate" type="text/markdown" href="skill-compress.md" title="Markdown version for AI agents">
 <meta property="og:title" content="视频转 1f6s Skill · 1帧6秒">
-<meta property="og:description" content="1帧6秒倡议的视频压缩 Skill 介绍：用 ffmpeg 把给定视频转成符合八级压缩规范的输出，先探测源、展示命令、确认后执行，产物默认不覆盖原视频。">
+<meta property="og:description" content="1帧6秒倡议的视频压缩 Skill 介绍：用 ffmpeg 把给定视频转成符合八级压缩规范的输出，先探测源、展示命令、确认后执行，产物默认不覆盖原视频。另含各平台 FFmpeg 安装教学与验证步骤。">
 <meta property="og:url" content="https://brnme.github.io/1f6s/skill-compress.html">
 <meta property="og:image" content="https://brnme.github.io/1f6s/assets/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -24,7 +24,7 @@
 <meta property="og:type" content="article">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="视频转 1f6s Skill · 1帧6秒">
-<meta name="twitter:description" content="1帧6秒倡议的视频压缩 Skill 介绍：用 ffmpeg 把给定视频转成符合八级压缩规范的输出，先探测源、展示命令、确认后执行，产物默认不覆盖原视频。">
+<meta name="twitter:description" content="1帧6秒倡议的视频压缩 Skill 介绍：用 ffmpeg 把给定视频转成符合八级压缩规范的输出，先探测源、展示命令、确认后执行，产物默认不覆盖原视频。另含各平台 FFmpeg 安装教学与验证步骤。">
 <meta name="twitter:image" content="https://brnme.github.io/1f6s/assets/og-card.png">
 </head>
 <body>
@@ -82,6 +82,45 @@
             <tr><td>L8</td><td>H.265 极限级</td><td>1帧/10秒</td><td>360p</td><td>黑白</td><td>CRF 38</td><td>8k/8000</td><td>keyint=1</td><td>≈6~8 MB</td></tr>
           </tbody>
         </table>
+      </div>
+    </section>
+
+    <!-- ========== 安装 FFmpeg ========== -->
+    <section id="install">
+      <h2>前置：安装 FFmpeg</h2>
+      <p class="lead">本 Skill 唯一的硬依赖是系统里的 <strong>ffmpeg</strong> 与 <strong>ffprobe</strong>（两者随同一软件包安装，不用分开装）。用哪种方式装都行，发行版仓库自带的版本即可满足八级规范，不必追新。</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>平台</th><th>推荐做法</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Windows</td><td><code>winget install --id Gyan.FFmpeg</code>（或 Chocolatey：<code>choco install ffmpeg</code>）；也可从 <a href="https://www.gyan.dev/ffmpeg/builds/" target="_blank" rel="noopener">gyan.dev</a> 下载 zip 解压，把 <code>bin</code> 目录加入 PATH</td></tr>
+            <tr><td>macOS</td><td><code>brew install ffmpeg</code>（或 <code>sudo port install ffmpeg</code>）</td></tr>
+            <tr><td>Linux</td><td>Debian/Ubuntu：<code>sudo apt install ffmpeg</code>；Fedora：<code>sudo dnf install ffmpeg</code>（需启用 RPM Fusion）；Arch：<code>sudo pacman -S ffmpeg</code></td></tr>
+            <tr><td>服务器/容器</td><td>镜像内用系统包管理器装，同上；或取 <a href="https://ffmpeg.org/download.html" target="_blank" rel="noopener">FFmpeg 官方下载页</a>的静态构建</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>装好后验证</h3>
+      <div class="code-block">
+        <div class="code-head"><span class="lang">bash · 验证</span></div>
+        <pre><code># 两条都应输出版本号(如 ffmpeg version 7.x)
+ffmpeg -version
+ffprobe -version
+
+# 确认编码器可用:L1~L7 需要 libx264,L8 需要 libx265,应各看到一行
+ffmpeg -encoders | grep -E "libx264|libx265"</code></pre>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">常见坑</div>
+        <ul>
+          <li>Windows 装完后要<strong>重开一个终端</strong>才能识别 ffmpeg；zip 手动安装必须自己把 bin 目录加进 PATH</li>
+          <li>macOS 提示找不到 brew 时先装 Homebrew；Linux 发行版仓库的版本偏老也没关系，八级参数不依赖新特性</li>
+          <li>FFmpeg 的 LGPL/GPL 开源协议要点（能否商用、能否再分发）见 <a href="license.html#ffmpeg">版权页 · FFmpeg 的开源协议</a></li>
+        </ul>
       </div>
     </section>
 
@@ -240,7 +279,7 @@ run_skill 1f6s-compress "视频: lecture.mp4; 级别: L6; dry-run"</code></pre>
       </div>
       <div class="callout ok">
         <div class="callout-title">文件清单与依赖</div>
-        <p>仓库 <code>skill/1f6s-compress/</code>（含 <code>SKILL.md</code> / <code>1f6s.sh</code> / <code>levels.json</code> / <code>README.md</code>）。运行脚本需 ffmpeg + ffprobe；解析 <code>levels.json</code> 需 jq 或 python3（二选一即可，缺失时脚本自动降级）。</p>
+        <p>仓库 <code>skill/1f6s-compress/</code>（含 <code>SKILL.md</code> / <code>1f6s.sh</code> / <code>levels.json</code> / <code>README.md</code>）。运行脚本需 ffmpeg + ffprobe（安装见上文<a href="#install">安装 FFmpeg</a>）；解析 <code>levels.json</code> 需 jq 或 python3（二选一即可，缺失时脚本自动降级）。</p>
       </div>
     </section>
 

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Copyright &amp; License · 1f6s</title>
-<meta name="description" content="Copyright and license information for the 1f6s video compression initiative: by Han Lie with AI partners GLM, DeepSeek, Kimi, Hermes Agent & Reasonix, released under the Creative Commons Attribution 4.0 International license (CC BY 4.0).">
+<meta name="description" content="Copyright and license information for the 1f6s video compression initiative: by Han Lie with AI partners GLM, DeepSeek, Kimi, Hermes Agent & Reasonix, released under the Creative Commons Attribution 4.0 International license (CC BY 4.0). Also covers key licensing notes for FFmpeg (LGPL/GPL builds) used by this initiative.">
 <link rel="stylesheet" href="../assets/css/style.css">
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 <link rel="canonical" href="https://brnme.github.io/1f6s/en/license.html">
@@ -13,7 +13,7 @@
 <link rel="alternate" hreflang="x-default" href="https://brnme.github.io/1f6s/license.html">
 <link rel="alternate" type="text/markdown" href="license.md" title="Markdown version for AI agents">
 <meta property="og:title" content="Copyright &amp; License · 1f6s">
-<meta property="og:description" content="Copyright and license information for the 1f6s video compression initiative: by Han Lie with AI partners GLM, DeepSeek, Kimi, Hermes Agent & Reasonix, released under the Creative Commons Attribution 4.0 International license (CC BY 4.0).">
+<meta property="og:description" content="Copyright and license information for the 1f6s video compression initiative: by Han Lie with AI partners GLM, DeepSeek, Kimi, Hermes Agent & Reasonix, released under the Creative Commons Attribution 4.0 International license (CC BY 4.0). Also covers key licensing notes for FFmpeg (LGPL/GPL builds) used by this initiative.">
 <meta property="og:url" content="https://brnme.github.io/1f6s/en/license.html">
 <meta property="og:image" content="https://brnme.github.io/1f6s/assets/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -24,7 +24,7 @@
 <meta property="og:type" content="article">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Copyright &amp; License · 1f6s">
-<meta name="twitter:description" content="Copyright and license information for the 1f6s video compression initiative: by Han Lie with AI partners GLM, DeepSeek, Kimi, Hermes Agent & Reasonix, released under the Creative Commons Attribution 4.0 International license (CC BY 4.0).">
+<meta name="twitter:description" content="Copyright and license information for the 1f6s video compression initiative: by Han Lie with AI partners GLM, DeepSeek, Kimi, Hermes Agent & Reasonix, released under the Creative Commons Attribution 4.0 International license (CC BY 4.0). Also covers key licensing notes for FFmpeg (LGPL/GPL builds) used by this initiative.">
 <meta name="twitter:image" content="https://brnme.github.io/1f6s/assets/og-card.png">
 </head>
 <body>
@@ -148,6 +148,44 @@ CC BY 4.0, https://github.com/brnme/1f6s</code></pre>
       </ul></div>
     </section>
 
+    <!-- ========== FFmpeg license ========== -->
+    <section id="ffmpeg">
+      <h2>FFmpeg's Open-Source License</h2>
+      <p class="lead">The initiative's 8-level parameters, compression commands, and both Skills are built on <strong>FFmpeg</strong>. FFmpeg is free and open-source software, but its licensing structure is more layered than this site's CC BY 4.0: which "build" you have determines your obligations. Luckily, nearly all "just compress videos with it" scenarios carry near-zero obligations; what needs care is "bundling it into your own product and redistributing".</p>
+
+      <div class="scene-block"><ul>
+        <li><strong>LGPL core, optional GPL components</strong>: the FFmpeg codebase is licensed under <strong>LGPL-2.1-or-later</strong>; some popular components (e.g. the x264 and x265 encoders) are under <strong>GPL-2.0-or-later</strong> and enabled at compile time. Whether a given ffmpeg binary is an LGPL or a GPL build therefore depends on compile options, not how new the version is.</li>
+        <li><strong>Check your build with <code>-version</code></strong>: run <code>ffmpeg -version</code> and read the configuration line — <code>--enable-gpl</code> means a GPL build (most distro and Homebrew packages fall here because they bundle x264/x265); <code>--enable-nonfree</code> (typically with libfdk-aac enabled) means a non-free build that <strong>may not be redistributed</strong>.</li>
+        <li><strong>Command-line use is near-zero obligation</strong>: invoking ffmpeg from a terminal or script — as the initiative's <code>1f6s.sh</code> does — producing only video files and never handing ffmpeg itself to anyone, does not trigger the copyleft terms. Personal study, corporate training, and commercial transcoding services can all use it with confidence; the compressed video is not a derivative work of FFmpeg.</li>
+        <li><strong>Patents are a separate matter</strong>: an open-source license grants copyright permission, not a patent license. H.264 and AAC are patent-covered standard codecs; the pools have been reshuffled and consolidated over the years, and most early core patents have expired. Personal use, internal teaching, and distributing the compressed video files are generally fine; for large-scale commercial encoding services or hardware embedding, assess patent licensing yourself — independent of which open-source build you choose.</li>
+      </ul></div>
+
+      <p class="lead">Obligations at a glance, by how you use it:</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>How you use it</th><th>License obligations</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Invoke only from a terminal/script; never distribute ffmpeg itself</td><td>No extra obligations; the output video is not a derivative work</td></tr>
+            <tr><td>Distribute an LGPL build with your product (separate process or dynamic linking)</td><td>Include FFmpeg's copyright notice and the LGPL text, point to where the source can be obtained; if you modified FFmpeg's source, publish the modifications</td></tr>
+            <tr><td>Distribute a GPL build with your product (static linking or bundling)</td><td>The derivative work must be opened under GPL as a whole — closed-source commercial products should usually avoid this</td></tr>
+            <tr><td>Distribute a <code>--enable-nonfree</code> build</td><td>May not be redistributed, period</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout danger">
+        <div class="callout-title">One red line</div>
+        <p>A <code>--enable-nonfree</code> build must not be redistributed under any circumstances — if you want to bundle it into your product (even an internal system), stop and check the license first. When a closed-source commercial product needs to integrate FFmpeg, pick an LGPL build and invoke it as a separate process or via dynamic linking; that carries the lightest obligations.</p>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">Further reading</div>
+        <p>FFmpeg's official legal notes on licenses and builds are at <a href="https://ffmpeg.org/legal.html" target="_blank" rel="noopener">ffmpeg.org/legal</a>; installation steps are in <a href="skill-compress.html#install">the compression Skill · install FFmpeg</a>. This section is general education, not legal advice; consult a qualified lawyer for major commercial decisions.</p>
+      </div>
+    </section>
+
     <!-- ========== FAQ ========== -->
     <section id="faq">
       <h2>Frequently Asked Questions</h2>
@@ -170,6 +208,10 @@ CC BY 4.0, https://github.com/brnme/1f6s</code></pre>
       <details class="faq-item">
         <summary>How should the AI models' output be credited?</summary>
         <p>This site is a collaboration between a human author (Han Lie) and AI models (GLM, DeepSeek, Kimi, Hermes Agent, Reasonix). Credit "Han Lie, GLM, DeepSeek, Kimi, Hermes Agent & Reasonix" and you're done. The AI-generated content was integrated into the whole under the human author's direction and review; copyright is uniformly licensed by the authors under CC BY 4.0.</p>
+      </details>
+      <details class="faq-item">
+        <summary>I compress videos with the initiative's commands — do I need to worry about FFmpeg's GPL?</summary>
+        <p>No. GPL/LGPL obligations arise only when you "distribute FFmpeg itself, or a program linked to it"; running a command and receiving a video file does not make the output a derivative work of FFmpeg. Most distro builds are indeed GPL builds, but for people who "only use, never redistribute", a GPL build can likewise be used freely for any purpose (including commercial). See <a href="#ffmpeg">FFmpeg's open-source license</a> above for the essentials.</p>
       </details>
     </section>
 

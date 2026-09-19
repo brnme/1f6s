@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>版权与授权 · 1帧6秒</title>
-<meta name="description" content="1帧6秒视频压缩倡议的版权与授权信息：作者韩烈与 GLM、DeepSeek、Kimi、Hermes Agent、Reasonix，采用知识共享署名 4.0 国际许可协议（CC BY 4.0）。">
+<meta name="description" content="1帧6秒视频压缩倡议的版权与授权信息：作者韩烈与 GLM、DeepSeek、Kimi、Hermes Agent、Reasonix，采用知识共享署名 4.0 国际许可协议（CC BY 4.0）。另附 FFmpeg 的 LGPL/GPL 开源协议注意要点。">
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="canonical" href="https://brnme.github.io/1f6s/license.html">
@@ -13,7 +13,7 @@
 <link rel="alternate" hreflang="x-default" href="https://brnme.github.io/1f6s/license.html">
 <link rel="alternate" type="text/markdown" href="license.md" title="Markdown version for AI agents">
 <meta property="og:title" content="版权与授权 · 1帧6秒">
-<meta property="og:description" content="1帧6秒视频压缩倡议的版权与授权信息：作者韩烈与 GLM、DeepSeek、Kimi、Hermes Agent、Reasonix，采用知识共享署名 4.0 国际许可协议（CC BY 4.0）。">
+<meta property="og:description" content="1帧6秒视频压缩倡议的版权与授权信息：作者韩烈与 GLM、DeepSeek、Kimi、Hermes Agent、Reasonix，采用知识共享署名 4.0 国际许可协议（CC BY 4.0）。另附 FFmpeg 的 LGPL/GPL 开源协议注意要点。">
 <meta property="og:url" content="https://brnme.github.io/1f6s/license.html">
 <meta property="og:image" content="https://brnme.github.io/1f6s/assets/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -24,7 +24,7 @@
 <meta property="og:type" content="article">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="版权与授权 · 1帧6秒">
-<meta name="twitter:description" content="1帧6秒视频压缩倡议的版权与授权信息：作者韩烈与 GLM、DeepSeek、Kimi、Hermes Agent、Reasonix，采用知识共享署名 4.0 国际许可协议（CC BY 4.0）。">
+<meta name="twitter:description" content="1帧6秒视频压缩倡议的版权与授权信息：作者韩烈与 GLM、DeepSeek、Kimi、Hermes Agent、Reasonix，采用知识共享署名 4.0 国际许可协议（CC BY 4.0）。另附 FFmpeg 的 LGPL/GPL 开源协议注意要点。">
 <meta name="twitter:image" content="https://brnme.github.io/1f6s/assets/og-card.png">
 </head>
 <body>
@@ -148,6 +148,44 @@ CC BY 4.0，https://github.com/brnme/1f6s</code></pre>
       </ul></div>
     </section>
 
+    <!-- ========== FFmpeg 开源协议 ========== -->
+    <section id="ffmpeg">
+      <h2>FFmpeg 的开源协议</h2>
+      <p class="lead">本倡议的八级参数、压缩命令与两个 Skill 都构建在 <strong>FFmpeg</strong> 之上。FFmpeg 是自由开源软件，但授权结构比本站的 CC BY 4.0 复杂：拿到手的「构建」不同，义务也不同。好在绝大多数「用它压视频」的场景几乎零义务，需要留心的主要是「把它打进自己的产品再分发」。</p>
+
+      <div class="scene-block"><ul>
+        <li><strong>核心 LGPL，组件可选 GPL</strong>：FFmpeg 主体按 <strong>LGPL-2.1-or-later</strong> 授权；一些常用组件（如 x264、x265 编码器）按 <strong>GPL-2.0-or-later</strong> 授权，编译时按需启用。所以某个 ffmpeg 二进制是 LGPL 构建还是 GPL 构建，取决于编译选项，而不是版本号新旧。</li>
+        <li><strong>用 <code>-version</code> 判断手里的构建</strong>：运行 <code>ffmpeg -version</code> 看 configuration 行——含 <code>--enable-gpl</code> 即 GPL 构建（多数发行版与 Homebrew 的包因捆绑 x264/x265 属于此类）；含 <code>--enable-nonfree</code>（典型如启用 libfdk-aac）则是非自由构建，<strong>不允许再分发</strong>。</li>
+        <li><strong>命令行调用几乎零义务</strong>：像本倡议的 <code>1f6s.sh</code> 那样在终端或脚本里调用 ffmpeg、只产出视频文件、不把 ffmpeg 本体发给任何人——不触发 copyleft 条款。个人学习、公司内训、商业转码服务都可以放心用，压出来的视频也不构成 FFmpeg 的衍生作品。</li>
+        <li><strong>专利是另一回事</strong>：开源协议授予的是版权许可，不等于专利授权。H.264 与 AAC 属于受专利覆盖的标准编解码，专利池历经更替整合、多数早期核心专利已到期。个人使用、内部教学、分发压好的视频文件一般无虞；若要做大规模商业编码服务或嵌入硬件产品，请自行评估专利许可——这与选哪种开源构建无关。</li>
+      </ul></div>
+
+      <p class="lead">按使用方式划分的义务速查：</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>使用方式</th><th>协议义务</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>只在终端/脚本里调用，不分发 ffmpeg 本体</td><td>无额外义务；产出的视频不是衍生作品</td></tr>
+            <tr><td>随产品分发 LGPL 构建（独立进程或动态链接）</td><td>附带 FFmpeg 版权声明与 LGPL 协议文本，说明源码获取途径；若改过 FFmpeg 源码须公开修改</td></tr>
+            <tr><td>随产品分发 GPL 构建（静态链接或捆绑）</td><td>衍生作品须整体按 GPL 开源——闭源商用产品通常应避开</td></tr>
+            <tr><td>分发 <code>--enable-nonfree</code> 构建</td><td>一律不得再分发</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout danger">
+        <div class="callout-title">一条红线</div>
+        <p><code>--enable-nonfree</code> 的构建在任何情况下都不得再分发——想捆绑进自家产品（哪怕是内部系统）都先停下确认许可。闭源商用产品要集成 FFmpeg 时，选 LGPL 构建并以独立进程或动态链接调用，义务最轻。</p>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">延伸阅读</div>
+        <p>FFmpeg 官方对协议与构建的法律说明见 <a href="https://ffmpeg.org/legal.html" target="_blank" rel="noopener">ffmpeg.org/legal</a>；安装步骤见 <a href="skill-compress.html#install">压缩 Skill · 安装 FFmpeg</a>。本节是一般性科普，不构成法律意见；重大商业决策请咨询专业律师。</p>
+      </div>
+    </section>
+
     <!-- ========== 常见问题 ========== -->
     <section id="faq">
       <h2>常见问题</h2>
@@ -170,6 +208,10 @@ CC BY 4.0，https://github.com/brnme/1f6s</code></pre>
       <details class="faq-item">
         <summary>AI 协作伙伴的产出部分如何署名？</summary>
         <p>本站为人类作者（韩烈）与 AI（GLM、DeepSeek、Kimi、Hermes Agent、Reasonix）协作产出。署名时列出「韩烈、GLM、DeepSeek、Kimi、Hermes Agent、Reasonix」即可。AI 生成内容已在人类作者指导与审校下融入整体，版权归属按 CC BY 4.0 由作者方统一授权。</p>
+      </details>
+      <details class="faq-item">
+        <summary>用倡议的命令压视频，要担心 FFmpeg 的 GPL 吗？</summary>
+        <p>不用。GPL/LGPL 的义务在「分发 FFmpeg 本体或链接它的程序」时才产生；你只是运行命令、拿到一个视频文件，输出物不是 FFmpeg 的衍生作品。多数发行版提供的确实是 GPL 构建，但对「只用不分发」的人来说，GPL 构建同样可以自由用于任何目的（含商业）。要点见上文 <a href="#ffmpeg">FFmpeg 的开源协议</a>。</p>
       </details>
     </section>
 

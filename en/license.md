@@ -68,6 +68,32 @@ This site's content was produced jointly by the human author **Han Lie** and the
 - **Third-party content**: where pages reference third-party content (e.g. OBS Studio links, platform names), its copyright belongs to the original owners and is outside this license
 - **Public domain**: any content already in the public domain before publication on this site remains in the public domain and is not bound by this license
 
+## FFmpeg's Open-Source License
+
+The initiative's 8-level parameters, compression commands, and both Skills are built on **FFmpeg**. FFmpeg is free and open-source software, but its licensing structure is more layered than this site's CC BY 4.0: which "build" you have determines your obligations. Luckily, nearly all "just compress videos with it" scenarios carry near-zero obligations; what needs care is "bundling it into your own product and redistributing".
+
+- **LGPL core, optional GPL components**: the FFmpeg codebase is licensed under **LGPL-2.1-or-later**; some popular components (e.g. the x264 and x265 encoders) are under **GPL-2.0-or-later** and enabled at compile time. Whether a given ffmpeg binary is an LGPL or a GPL build therefore depends on compile options, not how new the version is.
+- **Check your build with `-version`**: run `ffmpeg -version` and read the configuration line — `--enable-gpl` means a GPL build (most distro and Homebrew packages fall here because they bundle x264/x265); `--enable-nonfree` (typically with libfdk-aac enabled) means a non-free build that **may not be redistributed**.
+- **Command-line use is near-zero obligation**: invoking ffmpeg from a terminal or script — as the initiative's `1f6s.sh` does — producing only video files and never handing ffmpeg itself to anyone, does not trigger the copyleft terms. Personal study, corporate training, and commercial transcoding services can all use it with confidence; the compressed video is not a derivative work of FFmpeg.
+- **Patents are a separate matter**: an open-source license grants copyright permission, not a patent license. H.264 and AAC are patent-covered standard codecs; the pools have been reshuffled and consolidated over the years, and most early core patents have expired. Personal use, internal teaching, and distributing the compressed video files are generally fine; for large-scale commercial encoding services or hardware embedding, assess patent licensing yourself — independent of which open-source build you choose.
+
+Obligations at a glance, by how you use it:
+
+| How you use it | License obligations |
+| --- | --- |
+| Invoke only from a terminal/script; never distribute ffmpeg itself | No extra obligations; the output video is not a derivative work |
+| Distribute an LGPL build with your product (separate process or dynamic linking) | Include FFmpeg's copyright notice and the LGPL text, point to where the source can be obtained; if you modified FFmpeg's source, publish the modifications |
+| Distribute a GPL build with your product (static linking or bundling) | The derivative work must be opened under GPL as a whole — closed-source commercial products should usually avoid this |
+| Distribute a `--enable-nonfree` build | May not be redistributed, period |
+
+One red line
+
+A `--enable-nonfree` build must not be redistributed under any circumstances — if you want to bundle it into your product (even an internal system), stop and check the license first. When a closed-source commercial product needs to integrate FFmpeg, pick an LGPL build and invoke it as a separate process or via dynamic linking; that carries the lightest obligations.
+
+Further reading
+
+FFmpeg's official legal notes on licenses and builds are at [ffmpeg.org/legal](https://ffmpeg.org/legal.html); installation steps are in [the compression Skill · install FFmpeg](skill-compress.html#install). This section is general education, not legal advice; consult a qualified lawyer for major commercial decisions.
+
 ## Frequently Asked Questions
 
 **Q:May I move this site's content to my own website / blog / course?**
@@ -89,6 +115,10 @@ Yes. SKILL.md, 1f6s.sh, levels.json, and README.md under skill/ are all licensed
 **Q:How should the AI models' output be credited?**
 
 This site is a collaboration between a human author (Han Lie) and AI models (GLM, DeepSeek, Kimi, Hermes Agent, Reasonix). Credit "Han Lie, GLM, DeepSeek, Kimi, Hermes Agent & Reasonix" and you're done. The AI-generated content was integrated into the whole under the human author's direction and review; copyright is uniformly licensed by the authors under CC BY 4.0.
+
+**Q:I compress videos with the initiative's commands — do I need to worry about FFmpeg's GPL?**
+
+No. GPL/LGPL obligations arise only when you "distribute FFmpeg itself, or a program linked to it"; running a command and receiving a video file does not make the output a derivative work of FFmpeg. Most distro builds are indeed GPL builds, but for people who "only use, never redistribute", a GPL build can likewise be used freely for any purpose (including commercial). See FFmpeg's open-source license above for the essentials.
 
 ## Summary
 

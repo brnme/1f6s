@@ -16,3 +16,6 @@ slides/voiceover/gen.log
 
 # 系统杂物
 .DS_Store
+.v2c/
+.video_agent/
+.zcode/
