@@ -22,7 +22,7 @@ from langs import pages_with_lang
 ROOT = Path(__file__).resolve().parent.parent
 PAGES = [
     "index", "levels", "scenarios", "redlines", "design",
-    "obs", "skill-ppt", "skill-compress", "license",
+    "obs", "skill-ppt", "skill-compress", "studio", "license",
 ]
 # 只比对参数级数字(≥2位或含小数点):单一位数在两种语言里常来自
 # 序数/惯写差异(「两个」vs "2"),属于噪音;参数值(34/480/22050/17.5…)才是漂移信号

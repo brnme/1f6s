@@ -4,12 +4,14 @@
 
 ## 仓库结构
 
-- 根目录 `*.html`:中文站 9 页;`en/*.html`:英文镜像 9 页 —— **两版必须同步修改**
+- 根目录 `*.html`:中文站 10 页;`en/*.html`:英文镜像 10 页 —— **两版必须同步修改**
 - `{ja,ko,vi,th,id,ms,hi,bn,de,fr,es,pt,it,ru,nl,pl,tr,cs,el,hu,ro,sv,uk,fi,da,bg,no,ar,fa,he}/`:30 个语言目录(已建,待翻译页面落地)—— 全站共 32 语言,矩阵由 `tools/langs.py` 注册表驱动,工具链全部存在性驱动(页面存在才处理)
 - `tools/langs.py`:**语言注册表唯一真相源**(code/endonym/hreflang/og_locale/rtl/subdir),新语言必须先在此注册
 - `tools/i18n/`:各语言翻译片段目录(`{code}.json`,JS 字典结构 + `_banner`;由 `tools/merge_i18n.py` 合并进 main.js)
 - 翻译文档命名约定:`skill/SKILL.{lang}.md`、`skill/1f6s-compress/SKILL.{lang}.md`、`spec/README.{lang}.md`
 - `assets/`:共享样式 `css/style.css`(手写、零依赖,含 32 语言字体回退与 .lang-menu 下拉、RTL 适配)与 `js/main.js`(原生 JS,zh/en 内联字典 + 合并区多语言字典)
+- `studio.html` + `en/studio.html`:1f6s Studio(幻灯片导入 / 所见即所得编辑 / 源码 / 规范体检 / 播放 / 白板)——单文件自包含工具页;**en 镜像由 `tools/mirror_studio.py` 从其内嵌 i18n 字典生成,禁止手改**;改 UI 文案一律改 `studio.html` 字典后重跑镜像
+- `tools/mirror_studio.py` / `tools/serve_studio.py`:Studio 英文镜像生成器 / 本地一键启动(默认 8765 端口)
 - `spec/`:机器可读规范资产(levels/scenarios/redlines .json)—— 稳定 URL 层,只加不改旧语义
 - `skill/1f6s-compress/`:1f6s.sh 压缩脚本 + SKILL.md(agent 手册)+ levels.json 随包副本
 - `slides/`:宣传 deck 源文件与配音脚本(二进制产物被 .gitignore 排除,不入库)
@@ -18,6 +20,7 @@
 ## 构建管线(改完 HTML 必须跑)
 
 ```bash
+python3 tools/mirror_studio.py             # studio.html → en/studio.html(改了 Studio 必跑,先于注入)
 python3 tools/merge_i18n.py               # 翻译片段(tools/i18n/*.json)合并进 main.js 的 I18N
 python3 tools/inject_langswitch.py        # 语言切换器(details 下拉)注入全部已存在页面
 python3 tools/inject_meta.py              # og/canonical/hreflang 强制重写注入(先剥离旧块)
@@ -25,7 +28,7 @@ python3 tools/inject_meta.py              # og/canonical/hreflang 强制重写�
 .venv-md/bin/python tools/check_i18n.py   # 多语言一致性校验(表格行列数+数字一致,zh 为基准)
 ```
 
-- 顺序固定:翻译交付 → merge_i18n → inject_langswitch → inject_meta → build_md → check_i18n
+- 顺序固定:翻译交付 → mirror_studio(仅 Studio)→ merge_i18n → inject_langswitch → inject_meta → build_md → check_i18n
 - `.md`/`llms-full.txt`/`sitemap.xml` 一律由 `tools/build_md.py` 从 HTML 生成,**禁止手改**(会漂移)
 - `.venv-md` 不存在时:`python3 -m venv .venv-md && .venv-md/bin/pip install markdownify beautifulsoup4`
 

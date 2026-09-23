@@ -25,7 +25,7 @@ ROOT = Path(__file__).resolve().parent.parent
 BASE = "https://brnme.github.io/1f6s"
 PAGES = [
     "index", "levels", "scenarios", "redlines", "design",
-    "obs", "skill-ppt", "skill-compress", "license",
+    "obs", "skill-ppt", "skill-compress", "studio", "license",
 ]
 PAGE_TITLES = {}  # name -> {lang: title},运行时填充,sitemap 与 md 头部共用
 
