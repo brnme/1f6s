@@ -3,6 +3,9 @@
 
 - json 结构与 main.js 内 zh/en 字典内层一致(可含嵌套 levels/lvlName/selReason);
   以下划线开头的键为元数据(如 "_banner" 供 build_md.py 用),不合并
+- calcSummary 在 main.js 中是函数 T.calcSummary(min, sec),json 无法表达:
+  片段里写成含 {min}/{sec} 占位符的模板字符串,合并时自动包装为 JS 函数;
+  缺失或不含占位符则该语言整体跳过并报错(避免线上 TypeError)
 - 合并区以 // i18n:merge:start / // i18n:merge:end 标记,位于 I18N 对象字面量
   内 zh/en 之后;各语言块以「,code:」前导逗号书写,区间为空时语法仍成立
 - 语言顺序与是否合并完全由 tools/langs.py × i18n/ 目录存在性决定(zh/en 除外)
@@ -28,8 +31,33 @@ MERGE_RE = re.compile(
 )
 
 
+class RawJS:
+    """已生成的 JS 源码片段(js_literal 原样输出)。"""
+
+    def __init__(self, src: str):
+        self.src = src
+
+
+def wrap_calc_summary(template: str, code: str) -> RawJS:
+    """把含 {min}/{sec} 占位符的模板包装为 main.js 所需的 JS 函数字面量。"""
+    parts = re.split(r"(\{min\}|\{sec\})", template)
+    if "{min}" not in template or "{sec}" not in template:
+        raise ValueError(f"[{code}] calcSummary 模板必须同时含 {{min}} 与 {{sec}}")
+    expr = []
+    for p in parts:
+        if p == "{min}":
+            expr.append("min")
+        elif p == "{sec}":
+            expr.append("sec")
+        elif p:
+            expr.append(json.dumps(p, ensure_ascii=False))
+    return RawJS(f"function (min, sec) {{ return {' + '.join(expr)}; }}")
+
+
 def js_literal(value, indent: int) -> str:
     """dict/list/标量 → JS 对象字面量(json 字符串转义是合法 JS;处理 U+2028/9)。"""
+    if isinstance(value, RawJS):
+        return value.src
     pad = "  " * indent
     if isinstance(value, dict):
         if not value:
@@ -69,6 +97,12 @@ def build_region() -> str:
             continue
         data = json.loads(frag.read_text(encoding="utf-8"))
         data = {k: v for k, v in data.items() if not k.startswith("_")}
+        try:
+            if "calcSummary" in data:
+                data["calcSummary"] = wrap_calc_summary(data["calcSummary"], code)
+        except ValueError as e:
+            print(f"[error] {e},该语言未合并", file=sys.stderr)
+            continue
         lines.append(f"    ,{code}: {js_literal(data, 2)}")
     lines.append(f"    {MERGE_END}")
     return "\n".join(lines)

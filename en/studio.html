@@ -181,6 +181,14 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--panel3);border:1px s
 .help-tbl td:first-child{width:150px;}
 .help-tbl h4{margin:12px 0 6px;color:var(--cyan);font-size:12.5px;}
 
+/* ===== Mermaid 对话框（CDN 优先 + 本地回退，渲染为静态内联 SVG）===== */
+#dlg-mermaid textarea{height:170px;white-space:pre-wrap;font-size:12.5px;}
+#dlg-mermaid .hint{font-size:12px;color:var(--muted);margin:-6px 0 10px;line-height:1.5;}
+#mm-preview{margin-top:12px;min-height:70px;max-height:38vh;overflow:auto;border:2px solid var(--border2);background:#ffffff;padding:12px;display:flex;justify-content:center;align-items:center;}
+#mm-preview svg{max-width:100%;height:auto;}
+#mm-err{margin-top:10px;color:var(--red);font-size:12px;white-space:pre-wrap;}
+.mm-loading{color:#555;font-size:12px;}
+
 /* 窄屏：检查器收起 */
 @media (max-width:1080px){
   #main{grid-template-columns:210px 1fr;}
@@ -257,6 +265,16 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--panel3);border:1px s
 "tpl.code":"代码页","tpl.code.d":"深底白字等宽代码",
 "tpl.checklist":"清单页","tpl.checklist.d":"□/☑ 自查清单",
 "tpl.end":"末页致谢","tpl.end.d":"谢谢 + 落款",
+"tpl.mermaid":"Mermaid 图表","tpl.mermaid.d":"粘贴 mermaid 源码，渲染为示意图",
+"mm.title":"插入 Mermaid 图表",
+"mm.hint":"粘贴 LLM 生成的 mermaid 源码，渲染为静态内联 SVG 写入 deck——deck 本身保持零依赖。CDN 不可用时自动回退本地 assets/vendor/mermaid.min.js。",
+"mm.ph":"flowchart LR\n  A[原始视频] --> B{一帧}\n  B -->|关键帧| C[6 秒]",
+"mm.render":"渲染预览","mm.insert.cur":"插入当前页","mm.insert.new":"插入为新页",
+"mm.pre":"预览会显示在这里","mm.loading":"正在加载 / 渲染 mermaid…",
+"mm.empty":"请先粘贴 mermaid 源码。","mm.need":"请先渲染出预览再插入。",
+"mm.badtarget":"当前页不是幻灯片 section。",
+"mm.err.render":"渲染失败，请检查 mermaid 语法：",
+"mm.ok":"已插入 Mermaid 图表。",
 "insp.deck":"DECK","insp.font":"正文字体",
 "insp.font.0":"系统默认（无衬线回退栈）",
 "insp.font.1":"思源黑体 Noto Sans SC",
@@ -274,10 +292,10 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--panel3);border:1px s
 "insp.chart":"图表（柱）","insp.bar.style":"切换填充样式","insp.bar.add":"添加柱",
 "insp.slide":"第 {n} 页",
 "lint.title":"规范体检",
-"lint.none":"点顶部「体检」按 1f6s 硬约束检查：三色、≥28px 字号、≥3px 线宽、零阴影渐变、无衬线。",
+"lint.none":"点顶部「体检」按 1f6s 硬约束检查：三色、≥32px（24pt）字号、≥3px 线宽、零阴影渐变、无衬线。",
 "lint.ok":"体检通过：未发现违反 1f6s 设计硬约束。",
 "lint.bad":"发现 {n} 处违规（点击定位）：",
-"lint.size":"字号 {v} 低于 28px 下限",
+"lint.size":"字号 {v} 低于 32px（24pt）下限",
 "lint.color":"文字颜色超出三色",
 "lint.bcolor":"边框颜色超出三色",
 "lint.bg":"背景色超出黑/白",
@@ -289,7 +307,7 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--panel3);border:1px s
 "hk.save":"保存（有句柄直写原文件）",
 "hk.undo":"撤销 / 重做",
 "hk.edit":"双击元素直接改字",
-"hk.addpage":"左侧「新建页面」从 9 种模板插页",
+"hk.addpage":"左侧「新建页面」从模板或 Mermaid 插页",
 "hk.nav":"翻页","hk.home":"首页 / 末页","hk.full":"全屏开关",
 "hk.ov":"页面总览（点击跳页）",
 "hk.timer":"计时器开关 / 归零",
@@ -341,6 +359,16 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--panel3);border:1px s
 "tpl.code":"Code","tpl.code.d":"Dark slide, monospace",
 "tpl.checklist":"Checklist","tpl.checklist.d":"□/☑ self-check list",
 "tpl.end":"Thanks","tpl.end.d":"Closing page",
+"tpl.mermaid":"Mermaid","tpl.mermaid.d":"Paste mermaid code, render as a figure",
+"mm.title":"Insert Mermaid diagram",
+"mm.hint":"Paste LLM-generated mermaid code and render it into a static inline SVG written into the deck — the deck itself stays zero-dependency. Falls back to assets/vendor/mermaid.min.js when the CDN is unreachable.",
+"mm.ph":"flowchart LR\n  A --> B\n  B --> C",
+"mm.render":"Render preview","mm.insert.cur":"Insert into current page","mm.insert.new":"Insert as new page",
+"mm.pre":"The preview will appear here","mm.loading":"Loading / rendering mermaid…",
+"mm.empty":"Paste mermaid code first.","mm.need":"Render a preview first.",
+"mm.badtarget":"The current page is not a slide section.",
+"mm.err.render":"Render failed — check the mermaid syntax: ",
+"mm.ok":"Mermaid diagram inserted.",
 "insp.deck":"DECK","insp.font":"Body font",
 "insp.font.0":"System default (sans fallback stack)",
 "insp.font.1":"Noto Sans SC",
@@ -358,10 +386,10 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--panel3);border:1px s
 "insp.chart":"Chart (bars)","insp.bar.style":"Cycle fill style","insp.bar.add":"Add bar",
 "insp.slide":"Page {n}",
 "lint.title":"Spec lint",
-"lint.none":"Run Lint (top bar) against the 1f6s rules: 3 colors, ≥28px text, ≥3px lines, no shadow/gradient, sans-serif.",
+"lint.none":"Run Lint (top bar) against the 1f6s rules: 3 colors, ≥32px (24pt) text, ≥3px lines, no shadow/gradient, sans-serif.",
 "lint.ok":"Lint passed: no violations of the 1f6s design constraints.",
 "lint.bad":"{n} violations found (click to locate):",
-"lint.size":"font size {v} below the 28px floor",
+"lint.size":"font size {v} below the 32px (24pt) floor",
 "lint.color":"text color outside the 3-color palette",
 "lint.bcolor":"border color outside the 3-color palette",
 "lint.bg":"background outside black/white",
@@ -373,7 +401,7 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--panel3);border:1px s
 "hk.save":"Save (direct-write with a file handle)",
 "hk.undo":"Undo / redo",
 "hk.edit":"Double-click any text to edit in place",
-"hk.addpage":"New page from the 9 templates (left panel)",
+"hk.addpage":"New page from templates or a Mermaid diagram (left panel)",
 "hk.nav":"Flip pages","hk.home":"First / last page","hk.full":"Toggle fullscreen",
 "hk.ov":"Page overview (click to jump)",
 "hk.timer":"Timer toggle / reset",
@@ -530,6 +558,22 @@ kbd{font-family:var(--mono);font-size:11px;background:var(--panel3);border:1px s
     <h2 data-i18n="help.title">Keyboard shortcuts</h2>
     <div id="help-body"></div>
     <div class="dlg-foot"><button class="ghost" data-close data-i18n="export.close">Close</button></div>
+  </div>
+</div>
+
+<div class="dlg-wrap" id="dlg-mermaid">
+  <div class="dlg" style="width:720px;max-width:94vw;">
+    <h2 data-i18n="mm.title">Insert Mermaid diagram</h2>
+    <p class="hint" data-i18n="mm.hint"></p>
+    <textarea id="mm-ta" spellcheck="false" data-i18n-ph="mm.ph"></textarea>
+    <div id="mm-preview"><span class="mm-loading" data-i18n="mm.pre">The preview will appear here</span></div>
+    <p id="mm-err" hidden></p>
+    <div class="dlg-foot">
+      <button class="ghost" data-close data-i18n="confirm.cancel">Cancel</button>
+      <button id="btn-mm-render" class="primary" data-i18n="mm.render">Render preview</button>
+      <button id="mm-insert-cur" data-i18n="mm.insert.cur">Insert into current page</button>
+      <button id="mm-insert-new" class="primary" data-i18n="mm.insert.new">Insert as new page</button>
+    </div>
   </div>
 </div>
 
@@ -937,6 +981,125 @@ function openTplDlg(){
     g.appendChild(c);
   });
   $('#dlg-template').classList.add('show');
+  var mc=document.createElement('button');mc.className='tpl-card';
+  mc.innerHTML='<b>'+t('tpl.mermaid')+'</b><span>'+t('tpl.mermaid.d')+'</span>';
+  mc.onclick=function(){$('#dlg-template').classList.remove('show');openMmDlg();};
+  g.appendChild(mc);
+}
+
+/* ================= Mermaid（CDN 优先 + 本地回退，渲染为静态内联 SVG 写入 deck） ================= */
+var MM_THEME={
+  background:'transparent',
+  fontFamily:"'Helvetica Neue',Arial,'PingFang SC','Microsoft YaHei',sans-serif",
+  fontSize:'32px',
+  primaryColor:'#ffffff',primaryTextColor:'#000000',primaryBorderColor:'#000000',
+  secondaryColor:'#ffffff',secondaryTextColor:'#000000',secondaryBorderColor:'#808080',
+  tertiaryColor:'#ffffff',tertiaryTextColor:'#000000',tertiaryBorderColor:'#808080',
+  lineColor:'#000000',textColor:'#000000',mainBkg:'#ffffff',nodeBorder:'#000000',
+  clusterBkg:'#ffffff',clusterBorder:'#808080',edgeLabelBackground:'#ffffff',
+  titleColor:'#000000',noteBkgColor:'#ffffff',noteTextColor:'#000000',noteBorderColor:'#808080',
+  actorBkg:'#ffffff',actorBorder:'#000000',actorTextColor:'#000000',
+  signalColor:'#000000',signalTextColor:'#000000',actorLineColor:'#808080',
+  labelBoxBkgColor:'#ffffff',labelBoxBorderColor:'#000000',labelTextColor:'#000000',
+  loopTextColor:'#000000',sequenceNumberColor:'#ffffff',
+  sectionBkgColor:'#ffffff',altSectionBkgColor:'#ffffff',sectionBkgColor2:'#ffffff',gridColor:'#808080',
+  commitLabelColor:'#000000',commitLabelBackground:'#ffffff',
+  tagLabelColor:'#000000',tagLabelBackground:'#ffffff',tagLabelBorder:'#000000',
+  pie1:'#000000',pie2:'#808080',pie3:'#ffffff',pieTitleColor:'#000000'
+};
+/* 1f6s 允许色：黑/灰/白正文 + 青/荧光绿强调（lint 白名单之外的颜色一律按亮度归一到黑白） */
+var MM_OK={'#000000':1,'#808080':1,'#ffffff':1,'#22d3ee':1,'#a3e635':1};
+var MM_PROM=null,MM_LAST=null;
+function loadScript(src){
+  return new Promise(function(res,rej){
+    var s=document.createElement('script');s.src=src;
+    s.onload=function(){res();};
+    s.onerror=function(){s.remove();rej(new Error(src));};
+    document.head.appendChild(s);
+  });
+}
+function loadMermaid(){
+  if(MM_PROM)return MM_PROM;
+  var rel=(LANG==='en'?'../':'')+'assets/vendor/mermaid.min.js';
+  MM_PROM=Promise.resolve(window.mermaid||null)
+    .then(function(m){return m||loadScript('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js');})
+    .catch(function(){return loadScript(rel);})
+    .then(function(){
+      var mm=window.mermaid;
+      if(!mm)throw new Error('mermaid unavailable');
+      mm.initialize({startOnLoad:false,securityLevel:'strict',theme:'base',
+        themeVariables:MM_THEME,flowchart:{htmlLabels:false}});
+      return mm;
+    })
+    .catch(function(e){MM_PROM=null;throw e;});
+  return MM_PROM;
+}
+function mmColorLum(hex){
+  var h=hex.replace('#','');
+  if(h.length===3)h=h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+  return (parseInt(h.substr(0,2),16)*0.299+parseInt(h.substr(2,2),16)*0.587+parseInt(h.substr(4,2),16)*0.114)/255;
+}
+function mmFixColor(attr,svg){
+  return svg.replace(new RegExp(attr+'="(#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}))"','g'),function(m,c){
+    var k=c.toLowerCase();
+    if(k.length===4)k='#'+k[1]+k[1]+k[2]+k[2]+k[3]+k[3];
+    if(MM_OK[k])return attr+'="'+k+'"';
+    return attr+'="'+(mmColorLum(k)<0.5?'#000000':'#ffffff')+'"';
+  });
+}
+/* 后处理：去阴影滤镜、线宽 ≥3px、字号 ≥32px（24pt）、限色、自适应——不违反 1f6s 设计硬约束 */
+function polishSvg(svg){
+  svg=svg.replace(/<filter[\s\S]*?<\/filter>/g,'')
+         .replace(/filter="url\(#[^)]*\)"/g,'')
+         .replace(/filter\s*:\s*url\([^)]*\)\s*;?/g,'')
+         .replace(/drop-shadow\([^)]*\)/g,'');
+  svg=svg.replace(/stroke-width\s*:\s*([0-9.]+)(px)?/g,function(m,v){return 'stroke-width:'+Math.max(parseFloat(v),3)+'px';});
+  svg=svg.replace(/stroke-width="([0-9.]+)"/g,function(m,v){return 'stroke-width="'+Math.max(parseFloat(v),3)+'"';});
+  svg=svg.replace(/font-size\s*:\s*([0-9.]+)(px)?/g,function(m,v){return 'font-size:'+Math.max(parseFloat(v),32)+'px';});
+  svg=svg.replace(/font-size="([0-9.]+)"/g,function(m,v){return 'font-size="'+Math.max(parseFloat(v),32)+'"';});
+  svg=mmFixColor('fill',svg);svg=mmFixColor('stroke',svg);
+  svg=svg.replace(/(<svg\b[^>]*?)\sstyle="[^"]*"/,'$1');
+  svg=svg.replace(/<svg\b/,'<svg style="max-width:100%;height:auto;"');
+  return svg;
+}
+function openMmDlg(){
+  MM_LAST=null;
+  $('#mm-err').hidden=true;$('#mm-err').textContent='';
+  $('#mm-preview').innerHTML='<span class="mm-loading">'+t('mm.pre')+'</span>';
+  $('#dlg-mermaid').classList.add('show');
+  $('#mm-ta').focus();
+}
+function doMmRender(){
+  var code=$('#mm-ta').value.trim();
+  if(!code){toast(t('mm.empty'),1);return;}
+  var pv=$('#mm-preview'),er=$('#mm-err');
+  er.hidden=true;er.textContent='';
+  pv.innerHTML='<span class="mm-loading">'+t('mm.loading')+'</span>';
+  loadMermaid()
+    .then(function(mm){return mm.render('mmd'+Date.now(),code);})
+    .then(function(r){
+      MM_LAST=polishSvg(r.svg);
+      pv.innerHTML=MM_LAST;
+    })
+    .catch(function(e){
+      pv.innerHTML='<span class="mm-loading">'+t('mm.pre')+'</span>';
+      er.hidden=false;
+      er.textContent=t('mm.err.render')+(e&&e.message?e.message:e);
+    });
+}
+function doMmInsert(asNew){
+  if(!MM_LAST){toast(t('mm.need'),1);return;}
+  $('#dlg-mermaid').classList.remove('show');
+  if(asNew){
+    insertSlideAt(setActiveOnly('<section class="slide">\n  <div class="mermaid-figure">'+MM_LAST+'</div>\n</section>',false),S.cur);
+    markDirty();toast(t('mm.ok'),0,1);
+    return;
+  }
+  var sec=slidesEls()[S.cur];
+  if(!sec){toast(t('mm.badtarget'),1);return;}
+  sec.insertAdjacentHTML('beforeend','<div class="mermaid-figure">'+MM_LAST+'</div>');
+  commitSection(sec);
+  toast(t('mm.ok'),0,1);
 }
 
 /* ================= 字体（仅无衬线，写 deck 自身 <style>，不引外部字体） ================= */
@@ -1131,8 +1294,8 @@ function lint(){
   slidesEls().forEach(function(sec,si){
     [sec].concat($$('*',sec)).forEach(function(e){
       var cs=v.getComputedStyle(e),desc=(e.tagName.toLowerCase()+(e.className&&typeof e.className==='string'?'.'+e.className.split(/\s+/).slice(0,2).join('.'):''));
-      /* 字号：有直接文本的元素 ≥28px（模板最小档） */
-      if(ownText(e)&&parseFloat(cs.fontSize)<28)
+      /* 字号：有直接文本的元素 ≥32px（规范硬约束 24pt） */
+      if(ownText(e)&&parseFloat(cs.fontSize)<32)
         out.push({s:si,e:e,m:t('lint.size').replace('{v}',cs.fontSize),d:desc});
       /* 文字颜色三色 */
       var tc=hexOf(cs.color);
@@ -1146,9 +1309,11 @@ function lint(){
         var bc=hexOf(cs.backgroundColor);
         if(bc&&!OK_COLORS[bc])out.push({s:si,e:e,m:t('lint.bg')+' #'+bc,d:desc});
       }
-      /* 边框 ≥3px */
+      /* 边框 ≥3px。Gecko 在非整数缩放（系统缩放×浏览器缩放）下会把 used 值
+         取整到设备像素，3px 会读成 2.4~2.5px，故按设备像素尺寸放宽容差 */
+      var _dpr=Math.max(v.devicePixelRatio||1,0.5),_eps=0.75/_dpr;
       ['Top','Right','Bottom','Left'].forEach(function(side){
-        if(cs['border'+side+'Style']!=='none'&&parseFloat(cs['border'+side+'Width'])<3)
+        if(cs['border'+side+'Style']!=='none'&&parseFloat(cs['border'+side+'Width'])<3-_eps)
           out.push({s:si,e:e,m:t('lint.thin').replace('{v}',cs['border'+side+'Width']),d:desc+' '+side.toLowerCase()});
       });
       /* 边框颜色三色 */
@@ -1730,27 +1895,27 @@ var DECK_CSS=[
 'ol.deck-list{counter-reset:deck;}ol.deck-list li{counter-increment:deck;padding-left:56px;position:relative;}',
 'ol.deck-list li::before{content:counter(deck)". ";position:absolute;left:0;font-weight:700;}',
 '.deck-tbl-wrap{overflow-x:auto;}',
-'.deck-tbl{width:100%;border-collapse:collapse;font-size:28px;font-weight:700;}',
+'.deck-tbl{width:100%;border-collapse:collapse;font-size:32px;font-weight:700;}',
 '.deck-tbl th,.deck-tbl td{border:var(--line);padding:14px 18px;text-align:left;}',
 '.deck-tbl thead th{background:var(--black);color:var(--white);}.deck-tbl tbody tr{background:var(--white);}',
 '.deck-callout{border:var(--line);padding:24px 28px;margin-top:24px;background:var(--white);}',
 '.deck-callout-title{font-size:36px;font-weight:700;margin-bottom:12px;}',
 '.deck-callout p{font-size:32px;font-weight:700;line-height:1.5;}',
 '.deck-callout-warn{border-width:5px;}.deck-callout-warn .deck-callout-title::before{content:"⚠ ";}',
-'.deck-badge{display:inline-block;border:var(--line);padding:4px 14px;font-size:28px;font-weight:700;margin-right:12px;background:var(--white);}',
+'.deck-badge{display:inline-block;border:var(--line);padding:4px 14px;font-size:32px;font-weight:700;margin-right:12px;background:var(--white);}',
 '.deck-checklist{list-style:none;padding:0;}.deck-checklist li{font-size:32px;font-weight:700;line-height:1.6;padding:8px 0;}',
-'.deck-code{background:var(--black);color:var(--white);font-family:var(--mono);font-size:30px;line-height:1.5;padding:28px 32px;overflow-x:auto;white-space:pre;border:var(--line);}',
+'.deck-code{background:var(--black);color:var(--white);font-family:var(--mono);font-size:32px;line-height:1.5;padding:28px 32px;overflow-x:auto;white-space:pre;border:var(--line);}',
 '.deck-chart{display:flex;align-items:flex-end;gap:32px;height:300px;border-bottom:var(--line);}',
 '.bar{width:96px;background:var(--white);border:var(--line);height:var(--h);}',
 '.bar-solid{background:var(--black);}.bar-outline{background:var(--white);}',
 '.bar-hatch{background:repeating-linear-gradient(45deg,var(--black) 0 8px,var(--white) 8px 16px);}',
 '.deck-legend{list-style:none;display:flex;gap:28px;margin-top:20px;padding:0;}',
-'.deck-legend li{font-size:28px;font-weight:700;display:flex;align-items:center;gap:10px;}',
+'.deck-legend li{font-size:32px;font-weight:700;display:flex;align-items:center;gap:10px;}',
 '.sw{display:inline-block;width:24px;height:24px;border:3px solid var(--black);}',
 '.sw-solid{background:var(--black);}.sw-outline{background:var(--white);}',
 '.sw-hatch{background:repeating-linear-gradient(45deg,var(--black) 0 4px,var(--white) 4px 8px);}',
 '.deck-two{display:flex;gap:0;margin-top:16px;}.deck-two>div{flex:1;padding:0 32px;}.deck-two>div+div{border-left:var(--line);}',
-'.pager{position:fixed;right:32px;bottom:24px;font-size:28px;font-weight:700;color:var(--gray);background:var(--white);padding:4px 12px;border:var(--line);}'
+'.pager{position:fixed;right:32px;bottom:24px;font-size:32px;font-weight:700;color:var(--gray);background:var(--white);padding:4px 12px;border:var(--line);}'
 ].join('\n');
 var DECK_JS="(function(){var slides=document.querySelectorAll('.slide');var total=slides.length;var tc=document.getElementById('total');if(tc)tc.textContent=total;var cur=0;function show(i){cur=(i+total)%total;slides.forEach(function(s,idx){s.classList.toggle('active',idx===cur);});var c=document.getElementById('cur');if(c)c.textContent=cur+1;}document.addEventListener('keydown',function(e){var k=e.key;if(k==='ArrowRight'||k===' '||k==='PageDown'){show(cur+1);e.preventDefault();}else if(k==='ArrowLeft'||k==='PageUp'){show(cur-1);e.preventDefault();}else if(k==='Home'){show(0);e.preventDefault();}else if(k==='End'){show(total-1);e.preventDefault();}else if(k==='f'||k==='F'){if(!document.fullscreenElement){document.documentElement.requestFullscreen();}else{document.exitFullscreen();}}});var m=location.search.match(/[?&]s=(\\d+)/);show(m?Math.min(total-1,parseInt(m[1],10)-1):0);})();";
 function makeDeck(title,inner){
@@ -1793,6 +1958,11 @@ function boot(){
   $('#mode-play').onclick=function(){setMode('play');};
   /* Pages与检查器 */
   $('#btn-addpage').onclick=openTplDlg;
+  /* Mermaid 对话框 */
+  $('#btn-mm-render').onclick=doMmRender;
+  $('#mm-insert-cur').onclick=function(){doMmInsert(false);};
+  $('#mm-insert-new').onclick=function(){doMmInsert(true);};
+  $('#mm-ta').addEventListener('keydown',function(e){e.stopPropagation();});
   $('#btn-lint').onclick=function(){renderInspector();runLint();};
   $('#btn-save').onclick=function(){doSave();};
   $('#btn-export').onclick=openExportDlg;

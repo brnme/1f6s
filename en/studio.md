@@ -73,3 +73,12 @@ OK
 ## Keyboard shortcuts
 
 Close
+
+## Insert Mermaid diagram
+
+The preview will appear here
+
+Cancel
+Render preview
+Insert into current page
+Insert as new page
