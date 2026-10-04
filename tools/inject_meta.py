@@ -28,7 +28,7 @@ BASE = "https://brnme.github.io/1f6s"
 OG_IMAGE = f"{BASE}/assets/og-card.png"
 PAGES = [
     "index", "levels", "scenarios", "redlines", "design",
-    "obs", "skill-ppt", "skill-compress", "studio", "license",
+    "obs", "skill-ppt", "skill-compress", "examples", "studio", "license",
 ]
 
 INJECT_START = "<!-- inject_meta:start -->"

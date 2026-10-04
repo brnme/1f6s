@@ -27,6 +27,7 @@
 - [design.md](design.md): PPT 抗压缩设计规范(无衬线≥24pt、三色色板、线宽≥2.25pt、三步自检法)
 - [obs.md](obs.md): OBS 推流(禁止抽帧、CBR 600~1200kbps)与本地录像配置
 - [skill-ppt.md](skill-ppt.md) / [skill-compress.md](skill-compress.md): 两个 Skill 的说明
+- [examples.md](examples.md): 行业示例素材库入口（教育行业第一批 8 学科示例 deck 清单与用法）
 - [license.md](license.md): CC BY 4.0 条款与署名格式
 - [llms-full.txt](llms-full.txt): 以上全部合并为单文件
 - 英文版:[en/llms.txt](en/llms.txt) / [en/llms-full.txt](en/llms-full.txt)
@@ -39,6 +40,13 @@
 - Agent playbook(SKILL.md,教 agent 如何安全使用本规范):
   `https://raw.githubusercontent.com/brnme/1f6s/main/skill/1f6s-compress/SKILL.md`
 - 站内浏览版:仓库 `skill/` 目录(本站同路径可直接访问)
+
+## 行业示例素材(各行业课件的起点)
+
+- 入口页:[examples.md](examples.md);教育行业第一批 8 学科(数学/语文/英语/物理/化学/生物/历史/地理)
+- 每个 deck 为自包含单文件 HTML(与 Studio 同源规范样式,可直接播放/拖入 studio.html 编辑与体检),索引:[examples/education/README.md](examples/education/README.md)
+- raw 下载示例:`https://raw.githubusercontent.com/brnme/1f6s/main/examples/education/math-deck.html`(其余学科同理,文件名 `{subject}-deck.html`)
+- 静态校验:`python3 tools/check_decks.py`(结构与三色/字号/线宽规范双检)
 
 ## API(在线服务,部署后生效)
 

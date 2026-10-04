@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>地理 · 世界气候类型判读 | 1f6s 教育示例</title>
+<style>
+:root{--black:#000000;--gray:#808080;--white:#FFFFFF;--line:3px solid var(--black);--sans:"Source Han Sans SC","Microsoft YaHei","微软雅黑",Arial,Helvetica,sans-serif;--mono:"Cascadia Code","Consolas","Courier New",monospace;}
+*{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;}
+body{font-family:var(--sans);background:var(--white);color:var(--black);overflow:hidden;}
+.deck{width:100vw;height:100vh;position:relative;}
+.slide{width:100vw;height:100vh;padding:64px 80px;display:none;flex-direction:column;justify-content:center;background:var(--white);color:var(--black);}
+.slide.active{display:flex;}
+.slide-dark{background:var(--black);color:var(--white);}.slide-dark .deck-h2,.slide-dark .deck-h3{color:var(--white);}
+.deck-h2-light{color:var(--white) !important;}
+.slide-cover{align-items:center;text-align:center;}
+.deck-title{font-size:56px;font-weight:700;line-height:1.2;}
+.deck-h2{font-size:48px;font-weight:700;line-height:1.25;margin-bottom:32px;}
+.deck-h3{font-size:40px;font-weight:700;line-height:1.3;margin-bottom:20px;}
+.deck-body{font-size:32px;font-weight:700;line-height:1.5;}
+.deck-muted{font-size:37px;color:var(--gray);font-weight:700;line-height:1.4;}
+.deck-list{list-style:none;padding:0;}
+.deck-list li{font-size:32px;font-weight:700;line-height:1.5;padding:10px 0;border-bottom:var(--line);}
+.deck-list li:last-child{border-bottom:none;}
+ol.deck-list{counter-reset:deck;}ol.deck-list li{counter-increment:deck;padding-left:56px;position:relative;}
+ol.deck-list li::before{content:counter(deck)". ";position:absolute;left:0;font-weight:700;}
+.deck-tbl-wrap{overflow-x:auto;}
+.deck-tbl{width:100%;border-collapse:collapse;font-size:32px;font-weight:700;}
+.deck-tbl th,.deck-tbl td{border:var(--line);padding:14px 18px;text-align:left;}
+.deck-tbl thead th{background:var(--black);color:var(--white);}.deck-tbl tbody tr{background:var(--white);}
+.deck-callout{border:var(--line);padding:24px 28px;margin-top:24px;background:var(--white);}
+.deck-callout-title{font-size:36px;font-weight:700;margin-bottom:12px;}
+.deck-callout p{font-size:32px;font-weight:700;line-height:1.5;}
+.deck-callout-warn{border-width:5px;}.deck-callout-warn .deck-callout-title::before{content:"⚠ ";}
+.deck-badge{display:inline-block;border:var(--line);padding:4px 14px;font-size:32px;font-weight:700;margin-right:12px;background:var(--white);}
+.deck-checklist{list-style:none;padding:0;}.deck-checklist li{font-size:32px;font-weight:700;line-height:1.6;padding:8px 0;}
+.deck-code{background:var(--black);color:var(--white);font-family:var(--mono);font-size:32px;line-height:1.5;padding:28px 32px;overflow-x:auto;white-space:pre;border:var(--line);}
+.deck-chart{display:flex;align-items:flex-end;gap:32px;height:300px;border-bottom:var(--line);}
+.bar{width:96px;background:var(--white);border:var(--line);height:var(--h);}
+.bar-solid{background:var(--black);}.bar-outline{background:var(--white);}
+.bar-hatch{background:repeating-linear-gradient(45deg,var(--black) 0 8px,var(--white) 8px 16px);}
+.deck-legend{list-style:none;display:flex;gap:28px;margin-top:20px;padding:0;}
+.deck-legend li{font-size:32px;font-weight:700;display:flex;align-items:center;gap:10px;}
+.sw{display:inline-block;width:24px;height:24px;border:3px solid var(--black);}
+.sw-solid{background:var(--black);}.sw-outline{background:var(--white);}
+.sw-hatch{background:repeating-linear-gradient(45deg,var(--black) 0 4px,var(--white) 4px 8px);}
+.deck-two{display:flex;gap:0;margin-top:16px;}.deck-two>div{flex:1;padding:0 32px;}.deck-two>div+div{border-left:var(--line);}
+.pager{position:fixed;right:32px;bottom:24px;font-size:32px;font-weight:700;color:var(--gray);background:var(--white);padding:4px 12px;border:var(--line);}
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- 1. 封面 -->
+  <section class="slide slide-cover active">
+    <p><span class="deck-badge">地理</span><span class="deck-badge">1f6s 教育示例</span></p>
+    <h1 class="deck-title">世界气候类型判读</h1>
+    <p class="deck-muted">经典课题示例 · 不标学段</p>
+  </section>
+
+  <!-- 2. 目录 -->
+  <section class="slide">
+    <h2 class="deck-h2">目录</h2>
+    <ol class="deck-list">
+      <li>判读依据</li>
+      <li>气温定带</li>
+      <li>年降水量对比</li>
+      <li>气候特征表</li>
+      <li>判读三步</li>
+      <li>易混辨析</li>
+      <li>气候与景观</li>
+    </ol>
+  </section>
+
+  <!-- 3. 判读依据 -->
+  <section class="slide">
+    <h2 class="deck-h2">一、判读依据</h2>
+    <ul class="deck-list">
+      <li>以气温曲线和降水柱状图为依据</li>
+      <li>先看气温（最冷月均温），再看降水（总量与季节分配）</li>
+      <li>气温曲线峰值月在 7 月左右为北半球</li>
+    </ul>
+  </section>
+
+  <!-- 4. 气温定带 -->
+  <section class="slide">
+    <h2 class="deck-h2">二、气温定带</h2>
+    <p class="deck-body">先看最冷月均温，定温度带；再看降水季节分配，定气候型。</p>
+    <div class="deck-callout">
+      <div class="deck-callout-title">气温定带</div>
+      <p>最冷月均温 &gt;15℃ 属热带；0—15℃ 属亚热带或温带海洋性；&lt;0℃ 属温带大陆性等较冷气候。</p>
+    </div>
+    <div class="deck-callout">
+      <div class="deck-callout-title">降水定型</div>
+      <p>降水全年均匀为海洋性，夏干冬雨为地中海，夏雨集中为季风。</p>
+    </div>
+  </section>
+
+  <!-- 5. 年降水量对比 -->
+  <section class="slide">
+    <h2 class="deck-h2">三、年降水量对比</h2>
+    <div class="deck-chart">
+      <div class="bar bar-solid" style="--h:95%"></div>
+      <div class="bar bar-outline" style="--h:48%"></div>
+      <div class="bar bar-hatch" style="--h:10%"></div>
+    </div>
+    <ul class="deck-legend">
+      <li><span class="sw sw-solid"></span>热带雨林气候 约2000mm</li>
+      <li><span class="sw sw-outline"></span>温带海洋性气候 约1000mm</li>
+      <li><span class="sw sw-hatch"></span>热带沙漠气候 约200mm</li>
+    </ul>
+    <p class="deck-body">数值为多年平均示意值。</p>
+  </section>
+
+  <!-- 6. 气候特征表 -->
+  <section class="slide">
+    <h2 class="deck-h2">四、气候特征表</h2>
+    <div class="deck-tbl-wrap">
+      <table class="deck-tbl">
+        <thead><tr><th>类型</th><th>最冷月均温</th><th>降水特点</th></tr></thead>
+        <tbody>
+          <tr><td>热带雨林</td><td>&gt;15℃</td><td>全年多雨</td></tr>
+          <tr><td>热带沙漠</td><td>&gt;15℃</td><td>全年少雨</td></tr>
+          <tr><td>地中海</td><td>0—15℃</td><td>夏干冬雨</td></tr>
+          <tr><td>温带季风</td><td>&lt;0℃</td><td>夏季多雨</td></tr>
+          <tr><td>温带海洋性</td><td>0—15℃</td><td>全年均匀</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 7. 判读三步 -->
+  <section class="slide">
+    <h2 class="deck-h2">五、判读三步</h2>
+    <ul class="deck-checklist">
+      <li>□ 第一步 看最冷月均温，定所在温度带</li>
+      <li>□ 第二步 看降水季节分配，定气候型</li>
+      <li>□ 第三步 对照气候特征表，定具体类型</li>
+    </ul>
+  </section>
+
+  <!-- 8. 易混辨析 -->
+  <section class="slide">
+    <h2 class="deck-h2">六、易混辨析</h2>
+    <div class="deck-two">
+      <div>
+        <h3 class="deck-h3">地中海气候</h3>
+        <ul class="deck-list">
+          <li>夏季干燥、冬季多雨</li>
+          <li>雨热不同期</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="deck-h3">亚热带季风气候</h3>
+        <ul class="deck-list">
+          <li>夏季多雨</li>
+          <li>雨热同期</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. 气候与景观 -->
+  <section class="slide">
+    <h2 class="deck-h2">七、气候与景观</h2>
+    <ul class="deck-list">
+      <li>热带雨林——茂密雨林</li>
+      <li>热带沙漠——荒漠景观</li>
+      <li>地中海——常绿硬叶林</li>
+      <li>温带海洋性——落叶阔叶林</li>
+    </ul>
+  </section>
+
+  <!-- 10. 末页 -->
+  <section class="slide slide-cover">
+    <h1 class="deck-title">谢谢</h1>
+    <p class="deck-muted">拖入 studio.html 可编辑 · 录课压缩推荐 L5（慕课场景）</p>
+  </section>
+
+</div>
+
+<div class="pager"><span id="cur">1</span> / <span id="total">N</span></div>
+
+<script>
+(function(){var slides=document.querySelectorAll('.slide');var total=slides.length;var tc=document.getElementById('total');if(tc)tc.textContent=total;var cur=0;function show(i){cur=(i+total)%total;slides.forEach(function(s,idx){s.classList.toggle('active',idx===cur);});var c=document.getElementById('cur');if(c)c.textContent=cur+1;}document.addEventListener('keydown',function(e){var k=e.key;if(k==='ArrowRight'||k===' '||k==='PageDown'){show(cur+1);e.preventDefault();}else if(k==='ArrowLeft'||k==='PageUp'){show(cur-1);e.preventDefault();}else if(k==='Home'){show(0);e.preventDefault();}else if(k==='End'){show(total-1);e.preventDefault();}else if(k==='f'||k==='F'){if(!document.fullscreenElement){document.documentElement.requestFullscreen();}else{document.exitFullscreen();}}});var m=location.search.match(/[?&]s=(\d+)/);show(m?Math.min(total-1,parseInt(m[1],10)-1):0);})();
+</script>
+</body>
+</html>

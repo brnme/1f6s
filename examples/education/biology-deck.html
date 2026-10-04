@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>生物 · 细胞的基本结构 | 1f6s 教育示例</title>
+<style>
+:root{--black:#000000;--gray:#808080;--white:#FFFFFF;--line:3px solid var(--black);--sans:"Source Han Sans SC","Microsoft YaHei","微软雅黑",Arial,Helvetica,sans-serif;--mono:"Cascadia Code","Consolas","Courier New",monospace;}
+*{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;}
+body{font-family:var(--sans);background:var(--white);color:var(--black);overflow:hidden;}
+.deck{width:100vw;height:100vh;position:relative;}
+.slide{width:100vw;height:100vh;padding:64px 80px;display:none;flex-direction:column;justify-content:center;background:var(--white);color:var(--black);}
+.slide.active{display:flex;}
+.slide-dark{background:var(--black);color:var(--white);}.slide-dark .deck-h2,.slide-dark .deck-h3{color:var(--white);}
+.deck-h2-light{color:var(--white) !important;}
+.slide-cover{align-items:center;text-align:center;}
+.deck-title{font-size:56px;font-weight:700;line-height:1.2;}
+.deck-h2{font-size:48px;font-weight:700;line-height:1.25;margin-bottom:32px;}
+.deck-h3{font-size:40px;font-weight:700;line-height:1.3;margin-bottom:20px;}
+.deck-body{font-size:32px;font-weight:700;line-height:1.5;}
+.deck-muted{font-size:37px;color:var(--gray);font-weight:700;line-height:1.4;}
+.deck-list{list-style:none;padding:0;}
+.deck-list li{font-size:32px;font-weight:700;line-height:1.5;padding:10px 0;border-bottom:var(--line);}
+.deck-list li:last-child{border-bottom:none;}
+ol.deck-list{counter-reset:deck;}ol.deck-list li{counter-increment:deck;padding-left:56px;position:relative;}
+ol.deck-list li::before{content:counter(deck)". ";position:absolute;left:0;font-weight:700;}
+.deck-tbl-wrap{overflow-x:auto;}
+.deck-tbl{width:100%;border-collapse:collapse;font-size:32px;font-weight:700;}
+.deck-tbl th,.deck-tbl td{border:var(--line);padding:14px 18px;text-align:left;}
+.deck-tbl thead th{background:var(--black);color:var(--white);}.deck-tbl tbody tr{background:var(--white);}
+.deck-callout{border:var(--line);padding:24px 28px;margin-top:24px;background:var(--white);}
+.deck-callout-title{font-size:36px;font-weight:700;margin-bottom:12px;}
+.deck-callout p{font-size:32px;font-weight:700;line-height:1.5;}
+.deck-callout-warn{border-width:5px;}.deck-callout-warn .deck-callout-title::before{content:"⚠ ";}
+.deck-badge{display:inline-block;border:var(--line);padding:4px 14px;font-size:32px;font-weight:700;margin-right:12px;background:var(--white);}
+.deck-checklist{list-style:none;padding:0;}.deck-checklist li{font-size:32px;font-weight:700;line-height:1.6;padding:8px 0;}
+.deck-code{background:var(--black);color:var(--white);font-family:var(--mono);font-size:32px;line-height:1.5;padding:28px 32px;overflow-x:auto;white-space:pre;border:var(--line);}
+.deck-chart{display:flex;align-items:flex-end;gap:32px;height:300px;border-bottom:var(--line);}
+.bar{width:96px;background:var(--white);border:var(--line);height:var(--h);}
+.bar-solid{background:var(--black);}.bar-outline{background:var(--white);}
+.bar-hatch{background:repeating-linear-gradient(45deg,var(--black) 0 8px,var(--white) 8px 16px);}
+.deck-legend{list-style:none;display:flex;gap:28px;margin-top:20px;padding:0;}
+.deck-legend li{font-size:32px;font-weight:700;display:flex;align-items:center;gap:10px;}
+.sw{display:inline-block;width:24px;height:24px;border:3px solid var(--black);}
+.sw-solid{background:var(--black);}.sw-outline{background:var(--white);}
+.sw-hatch{background:repeating-linear-gradient(45deg,var(--black) 0 4px,var(--white) 4px 8px);}
+.deck-two{display:flex;gap:0;margin-top:16px;}.deck-two>div{flex:1;padding:0 32px;}.deck-two>div+div{border-left:var(--line);}
+.pager{position:fixed;right:32px;bottom:24px;font-size:32px;font-weight:700;color:var(--gray);background:var(--white);padding:4px 12px;border:var(--line);}
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- 1. 封面 -->
+  <section class="slide slide-cover active">
+    <p><span class="deck-badge">生物</span><span class="deck-badge">1f6s 教育示例</span></p>
+    <h1 class="deck-title">细胞的基本结构</h1>
+    <p class="deck-muted">经典课题示例 · 不标学段</p>
+  </section>
+
+  <!-- 2. 目录 -->
+  <section class="slide">
+    <h2 class="deck-h2">目录</h2>
+    <ol class="deck-list">
+      <li>细胞学说</li>
+      <li>动物细胞与植物细胞</li>
+      <li>细胞器分工</li>
+      <li>原核细胞与真核细胞</li>
+      <li>细胞核</li>
+      <li>细胞是统一整体</li>
+      <li>复习清单</li>
+    </ol>
+  </section>
+
+  <!-- 3. 细胞学说 -->
+  <section class="slide">
+    <h2 class="deck-h2">一、细胞学说</h2>
+    <p class="deck-body">19 世纪由施莱登和施旺提出，细胞是动植物体结构与功能的基本单位。</p>
+    <div class="deck-callout">
+      <div class="deck-callout-title">意义</div>
+      <p>细胞学说揭示了动植物体结构的统一性。</p>
+    </div>
+  </section>
+
+  <!-- 4. 动物细胞与植物细胞 -->
+  <section class="slide">
+    <h2 class="deck-h2">二、动物细胞与植物细胞</h2>
+    <div class="deck-two">
+      <div>
+        <h3 class="deck-h3">动物细胞</h3>
+        <ul class="deck-list">
+          <li>细胞膜</li>
+          <li>细胞质</li>
+          <li>细胞核</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="deck-h3">植物细胞</h3>
+        <ul class="deck-list">
+          <li>细胞壁</li>
+          <li>细胞膜</li>
+          <li>细胞质</li>
+          <li>细胞核</li>
+          <li>液泡</li>
+          <li>叶绿体</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. 细胞器分工 -->
+  <section class="slide">
+    <h2 class="deck-h2">三、细胞器分工</h2>
+    <div class="deck-tbl-wrap">
+      <table class="deck-tbl">
+        <thead><tr><th>细胞器</th><th>主要功能</th></tr></thead>
+        <tbody>
+          <tr><td>线粒体</td><td>有氧呼吸的主要场所，细胞供能站</td></tr>
+          <tr><td>叶绿体</td><td>光合作用的场所</td></tr>
+          <tr><td>核糖体</td><td>合成蛋白质的场所</td></tr>
+          <tr><td>内质网</td><td>蛋白质等物质的运输通道</td></tr>
+          <tr><td>高尔基体</td><td>对蛋白质进行加工、分类、包装</td></tr>
+          <tr><td>中心体</td><td>与细胞分裂有关（见于动物细胞和低等植物细胞）</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 6. 原核细胞与真核细胞 -->
+  <section class="slide">
+    <h2 class="deck-h2">四、原核细胞与真核细胞</h2>
+    <div class="deck-two">
+      <div>
+        <h3 class="deck-h3">原核细胞</h3>
+        <ul class="deck-list">
+          <li>没有以核膜为界限的细胞核</li>
+          <li>DNA 集中在拟核区域</li>
+          <li>如细菌、蓝藻（蓝细菌）</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="deck-h3">真核细胞</h3>
+        <ul class="deck-list">
+          <li>有成形的、以核膜为界限的细胞核</li>
+          <li>如动物、植物、真菌的细胞</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. 细胞核 -->
+  <section class="slide">
+    <h2 class="deck-h2">五、细胞核</h2>
+    <ul class="deck-list">
+      <li>遗传信息库，细胞代谢和遗传的控制中心</li>
+      <li>由核膜、核仁、染色质组成</li>
+      <li>染色质与染色体是同一物质在细胞不同时期的两种形态</li>
+    </ul>
+  </section>
+
+  <!-- 8. 细胞是统一整体 -->
+  <section class="slide">
+    <h2 class="deck-h2">六、细胞是统一整体</h2>
+    <ul class="deck-list">
+      <li>结构上分工合作，功能上相互联系</li>
+      <li>例：分泌蛋白的合成与运输路线</li>
+      <li>路线：核糖体 → 内质网 → 高尔基体 → 细胞膜</li>
+    </ul>
+  </section>
+
+  <!-- 9. 复习清单 -->
+  <section class="slide">
+    <h2 class="deck-h2">七、复习清单</h2>
+    <ul class="deck-checklist">
+      <li>□ 细胞学说的提出者与要点</li>
+      <li>□ 动物细胞与植物细胞的区别</li>
+      <li>□ 各细胞器的功能对号入座</li>
+      <li>□ 原核与真核的判断依据是有无核膜</li>
+    </ul>
+  </section>
+
+  <!-- 10. 末页 -->
+  <section class="slide slide-cover">
+    <h1 class="deck-title">谢谢</h1>
+    <p class="deck-muted">拖入 studio.html 可编辑 · 录课压缩推荐 L5（慕课场景）</p>
+  </section>
+
+</div>
+
+<div class="pager"><span id="cur">1</span> / <span id="total">N</span></div>
+
+<script>
+(function(){var slides=document.querySelectorAll('.slide');var total=slides.length;var tc=document.getElementById('total');if(tc)tc.textContent=total;var cur=0;function show(i){cur=(i+total)%total;slides.forEach(function(s,idx){s.classList.toggle('active',idx===cur);});var c=document.getElementById('cur');if(c)c.textContent=cur+1;}document.addEventListener('keydown',function(e){var k=e.key;if(k==='ArrowRight'||k===' '||k==='PageDown'){show(cur+1);e.preventDefault();}else if(k==='ArrowLeft'||k==='PageUp'){show(cur-1);e.preventDefault();}else if(k==='Home'){show(0);e.preventDefault();}else if(k==='End'){show(total-1);e.preventDefault();}else if(k==='f'||k==='F'){if(!document.fullscreenElement){document.documentElement.requestFullscreen();}else{document.exitFullscreen();}}});var m=location.search.match(/[?&]s=(\d+)/);show(m?Math.min(total-1,parseInt(m[1],10)-1):0);})();
+</script>
+</body>
+</html>

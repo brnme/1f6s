@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>化学 · 化学方程式与配平 | 1f6s 教育示例</title>
+<style>
+:root{--black:#000000;--gray:#808080;--white:#FFFFFF;--line:3px solid var(--black);--sans:"Source Han Sans SC","Microsoft YaHei","微软雅黑",Arial,Helvetica,sans-serif;--mono:"Cascadia Code","Consolas","Courier New",monospace;}
+*{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;}
+body{font-family:var(--sans);background:var(--white);color:var(--black);overflow:hidden;}
+.deck{width:100vw;height:100vh;position:relative;}
+.slide{width:100vw;height:100vh;padding:64px 80px;display:none;flex-direction:column;justify-content:center;background:var(--white);color:var(--black);}
+.slide.active{display:flex;}
+.slide-dark{background:var(--black);color:var(--white);}.slide-dark .deck-h2,.slide-dark .deck-h3{color:var(--white);}
+.deck-h2-light{color:var(--white) !important;}
+.slide-cover{align-items:center;text-align:center;}
+.deck-title{font-size:56px;font-weight:700;line-height:1.2;}
+.deck-h2{font-size:48px;font-weight:700;line-height:1.25;margin-bottom:32px;}
+.deck-h3{font-size:40px;font-weight:700;line-height:1.3;margin-bottom:20px;}
+.deck-body{font-size:32px;font-weight:700;line-height:1.5;}
+.deck-muted{font-size:37px;color:var(--gray);font-weight:700;line-height:1.4;}
+.deck-list{list-style:none;padding:0;}
+.deck-list li{font-size:32px;font-weight:700;line-height:1.5;padding:10px 0;border-bottom:var(--line);}
+.deck-list li:last-child{border-bottom:none;}
+ol.deck-list{counter-reset:deck;}ol.deck-list li{counter-increment:deck;padding-left:56px;position:relative;}
+ol.deck-list li::before{content:counter(deck)". ";position:absolute;left:0;font-weight:700;}
+.deck-tbl-wrap{overflow-x:auto;}
+.deck-tbl{width:100%;border-collapse:collapse;font-size:32px;font-weight:700;}
+.deck-tbl th,.deck-tbl td{border:var(--line);padding:14px 18px;text-align:left;}
+.deck-tbl thead th{background:var(--black);color:var(--white);}.deck-tbl tbody tr{background:var(--white);}
+.deck-callout{border:var(--line);padding:24px 28px;margin-top:24px;background:var(--white);}
+.deck-callout-title{font-size:36px;font-weight:700;margin-bottom:12px;}
+.deck-callout p{font-size:32px;font-weight:700;line-height:1.5;}
+.deck-callout-warn{border-width:5px;}.deck-callout-warn .deck-callout-title::before{content:"⚠ ";}
+.deck-badge{display:inline-block;border:var(--line);padding:4px 14px;font-size:32px;font-weight:700;margin-right:12px;background:var(--white);}
+.deck-checklist{list-style:none;padding:0;}.deck-checklist li{font-size:32px;font-weight:700;line-height:1.6;padding:8px 0;}
+.deck-code{background:var(--black);color:var(--white);font-family:var(--mono);font-size:32px;line-height:1.5;padding:28px 32px;overflow-x:auto;white-space:pre;border:var(--line);}
+.deck-chart{display:flex;align-items:flex-end;gap:32px;height:300px;border-bottom:var(--line);}
+.bar{width:96px;background:var(--white);border:var(--line);height:var(--h);}
+.bar-solid{background:var(--black);}.bar-outline{background:var(--white);}
+.bar-hatch{background:repeating-linear-gradient(45deg,var(--black) 0 8px,var(--white) 8px 16px);}
+.deck-legend{list-style:none;display:flex;gap:28px;margin-top:20px;padding:0;}
+.deck-legend li{font-size:32px;font-weight:700;display:flex;align-items:center;gap:10px;}
+.sw{display:inline-block;width:24px;height:24px;border:3px solid var(--black);}
+.sw-solid{background:var(--black);}.sw-outline{background:var(--white);}
+.sw-hatch{background:repeating-linear-gradient(45deg,var(--black) 0 4px,var(--white) 4px 8px);}
+.deck-two{display:flex;gap:0;margin-top:16px;}.deck-two>div{flex:1;padding:0 32px;}.deck-two>div+div{border-left:var(--line);}
+.pager{position:fixed;right:32px;bottom:24px;font-size:32px;font-weight:700;color:var(--gray);background:var(--white);padding:4px 12px;border:var(--line);}
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- 1. 封面 -->
+  <section class="slide slide-cover active">
+    <p><span class="deck-badge">化学</span><span class="deck-badge">1f6s 教育示例</span></p>
+    <h1 class="deck-title">化学方程式与配平</h1>
+    <p class="deck-muted">经典课题示例 · 不标学段</p>
+  </section>
+
+  <!-- 2. 目录 -->
+  <section class="slide">
+    <h2 class="deck-h2">目录</h2>
+    <ol class="deck-list">
+      <li>什么是化学方程式</li>
+      <li>质量守恒定律</li>
+      <li>书写原则</li>
+      <li>常见方程式</li>
+      <li>配平方法</li>
+      <li>配平演示</li>
+      <li>反应类型</li>
+      <li>易错清单</li>
+    </ol>
+  </section>
+
+  <!-- 3. 什么是化学方程式 -->
+  <section class="slide">
+    <h2 class="deck-h2">一、什么是化学方程式</h2>
+    <ul class="deck-list">
+      <li>用化学式表示化学反应的式子</li>
+      <li>表明反应物、生成物和反应条件</li>
+      <li>必须遵守质量守恒定律</li>
+    </ul>
+  </section>
+
+  <!-- 4. 质量守恒定律 -->
+  <section class="slide">
+    <h2 class="deck-h2">二、质量守恒定律</h2>
+    <p class="deck-body">参加化学反应的各物质质量总和，等于反应后生成的各物质质量总和。</p>
+    <div class="deck-callout">
+      <div class="deck-callout-title">微观解释</div>
+      <p>反应前后原子的种类不变、数目不变、质量不变。</p>
+    </div>
+  </section>
+
+  <!-- 5. 书写原则 -->
+  <section class="slide">
+    <h2 class="deck-h2">三、书写原则</h2>
+    <ul class="deck-list">
+      <li>以客观事实为基础，不能凭空臆造</li>
+      <li>遵守质量守恒定律，方程式必须配平</li>
+      <li>注明反应条件（点燃、高温、催化剂）与状态符号（↑ ↓）</li>
+    </ul>
+  </section>
+
+  <!-- 6. 常见方程式 -->
+  <section class="slide slide-dark">
+    <h2 class="deck-h2 deck-h2-light">四、常见方程式</h2>
+    <pre class="deck-code">2H₂ + O₂ --点燃--> 2H₂O
+CaCO₃ --高温--> CaO + CO₂↑
+Fe + CuSO₄ = FeSO₄ + Cu</pre>
+  </section>
+
+  <!-- 7. 配平方法 -->
+  <section class="slide">
+    <h2 class="deck-h2">五、配平方法</h2>
+    <ul class="deck-list">
+      <li>先写对化学式，再配系数</li>
+      <li>观察法：数每种原子的数目，从差值最大的元素入手</li>
+      <li>最小公倍数法：先配 O 或 H，最后配平其他</li>
+    </ul>
+  </section>
+
+  <!-- 8. 配平演示 -->
+  <section class="slide slide-dark">
+    <h2 class="deck-h2 deck-h2-light">六、配平演示</h2>
+    <pre class="deck-code">H₂ + O₂ --点燃--> H₂O      （未配平：左 2 个 O，右 1 个 O）
+2H₂ + O₂ --点燃--> 2H₂O   （已配平：两边 H、O 原子数相等）</pre>
+  </section>
+
+  <!-- 9. 反应类型 -->
+  <section class="slide">
+    <h2 class="deck-h2">七、反应类型</h2>
+    <div class="deck-tbl-wrap">
+      <table class="deck-tbl">
+        <thead><tr><th>类型</th><th>特征</th><th>举例</th></tr></thead>
+        <tbody>
+          <tr><td>化合</td><td>多变一</td><td>2H₂ + O₂ --点燃--> 2H₂O</td></tr>
+          <tr><td>分解</td><td>一变多</td><td>CaCO₃ --高温--> CaO + CO₂↑</td></tr>
+          <tr><td>置换</td><td>单质置换出单质</td><td>Fe + CuSO₄ = FeSO₄ + Cu</td></tr>
+          <tr><td>复分解</td><td>相互交换成分</td><td>NaOH + HCl = NaCl + H₂O</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 10. 易错清单 -->
+  <section class="slide">
+    <h2 class="deck-h2">八、易错清单</h2>
+    <ul class="deck-checklist">
+      <li>□ 先写对化学式，再谈配平</li>
+      <li>□ 条件与 ↑↓ 状态符号漏标</li>
+      <li>□ 只改系数，绝不改动化学式中的下标</li>
+    </ul>
+  </section>
+
+  <!-- 11. 末页 -->
+  <section class="slide slide-cover">
+    <h1 class="deck-title">谢谢</h1>
+    <p class="deck-muted">拖入 studio.html 可编辑 · 录课压缩推荐 L5（慕课场景）</p>
+  </section>
+
+</div>
+
+<div class="pager"><span id="cur">1</span> / <span id="total">N</span></div>
+
+<script>
+(function(){var slides=document.querySelectorAll('.slide');var total=slides.length;var tc=document.getElementById('total');if(tc)tc.textContent=total;var cur=0;function show(i){cur=(i+total)%total;slides.forEach(function(s,idx){s.classList.toggle('active',idx===cur);});var c=document.getElementById('cur');if(c)c.textContent=cur+1;}document.addEventListener('keydown',function(e){var k=e.key;if(k==='ArrowRight'||k===' '||k==='PageDown'){show(cur+1);e.preventDefault();}else if(k==='ArrowLeft'||k==='PageUp'){show(cur-1);e.preventDefault();}else if(k==='Home'){show(0);e.preventDefault();}else if(k==='End'){show(total-1);e.preventDefault();}else if(k==='f'||k==='F'){if(!document.fullscreenElement){document.documentElement.requestFullscreen();}else{document.exitFullscreen();}}});var m=location.search.match(/[?&]s=(\d+)/);show(m?Math.min(total-1,parseInt(m[1],10)-1):0);})();
+</script>
+</body>
+</html>

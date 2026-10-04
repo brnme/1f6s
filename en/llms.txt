@@ -27,6 +27,7 @@
 - [design.md](design.md): compression-resistant slide design (sans-serif ≥24pt, three-tone palette, strokes ≥2.25pt, 3-step checklist)
 - [obs.md](obs.md): OBS streaming (no frame dropping, CBR 600–1200kbps) and local recording settings
 - [skill-ppt.md](skill-ppt.md) / [skill-compress.md](skill-compress.md): the two Skill guides
+- [examples.md](examples.md): industry sample-deck library entry (first education batch: 8 subject decks with usage)
 - [license.md](license.md): CC BY 4.0 terms and attribution format
 - [llms-full.txt](llms-full.txt): everything merged into one file
 - Chinese edition: [../llms.txt](../llms.txt) / [../llms-full.txt](../llms-full.txt)
@@ -39,6 +40,13 @@
 - Agent playbook (SKILL.md, how to apply this standard safely):
   `https://raw.githubusercontent.com/brnme/1f6s/main/skill/1f6s-compress/SKILL.md`
 - Browse in-repo: the `skill/` directory of this site's repository
+
+## Industry sample decks (starter material per industry)
+
+- Entry page: [examples.md](examples.md); first education batch covers 8 subjects (math / Chinese / English / physics / chemistry / biology / history / geography)
+- Every deck is a self-contained single-file HTML (canonical Studio styling; present directly, or drop into studio.html to edit and lint); index: [../examples/education/README.md](../examples/education/README.md)
+- Raw download example: `https://raw.githubusercontent.com/brnme/1f6s/main/examples/education/math-deck.html` (other subjects follow, named `{subject}-deck.html`)
+- Static check: `python3 tools/check_decks.py` (structure + three-color/font-size/stroke rules)
 
 ## API (hosted service, live once deployed)
 

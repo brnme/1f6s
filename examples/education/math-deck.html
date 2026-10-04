@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数学 · 二次函数与抛物线 | 1f6s 教育示例</title>
+<style>
+:root{--black:#000000;--gray:#808080;--white:#FFFFFF;--line:3px solid var(--black);--sans:"Source Han Sans SC","Microsoft YaHei","微软雅黑",Arial,Helvetica,sans-serif;--mono:"Cascadia Code","Consolas","Courier New",monospace;}
+*{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;}
+body{font-family:var(--sans);background:var(--white);color:var(--black);overflow:hidden;}
+.deck{width:100vw;height:100vh;position:relative;}
+.slide{width:100vw;height:100vh;padding:64px 80px;display:none;flex-direction:column;justify-content:center;background:var(--white);color:var(--black);}
+.slide.active{display:flex;}
+.slide-dark{background:var(--black);color:var(--white);}.slide-dark .deck-h2,.slide-dark .deck-h3{color:var(--white);}
+.deck-h2-light{color:var(--white) !important;}
+.slide-cover{align-items:center;text-align:center;}
+.deck-title{font-size:56px;font-weight:700;line-height:1.2;}
+.deck-h2{font-size:48px;font-weight:700;line-height:1.25;margin-bottom:32px;}
+.deck-h3{font-size:40px;font-weight:700;line-height:1.3;margin-bottom:20px;}
+.deck-body{font-size:32px;font-weight:700;line-height:1.5;}
+.deck-muted{font-size:37px;color:var(--gray);font-weight:700;line-height:1.4;}
+.deck-list{list-style:none;padding:0;}
+.deck-list li{font-size:32px;font-weight:700;line-height:1.5;padding:10px 0;border-bottom:var(--line);}
+.deck-list li:last-child{border-bottom:none;}
+ol.deck-list{counter-reset:deck;}ol.deck-list li{counter-increment:deck;padding-left:56px;position:relative;}
+ol.deck-list li::before{content:counter(deck)". ";position:absolute;left:0;font-weight:700;}
+.deck-tbl-wrap{overflow-x:auto;}
+.deck-tbl{width:100%;border-collapse:collapse;font-size:32px;font-weight:700;}
+.deck-tbl th,.deck-tbl td{border:var(--line);padding:14px 18px;text-align:left;}
+.deck-tbl thead th{background:var(--black);color:var(--white);}.deck-tbl tbody tr{background:var(--white);}
+.deck-callout{border:var(--line);padding:24px 28px;margin-top:24px;background:var(--white);}
+.deck-callout-title{font-size:36px;font-weight:700;margin-bottom:12px;}
+.deck-callout p{font-size:32px;font-weight:700;line-height:1.5;}
+.deck-callout-warn{border-width:5px;}.deck-callout-warn .deck-callout-title::before{content:"⚠ ";}
+.deck-badge{display:inline-block;border:var(--line);padding:4px 14px;font-size:32px;font-weight:700;margin-right:12px;background:var(--white);}
+.deck-checklist{list-style:none;padding:0;}.deck-checklist li{font-size:32px;font-weight:700;line-height:1.6;padding:8px 0;}
+.deck-code{background:var(--black);color:var(--white);font-family:var(--mono);font-size:32px;line-height:1.5;padding:28px 32px;overflow-x:auto;white-space:pre;border:var(--line);}
+.deck-chart{display:flex;align-items:flex-end;gap:32px;height:300px;border-bottom:var(--line);}
+.bar{width:96px;background:var(--white);border:var(--line);height:var(--h);}
+.bar-solid{background:var(--black);}.bar-outline{background:var(--white);}
+.bar-hatch{background:repeating-linear-gradient(45deg,var(--black) 0 8px,var(--white) 8px 16px);}
+.deck-legend{list-style:none;display:flex;gap:28px;margin-top:20px;padding:0;}
+.deck-legend li{font-size:32px;font-weight:700;display:flex;align-items:center;gap:10px;}
+.sw{display:inline-block;width:24px;height:24px;border:3px solid var(--black);}
+.sw-solid{background:var(--black);}.sw-outline{background:var(--white);}
+.sw-hatch{background:repeating-linear-gradient(45deg,var(--black) 0 4px,var(--white) 4px 8px);}
+.deck-two{display:flex;gap:0;margin-top:16px;}.deck-two>div{flex:1;padding:0 32px;}.deck-two>div+div{border-left:var(--line);}
+.pager{position:fixed;right:32px;bottom:24px;font-size:32px;font-weight:700;color:var(--gray);background:var(--white);padding:4px 12px;border:var(--line);}
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- 1. 封面 -->
+  <section class="slide slide-cover active">
+    <p><span class="deck-badge">数学</span><span class="deck-badge">1f6s 教育示例</span></p>
+    <h1 class="deck-title">二次函数与抛物线</h1>
+    <p class="deck-muted">经典课题示例 · 不标学段</p>
+  </section>
+
+  <!-- 2. 目录 -->
+  <section class="slide">
+    <h2 class="deck-h2">目录</h2>
+    <ol class="deck-list">
+      <li>定义与一般式</li>
+      <li>抛物线的图像特征</li>
+      <li>开口大小与 |a| 的关系</li>
+      <li>顶点与对称轴</li>
+      <li>a 的符号对比</li>
+      <li>三种表达式</li>
+      <li>解题三步法</li>
+    </ol>
+  </section>
+
+  <!-- 3. 定义 -->
+  <section class="slide">
+    <h2 class="deck-h2">一、定义与一般式</h2>
+    <p class="deck-body">形如 y = ax² + bx + c（a ≠ 0）的函数叫做二次函数，它的图像是抛物线。</p>
+    <div class="deck-callout">
+      <div class="deck-callout-title">关键系数</div>
+      <p>a 决定开口方向与开口大小；b、c 与 a 一起决定抛物线的位置。</p>
+    </div>
+  </section>
+
+  <!-- 4. 图像特征 -->
+  <section class="slide">
+    <h2 class="deck-h2">二、抛物线的图像特征</h2>
+    <ul class="deck-list">
+      <li>图像是一条抛物线，轴对称图形</li>
+      <li>与 y 轴交于点 (0, c)</li>
+      <li>与 x 轴交点个数由 Δ = b² − 4ac 决定</li>
+    </ul>
+    <div class="deck-callout">
+      <div class="deck-callout-title">判别式</div>
+      <p>Δ &gt; 0 两个交点；Δ = 0 一个交点；Δ &lt; 0 无交点。</p>
+    </div>
+  </section>
+
+  <!-- 5. |a| 与开口大小 -->
+  <section class="slide">
+    <h2 class="deck-h2">三、|a| 越大，开口越小</h2>
+    <p class="deck-body">对比 x = 2 时三个函数的取值，值越大抛物线越陡、开口越窄：</p>
+    <div class="deck-chart">
+      <div class="bar bar-solid" style="--h:90%"></div>
+      <div class="bar bar-outline" style="--h:45%"></div>
+      <div class="bar bar-hatch" style="--h:23%"></div>
+    </div>
+    <ul class="deck-legend">
+      <li><span class="sw sw-solid"></span>y = 2x²，取值 8</li>
+      <li><span class="sw sw-outline"></span>y = x²，取值 4</li>
+      <li><span class="sw sw-hatch"></span>y = 0.5x²，取值 2</li>
+    </ul>
+  </section>
+
+  <!-- 6. 顶点与对称轴 -->
+  <section class="slide">
+    <h2 class="deck-h2">四、顶点与对称轴</h2>
+    <ul class="deck-list">
+      <li>顶点式：y = a(x − h)² + k，顶点为 (h, k)</li>
+      <li>对称轴：直线 x = h</li>
+      <li>由一般式求顶点：h = −b/(2a)，k = (4ac − b²)/(4a)</li>
+    </ul>
+  </section>
+
+  <!-- 7. a 的符号对比 -->
+  <section class="slide">
+    <h2 class="deck-h2">五、a 的符号对比</h2>
+    <div class="deck-two">
+      <div>
+        <h3 class="deck-h3">a &gt; 0</h3>
+        <ul class="deck-list">
+          <li>开口向上</li>
+          <li>顶点是最低点</li>
+          <li>函数有最小值 k</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="deck-h3">a &lt; 0</h3>
+        <ul class="deck-list">
+          <li>开口向下</li>
+          <li>顶点是最高点</li>
+          <li>函数有最大值 k</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. 三种表达式 -->
+  <section class="slide">
+    <h2 class="deck-h2">六、三种表达式</h2>
+    <div class="deck-tbl-wrap">
+      <table class="deck-tbl">
+        <thead><tr><th>形式</th><th>表达式</th><th>适用场景</th></tr></thead>
+        <tbody>
+          <tr><td>一般式</td><td>y = ax² + bx + c</td><td>已知三点坐标</td></tr>
+          <tr><td>顶点式</td><td>y = a(x − h)² + k</td><td>已知顶点与一点</td></tr>
+          <tr><td>交点式</td><td>y = a(x − x₁)(x − x₂)</td><td>已知与 x 轴交点</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 9. 解题三步法 -->
+  <section class="slide">
+    <h2 class="deck-h2">七、解题三步法</h2>
+    <ul class="deck-checklist">
+      <li>□ 辨析：确认是二次函数，别漏 a ≠ 0</li>
+      <li>□ 定型：按已知条件选合适的表达式</li>
+      <li>□ 求解：求顶点、对称轴与最值</li>
+    </ul>
+    <div class="deck-callout deck-callout-warn">
+      <div class="deck-callout-title">易错点</div>
+      <p>对称轴漏写 x =；配方时符号出错；开口方向只看 c 不看 a。</p>
+    </div>
+  </section>
+
+  <!-- 10. 末页 -->
+  <section class="slide slide-cover">
+    <h1 class="deck-title">谢谢</h1>
+    <p class="deck-muted">拖入 studio.html 可编辑 · 录课压缩推荐 L5（慕课场景）</p>
+  </section>
+
+</div>
+
+<div class="pager"><span id="cur">1</span> / <span id="total">N</span></div>
+
+<script>
+(function(){var slides=document.querySelectorAll('.slide');var total=slides.length;var tc=document.getElementById('total');if(tc)tc.textContent=total;var cur=0;function show(i){cur=(i+total)%total;slides.forEach(function(s,idx){s.classList.toggle('active',idx===cur);});var c=document.getElementById('cur');if(c)c.textContent=cur+1;}document.addEventListener('keydown',function(e){var k=e.key;if(k==='ArrowRight'||k===' '||k==='PageDown'){show(cur+1);e.preventDefault();}else if(k==='ArrowLeft'||k==='PageUp'){show(cur-1);e.preventDefault();}else if(k==='Home'){show(0);e.preventDefault();}else if(k==='End'){show(total-1);e.preventDefault();}else if(k==='f'||k==='F'){if(!document.fullscreenElement){document.documentElement.requestFullscreen();}else{document.exitFullscreen();}}});var m=location.search.match(/[?&]s=(\d+)/);show(m?Math.min(total-1,parseInt(m[1],10)-1):0);})();
+</script>
+</body>
+</html>

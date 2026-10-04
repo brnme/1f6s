@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英语 · 四大核心时态 | 1f6s 教育示例</title>
+<style>
+:root{--black:#000000;--gray:#808080;--white:#FFFFFF;--line:3px solid var(--black);--sans:"Source Han Sans SC","Microsoft YaHei","微软雅黑",Arial,Helvetica,sans-serif;--mono:"Cascadia Code","Consolas","Courier New",monospace;}
+*{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;}
+body{font-family:var(--sans);background:var(--white);color:var(--black);overflow:hidden;}
+.deck{width:100vw;height:100vh;position:relative;}
+.slide{width:100vw;height:100vh;padding:64px 80px;display:none;flex-direction:column;justify-content:center;background:var(--white);color:var(--black);}
+.slide.active{display:flex;}
+.slide-dark{background:var(--black);color:var(--white);}.slide-dark .deck-h2,.slide-dark .deck-h3{color:var(--white);}
+.deck-h2-light{color:var(--white) !important;}
+.slide-cover{align-items:center;text-align:center;}
+.deck-title{font-size:56px;font-weight:700;line-height:1.2;}
+.deck-h2{font-size:48px;font-weight:700;line-height:1.25;margin-bottom:32px;}
+.deck-h3{font-size:40px;font-weight:700;line-height:1.3;margin-bottom:20px;}
+.deck-body{font-size:32px;font-weight:700;line-height:1.5;}
+.deck-muted{font-size:37px;color:var(--gray);font-weight:700;line-height:1.4;}
+.deck-list{list-style:none;padding:0;}
+.deck-list li{font-size:32px;font-weight:700;line-height:1.5;padding:10px 0;border-bottom:var(--line);}
+.deck-list li:last-child{border-bottom:none;}
+ol.deck-list{counter-reset:deck;}ol.deck-list li{counter-increment:deck;padding-left:56px;position:relative;}
+ol.deck-list li::before{content:counter(deck)". ";position:absolute;left:0;font-weight:700;}
+.deck-tbl-wrap{overflow-x:auto;}
+.deck-tbl{width:100%;border-collapse:collapse;font-size:32px;font-weight:700;}
+.deck-tbl th,.deck-tbl td{border:var(--line);padding:14px 18px;text-align:left;}
+.deck-tbl thead th{background:var(--black);color:var(--white);}.deck-tbl tbody tr{background:var(--white);}
+.deck-callout{border:var(--line);padding:24px 28px;margin-top:24px;background:var(--white);}
+.deck-callout-title{font-size:36px;font-weight:700;margin-bottom:12px;}
+.deck-callout p{font-size:32px;font-weight:700;line-height:1.5;}
+.deck-callout-warn{border-width:5px;}.deck-callout-warn .deck-callout-title::before{content:"⚠ ";}
+.deck-badge{display:inline-block;border:var(--line);padding:4px 14px;font-size:32px;font-weight:700;margin-right:12px;background:var(--white);}
+.deck-checklist{list-style:none;padding:0;}.deck-checklist li{font-size:32px;font-weight:700;line-height:1.6;padding:8px 0;}
+.deck-code{background:var(--black);color:var(--white);font-family:var(--mono);font-size:32px;line-height:1.5;padding:28px 32px;overflow-x:auto;white-space:pre;border:var(--line);}
+.deck-chart{display:flex;align-items:flex-end;gap:32px;height:300px;border-bottom:var(--line);}
+.bar{width:96px;background:var(--white);border:var(--line);height:var(--h);}
+.bar-solid{background:var(--black);}.bar-outline{background:var(--white);}
+.bar-hatch{background:repeating-linear-gradient(45deg,var(--black) 0 8px,var(--white) 8px 16px);}
+.deck-legend{list-style:none;display:flex;gap:28px;margin-top:20px;padding:0;}
+.deck-legend li{font-size:32px;font-weight:700;display:flex;align-items:center;gap:10px;}
+.sw{display:inline-block;width:24px;height:24px;border:3px solid var(--black);}
+.sw-solid{background:var(--black);}.sw-outline{background:var(--white);}
+.sw-hatch{background:repeating-linear-gradient(45deg,var(--black) 0 4px,var(--white) 4px 8px);}
+.deck-two{display:flex;gap:0;margin-top:16px;}.deck-two>div{flex:1;padding:0 32px;}.deck-two>div+div{border-left:var(--line);}
+.pager{position:fixed;right:32px;bottom:24px;font-size:32px;font-weight:700;color:var(--gray);background:var(--white);padding:4px 12px;border:var(--line);}
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- 1. 封面 -->
+  <section class="slide slide-cover active">
+    <p><span class="deck-badge">英语</span><span class="deck-badge">1f6s 教育示例</span></p>
+    <h1 class="deck-title">四大核心时态</h1>
+    <p class="deck-muted">经典课题示例 · 不标学段</p>
+  </section>
+
+  <!-- 2. 目录 -->
+  <section class="slide">
+    <h2 class="deck-h2">目录</h2>
+    <ol class="deck-list">
+      <li>时态是什么</li>
+      <li>一般现在时</li>
+      <li>一般过去时</li>
+      <li>现在进行时</li>
+      <li>现在完成时</li>
+      <li>过去时与完成时对比</li>
+      <li>时间标志词</li>
+      <li>易错清单</li>
+    </ol>
+  </section>
+
+  <!-- 3. 时态是什么 -->
+  <section class="slide">
+    <h2 class="deck-h2">一、时态是什么</h2>
+    <p class="deck-body">时态 = 时间 + 形态，英语靠动词形式变化表达动作发生的时间与状态。</p>
+    <div class="deck-callout">
+      <div class="deck-callout-title">做题方法</div>
+      <p>先看时间标志词，再定动词形态。</p>
+    </div>
+  </section>
+
+  <!-- 4. 一般现在时 -->
+  <section class="slide">
+    <h2 class="deck-h2">二、一般现在时</h2>
+    <ul class="deck-list">
+      <li>构成：do / does（三单加 s）</li>
+      <li>用法：表经常性动作与客观事实</li>
+      <li>例句：The earth goes around the sun.</li>
+      <li>时间词：always, usually, every day</li>
+    </ul>
+  </section>
+
+  <!-- 5. 一般过去时 -->
+  <section class="slide">
+    <h2 class="deck-h2">三、一般过去时</h2>
+    <ul class="deck-list">
+      <li>构成：did，动词用过去式</li>
+      <li>用法：表过去发生的动作</li>
+      <li>例句：I visited my uncle last weekend.</li>
+      <li>时间词：yesterday, last year, in 2010</li>
+    </ul>
+  </section>
+
+  <!-- 6. 现在进行时 -->
+  <section class="slide">
+    <h2 class="deck-h2">四、现在进行时</h2>
+    <ul class="deck-list">
+      <li>构成：am / is / are + doing</li>
+      <li>用法：表此刻正在发生</li>
+      <li>例句：She is reading in the library.</li>
+      <li>时间词：now, Look!, Listen!</li>
+    </ul>
+  </section>
+
+  <!-- 7. 现在完成时 -->
+  <section class="slide">
+    <h2 class="deck-h2">五、现在完成时</h2>
+    <ul class="deck-list">
+      <li>构成：have / has + done</li>
+      <li>用法：表过去发生且对现在有影响</li>
+      <li>例句：I have finished my homework.</li>
+      <li>时间词：already, yet, ever, since, for</li>
+    </ul>
+  </section>
+
+  <!-- 8. 过去时与完成时对比 -->
+  <section class="slide">
+    <h2 class="deck-h2">六、过去时与完成时对比</h2>
+    <div class="deck-two">
+      <div>
+        <h3 class="deck-h3">一般过去时</h3>
+        <ul class="deck-list">
+          <li>强调过去的时间点</li>
+          <li>常与明确过去时间连用，与现在脱钩</li>
+          <li>例：I lost my key.（当时丢了）</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="deck-h3">现在完成时</h3>
+        <ul class="deck-list">
+          <li>强调对现在的影响</li>
+          <li>不能与明确过去时间连用</li>
+          <li>例：I have lost my key.（现在还没找到）</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. 时间标志词 -->
+  <section class="slide">
+    <h2 class="deck-h2">七、时间标志词</h2>
+    <div class="deck-tbl-wrap">
+      <table class="deck-tbl">
+        <thead><tr><th>时态</th><th>常见标志词</th></tr></thead>
+        <tbody>
+          <tr><td>一般现在时</td><td>always, usually, every day</td></tr>
+          <tr><td>一般过去时</td><td>yesterday, last year, in 2010</td></tr>
+          <tr><td>现在进行时</td><td>now, Look!, Listen!</td></tr>
+          <tr><td>现在完成时</td><td>already, yet, ever, since, for</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 10. 易错清单 -->
+  <section class="slide">
+    <h2 class="deck-h2">八、易错清单</h2>
+    <ul class="deck-checklist">
+      <li>□ 三单漏加 s</li>
+      <li>□ 进行时漏掉 be 动词</li>
+      <li>□ 完成时误搭 yesterday 等明确过去时间</li>
+      <li>□ since 后接时间点，for 后接时间段</li>
+    </ul>
+  </section>
+
+  <!-- 11. 末页 -->
+  <section class="slide slide-cover">
+    <h1 class="deck-title">谢谢</h1>
+    <p class="deck-muted">拖入 studio.html 可编辑 · 录课压缩推荐 L5（慕课场景）</p>
+  </section>
+
+</div>
+
+<div class="pager"><span id="cur">1</span> / <span id="total">N</span></div>
+
+<script>
+(function(){var slides=document.querySelectorAll('.slide');var total=slides.length;var tc=document.getElementById('total');if(tc)tc.textContent=total;var cur=0;function show(i){cur=(i+total)%total;slides.forEach(function(s,idx){s.classList.toggle('active',idx===cur);});var c=document.getElementById('cur');if(c)c.textContent=cur+1;}document.addEventListener('keydown',function(e){var k=e.key;if(k==='ArrowRight'||k===' '||k==='PageDown'){show(cur+1);e.preventDefault();}else if(k==='ArrowLeft'||k==='PageUp'){show(cur-1);e.preventDefault();}else if(k==='Home'){show(0);e.preventDefault();}else if(k==='End'){show(total-1);e.preventDefault();}else if(k==='f'||k==='F'){if(!document.fullscreenElement){document.documentElement.requestFullscreen();}else{document.exitFullscreen();}}});var m=location.search.match(/[?&]s=(\d+)/);show(m?Math.min(total-1,parseInt(m[1],10)-1):0);})();
+</script>
+</body>
+</html>

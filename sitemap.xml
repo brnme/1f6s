@@ -97,6 +97,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://brnme.github.io/1f6s/skill-compress.html"/>
   </url>
   <url>
+    <loc>https://brnme.github.io/1f6s/examples.html</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://brnme.github.io/1f6s/examples.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://brnme.github.io/1f6s/en/examples.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brnme.github.io/1f6s/examples.html"/>
+  </url>
+  <url>
+    <loc>https://brnme.github.io/1f6s/en/examples.html</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://brnme.github.io/1f6s/examples.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://brnme.github.io/1f6s/en/examples.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://brnme.github.io/1f6s/examples.html"/>
+  </url>
+  <url>
     <loc>https://brnme.github.io/1f6s/studio.html</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://brnme.github.io/1f6s/studio.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://brnme.github.io/1f6s/en/studio.html"/>

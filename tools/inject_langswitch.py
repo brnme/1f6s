@@ -20,7 +20,7 @@ from langs import LANGS, lang_by_code, pages_with_lang
 ROOT = Path(__file__).resolve().parent.parent
 PAGES = [
     "index", "levels", "scenarios", "redlines", "design",
-    "obs", "skill-ppt", "skill-compress", "studio", "license",
+    "obs", "skill-ppt", "skill-compress", "examples", "studio", "license",
 ]
 
 LANGSWITCH_RE = re.compile(r'<div class="lang-switch">.*?</div>', re.S)

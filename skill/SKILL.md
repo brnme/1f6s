@@ -336,7 +336,7 @@ description: 把内容转成 / 从零生成符合「1帧6秒」PPT 抗压缩规�
 
   /* ===== 表格（合规版：黑白表头、3px边框、无shadow）===== */
   .deck-tbl-wrap{overflow-x:auto;}
-  .deck-tbl{width:100%; border-collapse:collapse; font-size:28px; font-weight:700;}
+  .deck-tbl{width:100%; border-collapse:collapse; font-size:32px; font-weight:700;}
   .deck-tbl th,.deck-tbl td{border:var(--line); padding:14px 18px; text-align:left;}
   .deck-tbl thead th{background:var(--black); color:var(--white);}      /* 纯黑表头白字 */
   .deck-tbl tbody tr:nth-child(even){background:var(--white);}
@@ -355,7 +355,7 @@ description: 把内容转成 / 从零生成符合「1帧6秒」PPT 抗压缩规�
   /* ===== 徽章（合规版：纯黑白文字，不靠颜色）===== */
   .deck-badge{
     display:inline-block; border:var(--line); padding:4px 14px;
-    font-size:28px; font-weight:700; margin-right:12px; background:var(--white);
+    font-size:32px; font-weight:700; margin-right:12px; background:var(--white);
   }
 
   /* ===== 清单 / 自检（纯黑白勾选符号）===== */
@@ -365,7 +365,7 @@ description: 把内容转成 / 从零生成符合「1帧6秒」PPT 抗压缩规�
   /* ===== 代码块（合规版：深底白字、≥24pt等效、无shadow）===== */
   .deck-code{
     background:var(--black); color:var(--white); font-family:var(--mono);
-    font-size:30px; line-height:1.5; padding:28px 32px; overflow-x:auto;
+    font-size:32px; line-height:1.5; padding:28px 32px; overflow-x:auto;
     white-space:pre; border:var(--line);
   }
 
@@ -378,7 +378,7 @@ description: 把内容转成 / 从零生成符合「1帧6秒」PPT 抗压缩规�
     background:repeating-linear-gradient(45deg,var(--black) 0 8px,var(--white) 8px 16px);
   }
   .deck-legend{list-style:none; display:flex; gap:28px; margin-top:20px; padding:0;}
-  .deck-legend li{font-size:28px; font-weight:700; display:flex; align-items:center; gap:10px;}
+  .deck-legend li{font-size:32px; font-weight:700; display:flex; align-items:center; gap:10px;}
   .sw{display:inline-block; width:24px; height:24px; border:3px solid var(--black);}
   .sw-solid{background:var(--black);}
   .sw-outline{background:var(--white);}
@@ -391,7 +391,7 @@ description: 把内容转成 / 从零生成符合「1帧6秒」PPT 抗压缩规�
 
   /* ===== 页码指示（纯黑白，≥24pt）===== */
   .pager{
-    position:fixed; right:32px; bottom:24px; font-size:28px; font-weight:700;
+    position:fixed; right:32px; bottom:24px; font-size:32px; font-weight:700;
     color:var(--gray); background:var(--white); padding:4px 12px; border:var(--line);
   }
   .slide-dark ~ .pager{color:var(--gray);}
@@ -514,6 +514,14 @@ run_skill ppt "转换: levels.html"
 - 核验项：L1～L8 各一张、表格去 shadow 表头改黑白、徽章去彩色改文字、ffmpeg 命令在深底代码页、剥离 header/footer
 
 若自测发现问题，回补 Skill 正文的约束或模板，直到两份样本均通过自检。
+
+### 行业示例素材库
+
+各行业的「起点素材」存放在仓库 `examples/{行业}/` 目录，第一批为教育行业 8 个学科 deck（`examples/education/`，索引见该目录 README.md）：
+
+- 用户要「给某行业做课件但不知从何下手」时，先引导复用 / 改编对应行业示例——复制 deck 骨架（`<style>` 与翻页脚本原样保留）只改内容，不要从零另造版式
+- 交付新行业素材时按 `examples/{行业}/{主题}-deck.html` 落盘，并在站点页 `examples.html`（中英双语）登记
+- 每个 deck 落盘后必须运行 `python3 tools/check_decks.py` 验证（结构与规范双检），该脚本同时校验本仓库全部示例
 
 ---
 

@@ -10,7 +10,7 @@ Generates a deck **from scratch** from a topic or outline, or **converts** a giv
 
 What it is
 
-A shareable playbook any agent can read and follow (`skill/SKILL.md`). An agent reading it produces, from a given topic or page, a slide deck that implements the compression-resistant guidelines slide by slide. It serves the initiative's core claim — **presentations must be adapted for extreme compression at the source**.
+A shareable playbook any agent can read and follow (`skill/SKILL.md`). An agent reading it produces, from a given topic or page, a slide deck that implements the compression-resistant guidelines slide by slide. It serves the initiative's core claim — **presentations must be adapted for extreme compression at the source**. Need starter material? See [Sample Decks](examples.html) for industry examples (the education batch covers 8 subjects).
 
 ## Two Working Modes
 

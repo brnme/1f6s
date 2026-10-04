@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>语文 · 水调歌头·明月几时有 | 1f6s 教育示例</title>
+<style>
+:root{--black:#000000;--gray:#808080;--white:#FFFFFF;--line:3px solid var(--black);--sans:"Source Han Sans SC","Microsoft YaHei","微软雅黑",Arial,Helvetica,sans-serif;--mono:"Cascadia Code","Consolas","Courier New",monospace;}
+*{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;}
+body{font-family:var(--sans);background:var(--white);color:var(--black);overflow:hidden;}
+.deck{width:100vw;height:100vh;position:relative;}
+.slide{width:100vw;height:100vh;padding:64px 80px;display:none;flex-direction:column;justify-content:center;background:var(--white);color:var(--black);}
+.slide.active{display:flex;}
+.slide-dark{background:var(--black);color:var(--white);}.slide-dark .deck-h2,.slide-dark .deck-h3{color:var(--white);}
+.deck-h2-light{color:var(--white) !important;}
+.slide-cover{align-items:center;text-align:center;}
+.deck-title{font-size:56px;font-weight:700;line-height:1.2;}
+.deck-h2{font-size:48px;font-weight:700;line-height:1.25;margin-bottom:32px;}
+.deck-h3{font-size:40px;font-weight:700;line-height:1.3;margin-bottom:20px;}
+.deck-body{font-size:32px;font-weight:700;line-height:1.5;}
+.deck-muted{font-size:37px;color:var(--gray);font-weight:700;line-height:1.4;}
+.deck-list{list-style:none;padding:0;}
+.deck-list li{font-size:32px;font-weight:700;line-height:1.5;padding:10px 0;border-bottom:var(--line);}
+.deck-list li:last-child{border-bottom:none;}
+ol.deck-list{counter-reset:deck;}ol.deck-list li{counter-increment:deck;padding-left:56px;position:relative;}
+ol.deck-list li::before{content:counter(deck)". ";position:absolute;left:0;font-weight:700;}
+.deck-tbl-wrap{overflow-x:auto;}
+.deck-tbl{width:100%;border-collapse:collapse;font-size:32px;font-weight:700;}
+.deck-tbl th,.deck-tbl td{border:var(--line);padding:14px 18px;text-align:left;}
+.deck-tbl thead th{background:var(--black);color:var(--white);}.deck-tbl tbody tr{background:var(--white);}
+.deck-callout{border:var(--line);padding:24px 28px;margin-top:24px;background:var(--white);}
+.deck-callout-title{font-size:36px;font-weight:700;margin-bottom:12px;}
+.deck-callout p{font-size:32px;font-weight:700;line-height:1.5;}
+.deck-callout-warn{border-width:5px;}.deck-callout-warn .deck-callout-title::before{content:"⚠ ";}
+.deck-badge{display:inline-block;border:var(--line);padding:4px 14px;font-size:32px;font-weight:700;margin-right:12px;background:var(--white);}
+.deck-checklist{list-style:none;padding:0;}.deck-checklist li{font-size:32px;font-weight:700;line-height:1.6;padding:8px 0;}
+.deck-code{background:var(--black);color:var(--white);font-family:var(--mono);font-size:32px;line-height:1.5;padding:28px 32px;overflow-x:auto;white-space:pre;border:var(--line);}
+.deck-chart{display:flex;align-items:flex-end;gap:32px;height:300px;border-bottom:var(--line);}
+.bar{width:96px;background:var(--white);border:var(--line);height:var(--h);}
+.bar-solid{background:var(--black);}.bar-outline{background:var(--white);}
+.bar-hatch{background:repeating-linear-gradient(45deg,var(--black) 0 8px,var(--white) 8px 16px);}
+.deck-legend{list-style:none;display:flex;gap:28px;margin-top:20px;padding:0;}
+.deck-legend li{font-size:32px;font-weight:700;display:flex;align-items:center;gap:10px;}
+.sw{display:inline-block;width:24px;height:24px;border:3px solid var(--black);}
+.sw-solid{background:var(--black);}.sw-outline{background:var(--white);}
+.sw-hatch{background:repeating-linear-gradient(45deg,var(--black) 0 4px,var(--white) 4px 8px);}
+.deck-two{display:flex;gap:0;margin-top:16px;}.deck-two>div{flex:1;padding:0 32px;}.deck-two>div+div{border-left:var(--line);}
+.pager{position:fixed;right:32px;bottom:24px;font-size:32px;font-weight:700;color:var(--gray);background:var(--white);padding:4px 12px;border:var(--line);}
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- 1. 封面 -->
+  <section class="slide slide-cover active">
+    <p><span class="deck-badge">语文</span><span class="deck-badge">1f6s 教育示例</span></p>
+    <h1 class="deck-title">水调歌头·明月几时有</h1>
+    <p class="deck-muted">经典课题示例 · 不标学段</p>
+  </section>
+
+  <!-- 2. 目录 -->
+  <section class="slide">
+    <h2 class="deck-h2">目录</h2>
+    <ol class="deck-list">
+      <li>词人名片</li>
+      <li>写作背景</li>
+      <li>朗读全词</li>
+      <li>上阕赏析</li>
+      <li>下阕赏析</li>
+      <li>名句品读</li>
+      <li>赏析方法</li>
+    </ol>
+  </section>
+
+  <!-- 3. 词人名片 -->
+  <section class="slide">
+    <h2 class="deck-h2">一、词人名片</h2>
+    <div class="deck-tbl-wrap">
+      <table class="deck-tbl">
+        <thead><tr><th>项目</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>姓名</td><td>苏轼</td></tr>
+          <tr><td>字</td><td>子瞻</td></tr>
+          <tr><td>号</td><td>东坡居士</td></tr>
+          <tr><td>朝代</td><td>北宋</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="deck-body">唐宋八大家之一，豪放词代表，与辛弃疾并称「苏辛」。</p>
+  </section>
+
+  <!-- 4. 写作背景 -->
+  <section class="slide">
+    <h2 class="deck-h2">二、写作背景</h2>
+    <ul class="deck-list">
+      <li>宋神宗熙宁九年（1076）中秋，苏轼在密州任上</li>
+      <li>与弟弟苏辙七年未见</li>
+      <li>小序「兼怀子由」点明题旨</li>
+    </ul>
+  </section>
+
+  <!-- 5. 朗读全词 · 上阕 -->
+  <section class="slide">
+    <h2 class="deck-h2">三、朗读全词 · 上阕</h2>
+    <p class="deck-body">丙辰中秋，欢饮达旦，大醉，作此篇，兼怀子由。</p>
+    <p class="deck-muted">明月几时有？把酒问青天。</p>
+    <p class="deck-muted">不知天上宫阙，今夕是何年。</p>
+    <p class="deck-muted">我欲乘风归去，又恐琼楼玉宇，高处不胜寒。</p>
+    <p class="deck-muted">起舞弄清影，何似在人间。</p>
+  </section>
+
+  <!-- 6. 朗读全词 · 下阕 -->
+  <section class="slide">
+    <h2 class="deck-h2">三、朗读全词 · 下阕</h2>
+    <p class="deck-muted">转朱阁，低绮户，照无眠。</p>
+    <p class="deck-muted">不应有恨，何事长向别时圆？</p>
+    <p class="deck-muted">人有悲欢离合，月有阴晴圆缺，此事古难全。</p>
+    <p class="deck-muted">但愿人长久，千里共婵娟。</p>
+  </section>
+
+  <!-- 7. 上阕赏析 -->
+  <section class="slide">
+    <h2 class="deck-h2">四、上阕赏析</h2>
+    <ul class="deck-list">
+      <li>问天起笔，气概豪迈</li>
+      <li>「归去」与「何似在人间」的矛盾，写出对人间生活的热爱</li>
+      <li>想象瑰丽</li>
+    </ul>
+  </section>
+
+  <!-- 8. 下阕赏析 -->
+  <section class="slide">
+    <h2 class="deck-h2">五、下阕赏析</h2>
+    <ul class="deck-list">
+      <li>由望月到怨月，再到自我宽解</li>
+      <li>「人有悲欢离合」三句：由个人情感升华为人生哲理</li>
+      <li>「婵娟」指明月，结句寄寓美好祝愿</li>
+    </ul>
+  </section>
+
+  <!-- 9. 名句品读 -->
+  <section class="slide">
+    <h2 class="deck-h2">六、名句品读</h2>
+    <div class="deck-tbl-wrap">
+      <table class="deck-tbl">
+        <thead><tr><th>名句</th><th>情感</th><th>手法</th></tr></thead>
+        <tbody>
+          <tr><td>但愿人长久，千里共婵娟</td><td>美好祝愿</td><td>借月寄情</td></tr>
+          <tr><td>人有悲欢离合，月有阴晴圆缺</td><td>旷达哲思</td><td>对偶说理</td></tr>
+          <tr><td>明月几时有？把酒问青天</td><td>豪迈之气</td><td>问天起笔</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 10. 赏析方法 -->
+  <section class="slide">
+    <h2 class="deck-h2">七、赏析方法</h2>
+    <ul class="deck-checklist">
+      <li>□ 读小序，明背景</li>
+      <li>□ 抓意象：月、朱阁、绮户</li>
+      <li>□ 品关键词：怨、难全、但愿</li>
+      <li>□ 联系词人生平与情感变化</li>
+    </ul>
+  </section>
+
+  <!-- 11. 末页 -->
+  <section class="slide slide-cover">
+    <h1 class="deck-title">谢谢</h1>
+    <p class="deck-muted">拖入 studio.html 可编辑 · 录课压缩推荐 L5（慕课场景）</p>
+  </section>
+
+</div>
+
+<div class="pager"><span id="cur">1</span> / <span id="total">N</span></div>
+
+<script>
+(function(){var slides=document.querySelectorAll('.slide');var total=slides.length;var tc=document.getElementById('total');if(tc)tc.textContent=total;var cur=0;function show(i){cur=(i+total)%total;slides.forEach(function(s,idx){s.classList.toggle('active',idx===cur);});var c=document.getElementById('cur');if(c)c.textContent=cur+1;}document.addEventListener('keydown',function(e){var k=e.key;if(k==='ArrowRight'||k===' '||k==='PageDown'){show(cur+1);e.preventDefault();}else if(k==='ArrowLeft'||k==='PageUp'){show(cur-1);e.preventDefault();}else if(k==='Home'){show(0);e.preventDefault();}else if(k==='End'){show(total-1);e.preventDefault();}else if(k==='f'||k==='F'){if(!document.fullscreenElement){document.documentElement.requestFullscreen();}else{document.exitFullscreen();}}});var m=location.search.match(/[?&]s=(\d+)/);show(m?Math.min(total-1,parseInt(m[1],10)-1):0);})();
+</script>
+</body>
+</html>

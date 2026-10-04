@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>历史 · 中国古代朝代大事速览 | 1f6s 教育示例</title>
+<style>
+:root{--black:#000000;--gray:#808080;--white:#FFFFFF;--line:3px solid var(--black);--sans:"Source Han Sans SC","Microsoft YaHei","微软雅黑",Arial,Helvetica,sans-serif;--mono:"Cascadia Code","Consolas","Courier New",monospace;}
+*{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;}
+body{font-family:var(--sans);background:var(--white);color:var(--black);overflow:hidden;}
+.deck{width:100vw;height:100vh;position:relative;}
+.slide{width:100vw;height:100vh;padding:64px 80px;display:none;flex-direction:column;justify-content:center;background:var(--white);color:var(--black);}
+.slide.active{display:flex;}
+.slide-dark{background:var(--black);color:var(--white);}.slide-dark .deck-h2,.slide-dark .deck-h3{color:var(--white);}
+.deck-h2-light{color:var(--white) !important;}
+.slide-cover{align-items:center;text-align:center;}
+.deck-title{font-size:56px;font-weight:700;line-height:1.2;}
+.deck-h2{font-size:48px;font-weight:700;line-height:1.25;margin-bottom:32px;}
+.deck-h3{font-size:40px;font-weight:700;line-height:1.3;margin-bottom:20px;}
+.deck-body{font-size:32px;font-weight:700;line-height:1.5;}
+.deck-muted{font-size:37px;color:var(--gray);font-weight:700;line-height:1.4;}
+.deck-list{list-style:none;padding:0;}
+.deck-list li{font-size:32px;font-weight:700;line-height:1.5;padding:10px 0;border-bottom:var(--line);}
+.deck-list li:last-child{border-bottom:none;}
+ol.deck-list{counter-reset:deck;}ol.deck-list li{counter-increment:deck;padding-left:56px;position:relative;}
+ol.deck-list li::before{content:counter(deck)". ";position:absolute;left:0;font-weight:700;}
+.deck-tbl-wrap{overflow-x:auto;}
+.deck-tbl{width:100%;border-collapse:collapse;font-size:32px;font-weight:700;}
+.deck-tbl th,.deck-tbl td{border:var(--line);padding:14px 18px;text-align:left;}
+.deck-tbl thead th{background:var(--black);color:var(--white);}.deck-tbl tbody tr{background:var(--white);}
+.deck-callout{border:var(--line);padding:24px 28px;margin-top:24px;background:var(--white);}
+.deck-callout-title{font-size:36px;font-weight:700;margin-bottom:12px;}
+.deck-callout p{font-size:32px;font-weight:700;line-height:1.5;}
+.deck-callout-warn{border-width:5px;}.deck-callout-warn .deck-callout-title::before{content:"⚠ ";}
+.deck-badge{display:inline-block;border:var(--line);padding:4px 14px;font-size:32px;font-weight:700;margin-right:12px;background:var(--white);}
+.deck-checklist{list-style:none;padding:0;}.deck-checklist li{font-size:32px;font-weight:700;line-height:1.6;padding:8px 0;}
+.deck-code{background:var(--black);color:var(--white);font-family:var(--mono);font-size:32px;line-height:1.5;padding:28px 32px;overflow-x:auto;white-space:pre;border:var(--line);}
+.deck-chart{display:flex;align-items:flex-end;gap:32px;height:300px;border-bottom:var(--line);}
+.bar{width:96px;background:var(--white);border:var(--line);height:var(--h);}
+.bar-solid{background:var(--black);}.bar-outline{background:var(--white);}
+.bar-hatch{background:repeating-linear-gradient(45deg,var(--black) 0 8px,var(--white) 8px 16px);}
+.deck-legend{list-style:none;display:flex;gap:28px;margin-top:20px;padding:0;}
+.deck-legend li{font-size:32px;font-weight:700;display:flex;align-items:center;gap:10px;}
+.sw{display:inline-block;width:24px;height:24px;border:3px solid var(--black);}
+.sw-solid{background:var(--black);}.sw-outline{background:var(--white);}
+.sw-hatch{background:repeating-linear-gradient(45deg,var(--black) 0 4px,var(--white) 4px 8px);}
+.deck-two{display:flex;gap:0;margin-top:16px;}.deck-two>div{flex:1;padding:0 32px;}.deck-two>div+div{border-left:var(--line);}
+.pager{position:fixed;right:32px;bottom:24px;font-size:32px;font-weight:700;color:var(--gray);background:var(--white);padding:4px 12px;border:var(--line);}
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- 1. 封面 -->
+  <section class="slide slide-cover active">
+    <p><span class="deck-badge">历史</span><span class="deck-badge">1f6s 教育示例</span></p>
+    <h1 class="deck-title">中国古代朝代大事速览</h1>
+    <p class="deck-muted">经典课题示例 · 不标学段</p>
+  </section>
+
+  <!-- 2. 目录 -->
+  <section class="slide">
+    <h2 class="deck-h2">目录</h2>
+    <ol class="deck-list">
+      <li>朝代时间线</li>
+      <li>秦：统一</li>
+      <li>汉：丝路与儒术</li>
+      <li>隋唐：盛世与制度</li>
+      <li>宋元：科技与行省</li>
+      <li>明清：航海与封闭</li>
+      <li>记忆口诀</li>
+      <li>复习清单</li>
+    </ol>
+  </section>
+
+  <!-- 3. 朝代时间线 -->
+  <section class="slide">
+    <h2 class="deck-h2">一、朝代时间线</h2>
+    <div class="deck-tbl-wrap">
+      <table class="deck-tbl">
+        <thead><tr><th>朝代</th><th>时间</th></tr></thead>
+        <tbody>
+          <tr><td>秦汉</td><td>前221—220</td></tr>
+          <tr><td>隋唐</td><td>581—907</td></tr>
+          <tr><td>宋元</td><td>960—1368</td></tr>
+          <tr><td>明清</td><td>1368—1912</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 4. 秦 -->
+  <section class="slide">
+    <h2 class="deck-h2">二、秦：统一</h2>
+    <ul class="deck-list">
+      <li>前 221 年嬴政统一六国</li>
+      <li>确立皇帝制度与郡县制</li>
+      <li>统一文字、货币、度量衡</li>
+      <li>北筑长城御匈奴</li>
+    </ul>
+  </section>
+
+  <!-- 5. 汉 -->
+  <section class="slide">
+    <h2 class="deck-h2">三、汉：丝路与儒术</h2>
+    <ul class="deck-list">
+      <li>西汉刘邦建立</li>
+      <li>汉武帝：罢黜百家、独尊儒术，张骞通西域</li>
+      <li>东汉蔡伦改进造纸术</li>
+    </ul>
+  </section>
+
+  <!-- 6. 隋唐 -->
+  <section class="slide">
+    <h2 class="deck-h2">四、隋唐：盛世与制度</h2>
+    <ul class="deck-list">
+      <li>隋开凿大运河</li>
+      <li>唐太宗「贞观之治」</li>
+      <li>科举制隋创唐完善</li>
+      <li>长安成为国际都会</li>
+    </ul>
+  </section>
+
+  <!-- 7. 宋元 -->
+  <section class="slide">
+    <h2 class="deck-h2">五、宋元：科技与行省</h2>
+    <ul class="deck-list">
+      <li>北宋毕昇发明活字印刷术</li>
+      <li>指南针、火药应用于航海与军事</li>
+      <li>元朝实行行省制度</li>
+    </ul>
+  </section>
+
+  <!-- 8. 明清 -->
+  <section class="slide">
+    <h2 class="deck-h2">六、明清：航海与封闭</h2>
+    <ul class="deck-list">
+      <li>明初郑和七下西洋</li>
+      <li>明代戚继光抗倭</li>
+      <li>清雍正设军机处</li>
+      <li>晚清闭关锁国</li>
+    </ul>
+  </section>
+
+  <!-- 9. 记忆口诀 -->
+  <section class="slide">
+    <h2 class="deck-h2">七、记忆口诀</h2>
+    <div class="deck-callout">
+      <div class="deck-callout-title">口诀</div>
+      <p>秦一统、汉丝路、唐盛世、宋科技、元行省、明航海、清闭关</p>
+    </div>
+    <p class="deck-body">抓主线、记大事，朝代顺序与代表事件一一对应。</p>
+  </section>
+
+  <!-- 10. 复习清单 -->
+  <section class="slide">
+    <h2 class="deck-h2">八、复习清单</h2>
+    <ul class="deck-checklist">
+      <li>□ 朝代顺序不颠倒</li>
+      <li>□ 每朝至少记一件大事</li>
+      <li>□ 制度演进主线：郡县制 → 科举制 → 行省制 → 军机处</li>
+    </ul>
+  </section>
+
+  <!-- 11. 末页 -->
+  <section class="slide slide-cover">
+    <h1 class="deck-title">谢谢</h1>
+    <p class="deck-muted">拖入 studio.html 可编辑 · 录课压缩推荐 L5（慕课场景）</p>
+  </section>
+
+</div>
+
+<div class="pager"><span id="cur">1</span> / <span id="total">N</span></div>
+
+<script>
+(function(){var slides=document.querySelectorAll('.slide');var total=slides.length;var tc=document.getElementById('total');if(tc)tc.textContent=total;var cur=0;function show(i){cur=(i+total)%total;slides.forEach(function(s,idx){s.classList.toggle('active',idx===cur);});var c=document.getElementById('cur');if(c)c.textContent=cur+1;}document.addEventListener('keydown',function(e){var k=e.key;if(k==='ArrowRight'||k===' '||k==='PageDown'){show(cur+1);e.preventDefault();}else if(k==='ArrowLeft'||k==='PageUp'){show(cur-1);e.preventDefault();}else if(k==='Home'){show(0);e.preventDefault();}else if(k==='End'){show(total-1);e.preventDefault();}else if(k==='f'||k==='F'){if(!document.fullscreenElement){document.documentElement.requestFullscreen();}else{document.exitFullscreen();}}});var m=location.search.match(/[?&]s=(\d+)/);show(m?Math.min(total-1,parseInt(m[1],10)-1):0);})();
+</script>
+</body>
+</html>
